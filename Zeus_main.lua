@@ -41910,8 +41910,6 @@ event.add_event_listener("player_join", function(e)
       getmodderflagtext  = tostring(player.get_modder_flag_text(pid))
    end
 
-   
-
    if(enableLog) then
    if modder > '0'  then
  --Replace the directory name with your name. 👇
