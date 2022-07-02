@@ -41894,7 +41894,6 @@ event.add_event_listener("player_join", function(e)
    isplayerhost = tostring(player.is_player_host(pid))
    isplayerfemale = tostring(player.is_player_female(pid))
 
-
    token = tostring(player.get_player_host_token(pid))
    n = tonumber(ip)
    n1 = math.floor(n / (2^24))
