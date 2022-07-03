@@ -89,7 +89,6 @@ end
 local	hash
 local	mask
 
-
 --
 function GTAO_USER_MP()
     MP_ = stats.stat_get_int(gameplay.get_hash_key("MPPLY_LAST_MP_CHAR"), 1)
