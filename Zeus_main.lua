@@ -109,7 +109,7 @@ function update_zeus()
 		end, nil)
 		do
 			local status <const>, str <const> = web.get("https://github.com/ZeusSecurity1337/Zeus/tree/"..github_branch_name.."/Zeus/Lib")
-			update_status = enums.status == 200
+			update_status = status == 200
 			if not update_status then
 				goto exit
 			end
