@@ -3,6 +3,7 @@ if zeus_version then
 	return
 end
 
+-- zeus menu version
 zeus_version = "20.05"
 
 menu.create_thread(function()
