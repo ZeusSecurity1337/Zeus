@@ -4,7 +4,6 @@ local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\
 menu.notify("Welcome to ZeusV20\n\nDeveloper: odín \nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 
-
 --Requires a file to be present in the same directory as the script.
 local text_func = require("Zeus/Lib/Text_Func")
 local natives = require("Zeus/Lib/Natives")
