@@ -7,8 +7,6 @@ zeus_version = "20.05"
 
 menu.create_thread(function()
 
--- new fix woo
-
 local main_menu = menu.add_feature("ZeusV20", "parent", 0)
 local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\ZeusV20.txt"
 local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\settings\\"
