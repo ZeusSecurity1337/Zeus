@@ -28,6 +28,18 @@ else
         menu.notify("\tThis Script requires Trusted Mode to be activated", "ZeusV20", 8, 0x5014F0FF) end
 return end
 
+function parse_html(str, extension)
+	local files <const> = {}
+	for file_name in str:gmatch("title=\"([^\"]+%."..extension..")\"") do
+		local system_file_name <const> = file_name:gsub("&#39;", "'")
+		local web_file_name <const> = system_file_name:gsub("\32", "%%20")
+		files[#files + 1] = {
+			system_file_name = system_file_name,
+			web_file_name = web_file_name
+		}
+	end
+	return files
+end
 
 function update_zeus()
 	local github_branch_name <const> = "master"
@@ -113,7 +125,7 @@ function update_zeus()
 			if not update_status then
 				goto exit
 			end
-			updated_lib_files = essentials.parse_files_from_html(str, "lua")
+			updated_lib_files = parse_html(str, "lua")
 		end
 	end
 	do
