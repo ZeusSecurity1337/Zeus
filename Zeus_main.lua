@@ -1,14 +1,25 @@
+if zeus_version then 
+	menu.notify("Zeus is already loaded!", "Initialization Cancelled!", 3, 0xff0000ff) 
+	return
+end
+
+zeus_version = "20.01"
+
+menu.create_thread(function()
+
 local main_menu = menu.add_feature("ZeusV20", "parent", 0)
 local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\ZeusV20.txt"
 local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\settings\\"
-menu.notify("Welcome to ZeusV20\n\nDeveloper: odín \nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
-menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
-
--- test new push
 
 --Requires a file to be present in the same directory as the script.
 local text_func = require("Zeus/Lib/Text_Func")
 local natives = require("Zeus/Lib/Natives")
+
+
+local paths <const> = {
+	home = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\"
+}
+paths.zeus = paths.home.."scripts\\Zeus\\"
 
 -- Trusted Mode requeriment
 if menu.is_trusted_mode_enabled() then
@@ -16,6 +27,188 @@ else
     if not menu.is_trusted_mode_enabled() then
         menu.notify("\tThis Script requires Trusted Mode to be activated", "ZeusV20", 8, 0x5014F0FF) end
 return end
+
+
+function update_zeus()
+	local github_branch_name <const> = "master"
+	local base_path <const> = "https://raw.githubusercontent.com/ZeusSecurity1337/Zeus/"..github_branch_name.."/"
+	local version_check_status <const>, script_version = web.get(base_path.."ZEUS_VERSION.txt")
+	local script_version <const> = script_version:gsub("[^%w\32.]", "")
+	local
+		update_status,
+		current_file_num,
+		lib_file_strings, 
+		current_file,
+		html_page_info,
+		zeus_main_file,
+		updated_lib_files = true, 0, {}, {}
+
+	if version_check_status ~= 200 then
+        menu.notify("Failed to update to the latest script.", "Update Failed!", 3, 0xff0000ff) 
+		return "failed to check what is the latest version"
+	end
+	if zeus_version == script_version then
+        menu.notify("Welcome to ZeusV20\n\nDeveloper: odín \nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+        menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
+		return "is latest version"
+	else
+		while controls.is_control_pressed(0, 215) 
+		or controls.is_disabled_control_pressed(0, 215)
+		or controls.is_control_pressed(0, 143) 
+		or controls.is_disabled_control_pressed(0, 143) do
+			system.yield(0)
+		end
+		local time <const> = utils.time_ms() + 25000
+		while not controls.is_control_pressed(0, 143) 
+		and not controls.is_disabled_control_pressed(0, 143) 
+		and not controls.is_control_pressed(0, 215) 
+		and not controls.is_disabled_control_pressed(0, 215)
+		and time > utils.time_ms() do
+			system.yield(0)
+			ui.set_text_color(255, 140, 0, 255)
+			ui.set_text_scale(0.6)
+			ui.set_text_font(0)
+			ui.set_text_centre(true)
+			ui.set_text_outline(true)
+			ui.draw_text(
+				"There is an updated Zeus menu version available. Press ENTER to install. Press SPACE to continue with the old version.", 
+				v2(0.5, 0.45)
+			)
+			ui.set_text_color(0, 255, 255, 255)
+			ui.set_text_scale(0.6)
+			ui.set_text_font(0)
+			ui.set_text_centre(true)
+			ui.set_text_outline(true)
+			ui.draw_text(
+				"This message will disappear in 25 seconds and will not update your menu.", 
+				v2(0.5, 0.5)
+			)
+			if utils.time_ms() > time or controls.is_control_pressed(0, 143) or controls.is_disabled_control_pressed(0, 143) then
+				return "Cancelled update"		
+			end
+		end
+		menu.create_thread(function()
+			while update_status ~= "done" do
+				ui.set_text_color(255, 255, 255, 255)
+				ui.set_text_scale(0.8)
+				ui.set_text_font(0)
+				ui.set_text_centre(true)
+				ui.set_text_outline(true)
+				ui.draw_text(
+					updated_lib_files and string.format(
+						"%i / %i ".."files downloaded".."\n%s", 
+						current_file_num, 
+						#updated_lib_files + 1, 
+						current_file
+					) or "Obtaining update information...", 
+					v2(0.5, 0.445)
+				)
+				ui.draw_rect(0.5, 0.5, 0.35, 0.12, 0, 0, 120, 255)
+				system.yield(0)
+			end
+		end, nil)
+		do
+			local status <const>, str <const> = web.get("https://github.com/ZeusSecurity1337/Zeus/tree/"..github_branch_name.."/Zeus/Lib")
+			update_status = enums.status == 200
+			if not update_status then
+				goto exit
+			end
+			updated_lib_files = essentials.parse_files_from_html(str, "lua")
+		end
+	end
+	do
+		current_file = "Zeus_main.lua" -- Download updated files
+		local status <const>, str <const> = web.get(base_path.."Zeus_main.lua")
+		update_status = status == 200
+		if not update_status then
+			goto exit
+		end
+		zeus_main_file = str
+		current_file_num = current_file_num + 1
+	end
+
+	for _, properties in pairs(updated_lib_files) do
+		current_file = properties.system_file_name
+		local status <const>, str <const> = web.get(base_path.."Zeus/Lib/"..properties.web_file_name)
+		update_status = status == 200
+		if not update_status then
+			goto exit
+		end
+		lib_file_strings[properties.system_file_name] = str
+		current_file_num = current_file_num + 1
+	end
+	::exit::
+	if zeus_version ~= script_version then
+		if update_status then
+			zeus_version = script_version
+            menu.notify("Updated Installed!", "",  10, 0xff00ff00)
+
+			-- Remove old files & undo all changes to the global space
+			for _, file_name in pairs(utils.get_all_files_in_directory(paths.zeus.."Lib", "lua")) do
+				package.loaded[file_name:gsub("%.lua", "")] = nil
+				io.remove(paths.zeus.."Lib\\"..file_name)
+			end
+			local file <close> = io.open(paths.home.."scripts\\Kek's menu.lua", "w+b")
+			file:write(zeus_main_file)
+			file:flush()
+
+			-- Copy new files to their desired locations
+			for file_name in pairs(lib_file_strings) do
+				local file <close> = io.open(paths.zeus.."Lib\\"..file_name, "w+b")
+				file:write(lib_file_strings[file_name])
+				file:flush()
+			end
+
+			update_status = "done"
+			show_changelog()
+			system.yield(0) -- show_changelog creates a thread
+			zeus_version = nil
+			dofile(paths.home.."scripts\\Zeus_main.lua")
+			return "has updated"
+		else
+			update_status = "done"
+            menu.notify("Updated failed, no changes have been made.", "",  10, 0xff00ff00)
+			return "failed update"
+		end
+	end
+end
+
+function show_changelog()
+	menu.create_thread(function()
+		local github_branch_name <const> = "master"
+		local status <const>, str <const> = web.get("https://raw.githubusercontent.com/ZeusSecurity1337/Zeus/"..github_branch_name.."/Changelog.md")
+		if status ~= 200 then
+			return
+		end
+		local max_lines_before_shrinking <const> = 50
+		local number_of_lines = 0
+		for line in str:gmatch("[^\n]+") do
+			number_of_lines = number_of_lines + 1
+		end
+		local start_y_pos <const> = math.max(0, 0.5 - (number_of_lines * 0.01))
+		while not controls.is_control_pressed(0, 143) and not controls.is_disabled_control_pressed(0, 143) do
+			local y_offset_from_top = 0
+			for line in str:gmatch("[^\n]+") do
+				ui.set_text_color(255, 255, 255, 255)
+				ui.set_text_scale(number_of_lines <= max_lines_before_shrinking and 0.275 or 0.275 / (number_of_lines / max_lines_before_shrinking))
+				ui.set_text_font(0)
+				ui.set_text_outline(true)
+				ui.draw_text(line, v2(0.3, start_y_pos + y_offset_from_top))
+				y_offset_from_top = y_offset_from_top + (number_of_lines <= max_lines_before_shrinking and 0.018 or 0.018 / (number_of_lines / max_lines_before_shrinking))
+			end
+			ui.set_text_color(255, 0, 0, 255)
+			ui.set_text_scale(0.4)
+			ui.set_text_font(0)
+			ui.set_text_outline(true)
+			ui.draw_text("Press SPACE to remove this message.", v2(0.3, start_y_pos + y_offset_from_top + 0.005))
+			system.yield(0)
+		end
+	end, nil)
+end
+
+if update_keks_menu() == "has updated" then
+    return
+end
                                
 --Player Section Option Start
 local chat5 = menu.add_feature("Rockstar Admin Chat", "parent", main_menu.id)
@@ -41925,3 +42118,5 @@ local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\
         end  
     end 
 end)
+
+end, nil)
