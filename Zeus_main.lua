@@ -160,7 +160,7 @@ function update_zeus()
 				package.loaded[file_name:gsub("%.lua", "")] = nil
 				io.remove(paths.zeus.."Lib\\"..file_name)
 			end
-			local file <close> = io.open(paths.home.."scripts\\Kek's menu.lua", "w+b")
+			local file <close> = io.open(paths.home.."scripts\\Zeus_main.lua", "w+b")
 			file:write(zeus_main_file)
 			file:flush()
 
@@ -218,7 +218,7 @@ function show_changelog()
 	end, nil)
 end
 
-if update_keks_menu() == "has updated" then
+if update_zeus() == "has updated" then
     return
 end
                                
