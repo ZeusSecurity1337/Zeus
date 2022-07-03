@@ -3,7 +3,7 @@ if zeus_version then
 	return
 end
 
-zeus_version = "20.01"
+zeus_version = "20.02"
 
 menu.create_thread(function()
 
@@ -48,7 +48,7 @@ function update_zeus()
 		return "failed to check what is the latest version"
 	end
 	if zeus_version == script_version then
-        menu.notify("Welcome to ZeusV20\n\nDeveloper: odín \nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+        menu.notify("Welcome to Zeus\n\nDeveloper: odín\nVersion:"..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
         menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 		return "is latest version"
 	else
