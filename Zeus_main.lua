@@ -4,12 +4,12 @@ if zeus_version then
 end
 
 -- zeus menu version number
-zeus_version = "20.06"
+zeus_version = "20.07"
 
 menu.create_thread(function()
 
-local main_menu = menu.add_feature("ZeusV20", "parent", 0)
-local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\ZeusV20.txt"
+local main_menu = menu.add_feature("Zeus", "parent", 0)
+local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\Zeus.txt"
 local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\settings\\"
 
 --Requires a file to be present in the same directory as the script.
@@ -26,7 +26,7 @@ paths.zeus = paths.home.."scripts\\Zeus\\"
 if menu.is_trusted_mode_enabled() then
 else 
     if not menu.is_trusted_mode_enabled() then
-        menu.notify("\tThis Script requires Trusted Mode to be activated", "ZeusV20", 8, 0x5014F0FF) end
+        menu.notify("\tThis Script requires Trusted Mode to be activated", "Zeus", 8, 0x5014F0FF) end
 return end
 
 function parse_html(str, extension)
@@ -61,7 +61,7 @@ function update_zeus()
 		return "failed to check what is the latest version"
 	end
 	if zeus_version == script_version then
-        menu.notify("Welcome to Zeus\n\nDeveloper: odín\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+        menu.notify("Welcome to Zeus\n\nDeveloper: odín & Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
         menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 		return "is latest version"
 	else
@@ -42071,36 +42071,6 @@ menu.add_feature("Anti Buzzard", "value_str", Antiprotex.id, function(f)
 	end
 end):set_str_data({"Buzzard Kick"})
 
-
-menu.add_feature("test", "value_str", Antiprotex.id, function(f)
-	if f.on then
-		while f.on do
-			system.yield(500)
-			for pid = 0, 31 do
-				if player.is_player_valid(pid) then
-					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 788747387 and pid ~= player.player_id() then
-						if f.value == 0 then
-							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
-							if network.network_is_host() then
-								network.network_session_kick_player(pid)
-							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
-								script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							else
-								network.force_remove_player(pid)
-							end
-							system.wait(4000)
-						elseif f.value == 3 then
-							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
-							system.wait(8000)
-						end
-					end
-				end
-			end
-		end
-	end
-end):set_str_data({"Buzzard Kick"})
 --Protections End
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
