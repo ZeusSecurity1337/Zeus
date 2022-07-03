@@ -3,8 +3,8 @@ if zeus_version then
 	return
 end
 
--- zeus menu version
-zeus_version = "20.05"
+-- zeus menu version number
+zeus_version = "20.06"
 
 menu.create_thread(function()
 
@@ -11260,13 +11260,6 @@ Godmode.on = false
 --Health Options End
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Funny Options
-menu.add_feature("Fuck Life!", "toggle", Funny.id, function(f)
-	while f.on do
-		system.yield(0)
-		ped.set_ped_to_ragdoll(player.get_player_ped(player.player_id()), 2500, 0, 0)
-	end
-end)
-
 
 menu.add_feature("Take A Shit", "action", Funny.id, function(f)
 	if not player.is_player_in_any_vehicle(player.player_id()) then
