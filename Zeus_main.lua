@@ -3,9 +3,11 @@ if zeus_version then
 	return
 end
 
-zeus_version = "20.03"
+zeus_version = "20.04"
 
 menu.create_thread(function()
+
+-- test update
 
 local main_menu = menu.add_feature("ZeusV20", "parent", 0)
 local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\ZeusV20.txt"
@@ -83,7 +85,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"There is an updated Zeus menu version available. Press ENTER to install. Press SPACE to continue with the old version.", 
+				"There is an updated Zeus menu version available. Press ENTER to install. Press SPACE to ignore.", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(0, 255, 255, 255)
