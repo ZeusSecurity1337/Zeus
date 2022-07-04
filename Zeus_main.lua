@@ -84,7 +84,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"[!] Caution There is an update for Zeus. A new version is available. Press ENTER to install. or press SPACE to dismiss it.", 
+				"[!] Caution There is an update for Zeus. A new version is available.\nPress ENTER to install. or press SPACE to dismiss it.", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(0, 255, 255, 255)
