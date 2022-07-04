@@ -8,5 +8,5 @@
 ### 7. Small changes for updater
 ### 8. Added Feature to automatically deposit money to bank.
 ### 9. Added Feature to automatically withdraw money from bank and deposit to bank.
-### 9. Added Black background for change logs after installing new upddate. This is to make it look cleaner.
+### 10. Added Black background for change logs after installing new upddate.
 ### More soon
