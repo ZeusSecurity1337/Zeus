@@ -4,7 +4,7 @@ if zeus_version then
 end
 
 --Set Version Here
-zeus_version = "20.07"
+zeus_version = "20.08"
 
 menu.create_thread(function()
 
@@ -11173,6 +11173,7 @@ event.add_event_listener(
     end)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 HealthOp = menu.add_feature("Health Options", "parent", selfplayer.id)
+Bank = menu.add_feature("Bank Options", "parent", selfplayer.id)
 Hair = menu.add_feature("Hair Options", "parent", selfplayer.id)
 Funny = menu.add_feature("Funny Options", "parent", selfplayer.id)
 
@@ -23421,9 +23422,11 @@ function attachPTFX(entity,dict,ptfx,scale,offset,rot)
  graphics.start_networked_ptfx_looped_on_entity(ptfx,entity,offset,rot,scale)
 end
 
+fakemoney1 = menu.add_feature("Prank Money Option", "parent", Protections.id)
+
 
 --Fake Money
-menu.add_feature("Display Current Balance", "toggle", Troll2.id, function(f)
+menu.add_feature("Display Current Balance", "toggle", fakemoney1.id, function(f)
 	while f.on do
 		system.yield(0)
 		natives.SET_MULTIPLAYER_WALLET_CASH()
@@ -23433,7 +23436,7 @@ menu.add_feature("Display Current Balance", "toggle", Troll2.id, function(f)
 	natives.REMOVE_MULTIPLAYER_BANK_CASH()
 end)
 
-menu.add_feature("Wallet Money Loop", "value_str", Troll2.id, function(f)
+menu.add_feature("Wallet Money Loop", "value_str", fakemoney1.id, function(f)
 	while f.on do
 		system.yield(100)
 		if f.value == 0 then
@@ -23455,7 +23458,7 @@ menu.add_feature("Wallet Money Loop", "value_str", Troll2.id, function(f)
 end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
 
 
-menu.add_feature("Bank Money Loop", "value_str", Troll2.id, function(f)
+menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
 	while f.on do
 		system.yield(100)
 		if f.value == 0 then
