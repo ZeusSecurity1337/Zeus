@@ -9,4 +9,5 @@
 ### 8. Added Feature to automatically deposit money to bank.
 ### 9. Added Feature to automatically withdraw money from bank and deposit to bank.
 ### 10. Added Black background for change logs after installing new update.
+### 11. Testing for new update.
 ### More soon
