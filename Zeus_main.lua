@@ -4,7 +4,7 @@ if zeus_version then
 end
 
 --Set Version Here
-zeus_version = "20.11"
+zeus_version = "20.12"
 
 menu.create_thread(function()
 
@@ -213,6 +213,7 @@ function show_changelog()
 			ui.set_text_font(0)
 			ui.set_text_outline(true)
 			ui.draw_text("Press SPACE to remove this message.", v2(0.3, start_y_pos + y_offset_from_top + 0.005))
+            ui.draw_rect(0.451, 0.511, 0.4, 0.3, 0, 0, 0, 180)
 			system.yield(0)
 		end
 	end, nil)
@@ -11296,7 +11297,60 @@ end)
 	--end
 --end)
 --Funny Options End
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+--Bank Options Start
+function NETWORK_GET_VC_WALLET_BALANCE(charSlot)
+    return native.call(0xA40F9C2623F6A8B5, charSlot):__tointeger()
+end    
+
+function NETWORK_GET_VC_BANK_BALANCE()
+    return native.call(0x76EF28DA05EA395A):__tointeger()
+end    
+
+function NET_GAMESERVER_TRANSFER_BANK_TO_WALLET(charSlot, amount)
+    return native.call(0xD47A2C1BA117471D, charSlot, amount)
+end    
+
+function NET_GAMESERVER_TRANSFER_WALLET_TO_BANK(charSlot, amount)
+    return native.call(0xC2F7FE5309181C7D, charSlot, amount)
+end   
+
+menu.add_feature("Transfer All Bank To Wallet", "toggle", Bank.id, function(f)
+    if f.on then
+    	while f.on do
+			system.wait(5000)
+            local walletCash = NETWORK_GET_VC_WALLET_BALANCE(stats.stat_get_int(791613967, 0))
+            local bankCash = NETWORK_GET_VC_BANK_BALANCE()
+        
+            if bankCash > 0 then
+                NET_GAMESERVER_TRANSFER_BANK_TO_WALLET(stats.stat_get_int(791613967, 0), bankCash)
+                menu.notify("Automatically transferred $"..bankCash.." to the wallet")
+            else
+                
+            end
+		end
+    end 
+end)
+
+menu.add_feature("Transfer All Wallet To Bank", "toggle", Bank.id, function(f)
+    if f.on then
+    	while f.on do
+			system.wait(5000)       
+            local walletCash = NETWORK_GET_VC_WALLET_BALANCE(stats.stat_get_int(791613967, 0))
+            local bankCash = NETWORK_GET_VC_BANK_BALANCE()
+
+            if walletCash > 0 then
+                NET_GAMESERVER_TRANSFER_WALLET_TO_BANK(stats.stat_get_int(791613967, 0), walletCash)
+                menu.notify("Automatically transferred $"..walletCash.." to the bank")
+            else
+                
+            end
+		end
+    end 
+end)
+
+--Bank Options End
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Hair Options Start
