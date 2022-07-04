@@ -61,8 +61,7 @@ function update_zeus()
 		return "failed to check what is the latest version"
 	end
 	if zeus_version == script_version then
-        menu.notify("Welcome to Zeus\n\nDevelopers: odín & Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
-        menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
+        menu.notify("You have the latest version of Zeus", "", 3, 0xff00ff00)
 		return "is latest version"
 	else
 		while controls.is_control_pressed(0, 215) 
@@ -42181,5 +42180,10 @@ local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\
         end  
     end 
 end)
+
+menu.notify("Welcome to Zeus\n\nDeveloper: odín\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
+audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
+require("Zeus/Lib/Animation")
 
 end, nil)
