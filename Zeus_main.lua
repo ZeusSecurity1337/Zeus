@@ -4,7 +4,7 @@ if zeus_version then
 end
 
 --Set Version Here
-zeus_version = "20.06"
+zeus_version = "20.07"
 
 menu.create_thread(function()
 
@@ -23420,6 +23420,61 @@ function attachPTFX(entity,dict,ptfx,scale,offset,rot)
  end
  graphics.start_networked_ptfx_looped_on_entity(ptfx,entity,offset,rot,scale)
 end
+
+
+--Fake Money
+menu.add_feature("Display Current Balance", "toggle", Troll2.id, function(f)
+	while f.on do
+		system.yield(0)
+		natives.SET_MULTIPLAYER_WALLET_CASH()
+		natives.SET_MULTIPLAYER_BANK_CASH()
+	end
+	natives.REMOVE_MULTIPLAYER_WALLET_CASH()
+	natives.REMOVE_MULTIPLAYER_BANK_CASH()
+end)
+
+menu.add_feature("Wallet Money Loop", "value_str", Troll2.id, function(f)
+	while f.on do
+		system.yield(100)
+		if f.value == 0 then
+			natives.CHANGE_FAKE_MP_CASH(100000, 0)
+		elseif f.value == 1 then
+			natives.CHANGE_FAKE_MP_CASH(250000, 0)
+		elseif f.value == 2 then
+			natives.CHANGE_FAKE_MP_CASH(500000, 0)
+		elseif f.value == 3 then
+			natives.CHANGE_FAKE_MP_CASH(750000, 0)
+		elseif f.value == 4 then
+			natives.CHANGE_FAKE_MP_CASH(1000000, 0)
+		elseif f.value == 5 then
+			natives.CHANGE_FAKE_MP_CASH(2147483647, 0)
+		elseif f.value == 6 then
+			natives.CHANGE_FAKE_MP_CASH(math.random(2147483, 2147483647), 0)
+		end
+	end
+end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
+
+
+menu.add_feature("Bank Money Loop", "value_str", Troll2.id, function(f)
+	while f.on do
+		system.yield(100)
+		if f.value == 0 then
+			natives.CHANGE_FAKE_MP_CASH(0, 100000)
+		elseif f.value == 1 then
+			natives.CHANGE_FAKE_MP_CASH(0, 250000)
+		elseif f.value == 2 then
+			natives.CHANGE_FAKE_MP_CASH(0, 500000)
+		elseif f.value == 3 then
+			natives.CHANGE_FAKE_MP_CASH(0, 750000)
+		elseif f.value == 4 then
+			natives.CHANGE_FAKE_MP_CASH(0, 1000000)
+		elseif f.value == 5 then
+			natives.CHANGE_FAKE_MP_CASH(0, 2147483647)
+		elseif f.value == 6 then
+			natives.CHANGE_FAKE_MP_CASH(0, math.random(2147483, 2147483647))
+		end
+	end
+end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
 
 
 

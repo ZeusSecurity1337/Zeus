@@ -3,4 +3,5 @@
 ### 2. Fixed new bugs
 ### 3. Renamed ZeusV20 to just Zeus
 ### 4. Removed useless code
+### 5. Added Feature Fake Money Loop as a troll feature
 ### More soon
