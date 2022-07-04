@@ -6,6 +6,7 @@
 ### 5. Added Feature Fake Money Loop as a troll feature
 ### 6. Added Bank Option allowing player to deposit and withdraw money
 ### 7. Small changes for updater
-### 8. Added Feature to automatically deposit money followed by transfer money cash to bank or bank to cash.
-### 9. Black background for change logs after installing new upddate.
+### 8. Added Feature to automatically deposit money to bank.
+### 9. Added Feature to automatically withdraw money from bank and deposit to bank.
+### 9. Added Black background for change logs after installing new upddate.
 ### More soon
