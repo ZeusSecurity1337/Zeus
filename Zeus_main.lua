@@ -3,12 +3,13 @@ if zeus_version then
 	return
 end
 
-zeus_version = "20.05"
+--Set Version Here
+zeus_version = "20.06"
 
 menu.create_thread(function()
 
-local main_menu = menu.add_feature("ZeusV20", "parent", 0)
-local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\ZeusV20.txt"
+local main_menu = menu.add_feature("Zeus", "parent", 0)
+local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\Zeus.txt"
 local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\settings\\"
 
 --Requires a file to be present in the same directory as the script.
@@ -25,7 +26,7 @@ paths.zeus = paths.home.."scripts\\Zeus\\"
 if menu.is_trusted_mode_enabled() then
 else 
     if not menu.is_trusted_mode_enabled() then
-        menu.notify("\tThis Script requires Trusted Mode to be activated", "ZeusV20", 8, 0x5014F0FF) end
+        menu.notify("\tThis Script requires Trusted Mode to be activated", "Zeus", 8, 0x5014F0FF) end
 return end
 
 function parse_html(str, extension)
@@ -60,7 +61,7 @@ function update_zeus()
 		return "failed to check what is the latest version"
 	end
 	if zeus_version == script_version then
-        menu.notify("Welcome to Zeus\n\nDeveloper: odín\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+        menu.notify("Welcome to Zeus\n\nDevelopers: odín & Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
         menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 		return "is latest version"
 	else
@@ -77,13 +78,13 @@ function update_zeus()
 		and not controls.is_disabled_control_pressed(0, 215)
 		and time > utils.time_ms() do
 			system.yield(0)
-			ui.set_text_color(255, 140, 0, 255)
+			ui.set_text_color(212, 169, 0, 255)
 			ui.set_text_scale(0.6)
 			ui.set_text_font(0)
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"There is an updated Zeus menu version available. Press ENTER to install. Press SPACE to ignore.", 
+				"[!] Caution There is an update for Zeus. A new version is available. Press ENTER to install. or press SPACE to dismiss it.", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(0, 255, 255, 255)
@@ -11259,14 +11260,6 @@ Godmode.on = false
 --Health Options End
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Funny Options
-menu.add_feature("Fuck Life!", "toggle", Funny.id, function(f)
-	while f.on do
-		system.yield(0)
-		ped.set_ped_to_ragdoll(player.get_player_ped(player.player_id()), 2500, 0, 0)
-	end
-end)
-
-
 menu.add_feature("Take A Shit", "action", Funny.id, function(f)
 	if not player.is_player_in_any_vehicle(player.player_id()) then
 		streaming.request_anim_dict("missfbi3ig_0")
@@ -24193,9 +24186,9 @@ enableLog =
          system.wait(400)
          main_menu.name = "ZeusV"
          system.wait(500)
-         main_menu.name = "   ZeusV20"
+         main_menu.name = "   Zeus"
          system.wait(600)
-         main_menu.name = "   ZeusV20"
+         main_menu.name = "   Zeus"
          return HANDLER_CONTINUE
      else
      end
@@ -38316,7 +38309,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(5.0000, -0.000, 70.000))
         entity.freeze_entity(obj, true)
-        menu.notify("ZeusV20\nBlocked main LSC entrance!")
+        menu.notify("Zeus\nBlocked main LSC entrance!")
     end
 )
 
@@ -38336,7 +38329,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(0.0000, -0.000, 90.000))
         entity.freeze_entity(obj, true)
-        menu.notify("ZeusV20\nBlocked Mesa LSC entrance!")
+        menu.notify("Zeus\nBlocked Mesa LSC entrance!")
     end)
 
  all3 =
@@ -38355,7 +38348,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(-5.0000, -0.000, 135.000))
         entity.freeze_entity(obj, true)
-        menu.notify("   ZeusV20\nBlocked L.S.I.A LSC entrance!")
+        menu.notify("   Zeus\nBlocked L.S.I.A LSC entrance!")
     end)
 
  all4 =
@@ -38384,7 +38377,7 @@ end)
         entity.set_entity_visible(obj2, false)
         entity.set_entity_rotation(obj2, v3(-5.0000, -0.000, -180.000))
         entity.freeze_entity(obj2, true)
-        menu.notify("   ZeusV20\nBlocked GSD LSC entrance's!")
+        menu.notify("   Zeus\nBlocked GSD LSC entrance's!")
     end)
 
 
@@ -38414,7 +38407,7 @@ end)
         entity.set_entity_visible(obj2, false)
         entity.set_entity_rotation(obj2, v3(5.0000, -0.000, 40.000))
         entity.freeze_entity(obj2, true)
-        menu.notify("   ZeusV20\nBlocked Paleto Bay LSC entrance's!")
+        menu.notify("   Zeus\nBlocked Paleto Bay LSC entrance's!")
     end
 )
 
@@ -38434,7 +38427,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(0.0000, -0.000, 175.000))
         entity.freeze_entity(obj, true)
-        menu.notify("   ZeusV20\nBlocked Bennys entrance's!")
+        menu.notify("   Zeus\nBlocked Bennys entrance's!")
     end)
 
 all7 =
@@ -38473,7 +38466,7 @@ obj3 = object.create_object(Hash2, v3(926.890, 51.065, 79.856), true, false)
 entity.set_entity_visible(obj3, false)
 entity.set_entity_rotation(obj3, v3(0.000, -0.000, -131.885))
 entity.freeze_entity(obj3, true)
-menu.notify("ZeusV20\nBlocked Casino Front Door!")
+menu.notify("Zeus\nBlocked Casino Front Door!")
 end
 )
 
@@ -38494,7 +38487,7 @@ obj = object.create_object(Hash, v3(936.262, 0.528, 77.517), true, false)
 entity.set_entity_visible(obj, false)
 entity.set_entity_rotation(obj, v3(0.000, 0.000, -31.152))
 entity.freeze_entity(obj, false)
-menu.notify("ZeusV20\nBlocked Casino Garage!")
+menu.notify("Zeus\nBlocked Casino Garage!")
 end
 )
 
@@ -38535,7 +38528,7 @@ obj3 = object.create_object(Hash2, v3(990.523, 79.579, 79.741), true, false)
 entity.set_entity_visible(obj3, false)
 entity.set_entity_rotation(obj3, v3(0.000, -0.000, 90.950))
 entity.freeze_entity(obj3, true)
-menu.notify("ZeusV20\nBlocked Casino Front Door!")
+menu.notify("Zeus\nBlocked Casino Front Door!")
 end
 )
 
@@ -38577,7 +38570,7 @@ obj3 = object.create_object(Hash2, v3(-599.735, 278.165, 81.073), true, false)
 entity.set_entity_visible(obj3, false)
 entity.set_entity_rotation(obj3, v3(-10.000, -0.000, -5.033))
 entity.freeze_entity(obj3, true)
-menu.notify("ZeusV20\nBlocked Arcade 1!")
+menu.notify("Zeus\nBlocked Arcade 1!")
 end
 )
 
@@ -38629,7 +38622,7 @@ obj4 = object.create_object(Hash4, v3(724.412, -825.776, 23.827), true, false)
 entity.set_entity_visible(obj4, false)
 entity.set_entity_rotation(obj4, v3(0.000, 0.000, -38.753))
 entity.freeze_entity(obj4, true)
-menu.notify("ZeusV20\nBlocked Arcade 2!")
+menu.notify("Zeus\nBlocked Arcade 2!")
 end
 )
 
@@ -38701,7 +38694,7 @@ obj10 = object.create_object(Hash10, v3(724.412, -825.776, 23.827), true, false)
 entity.set_entity_visible(obj10, false)
 entity.set_entity_rotation(obj10, v3(0.000, 0.000, -38.753))
 entity.freeze_entity(obj10, true)
-menu.notify("ZeusV20\nBlocked Arcade 3!")
+menu.notify("Zeus\nBlocked Arcade 3!")
 end
 )
 
@@ -38722,7 +38715,7 @@ obj11 = object.create_object(Hash11, v3(243.719, -45.002, 69.899), true, false)
 entity.set_entity_visible(obj11, false)
 entity.set_entity_rotation(obj11, v3(0.000, -0.000, -109.036))
 entity.freeze_entity(obj11, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 1!")
+menu.notify("Zeus\nBlocked Gun Shop 1!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38742,7 +38735,7 @@ obj12 = object.create_object(Hash12, v3(17.573, -1115.532, 28.800), true, false)
 entity.set_entity_visible(obj12, false)
 entity.set_entity_rotation(obj12, v3(0.000, 0.000, -19.872))
 entity.freeze_entity(obj12, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 2!")
+menu.notify("Zeus\nBlocked Gun Shop 2!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38762,7 +38755,7 @@ obj13 = object.create_object(Hash13, v3(-663.421, -944.607, 20.793), true, false
 entity.set_entity_visible(obj13, false)
 entity.set_entity_rotation(obj13, v3(0.000, 0.000, 0.171))
 entity.freeze_entity(obj13, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 3!")
+menu.notify("Zeus\nBlocked Gun Shop 3!")
 end
 )
 
@@ -38783,7 +38776,7 @@ obj14 = object.create_object(Hash14, v3(-1314.705, -389.920, 35.590), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -103.678))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 4!")
+menu.notify("Zeus\nBlocked Gun Shop 4!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38803,7 +38796,7 @@ obj14 = object.create_object(Hash14, v3(843.639, -1023.958, 27.200), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, 175.430))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 5!")
+menu.notify("Zeus\nBlocked Gun Shop 5!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38823,7 +38816,7 @@ obj14 = object.create_object(Hash14, v3(-3163.469, 1082.881, 19.850), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 67.499))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 6!")
+menu.notify("Zeus\nBlocked Gun Shop 6!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38843,7 +38836,7 @@ obj14 = object.create_object(Hash14, v3(-1112.615, 2690.447, 17.590), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 42.009))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 7!")
+menu.notify("Zeus\nBlocked Gun Shop 7!")
 end
 )
 
@@ -38865,7 +38858,7 @@ obj14 = object.create_object(Hash14, v3(1699.381, 3752.361, 33.716), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 46.553))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 8!")
+menu.notify("Zeus\nBlocked Gun Shop 8!")
 end
 )
 
@@ -38886,7 +38879,7 @@ obj14 = object.create_object(Hash14, v3(2568, 303.641, 107.664), true, false)
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -176.745))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 9!")
+menu.notify("Zeus\nBlocked Gun Shop 9!")
 end
 )
 ------------------------------------------------------------------------------------Gun Shop start------------------------------------------------------------------------------------------------
@@ -38906,7 +38899,7 @@ obj14 = object.create_object(Hash14, v3(-324.565, 6076.411, 30.256), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 43.604))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Gun Shop 10!")
+menu.notify("Zeus\nBlocked Gun Shop 10!")
 end
 )
 ------------------------------------------------------------------------------------Gun Shop 10 end------------------------------------------------------------------------------------------------
@@ -38949,7 +38942,7 @@ obj14 = object.create_object(Hash14, v3(-1371.139, -506.541, 32.157), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -5.000))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Del Pero office")
+menu.notify("Zeus\nBlocked Del Pero office")
 end
 )
 
@@ -39003,7 +38996,7 @@ obj14 = object.create_object(Hash14, v3(-81.979, -781.522, 37.520), true, false)
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -170.000))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Pillbox Hill office")
+menu.notify("Zeus\nBlocked Pillbox Hill office")
 end
 )
 ------------------------------------------------------------------------------------office End-------------------------------------------------------------------------------------------------
@@ -39105,7 +39098,7 @@ obj11 = object.create_object(Hash11, v3(1875.559, 286.673, 163.311), true, false
 entity.set_entity_visible(obj11, false)
 entity.set_entity_rotation(obj11, v3(0.000, -0.000, 151.630))
 entity.freeze_entity(obj11, true)
-menu.notify("ZeusV20\nBlocked Facility 1!")
+menu.notify("Zeus\nBlocked Facility 1!")
 end
 )
 
@@ -39185,7 +39178,7 @@ obj11 = object.create_object(Hash11, v3(1875.559, 286.673, 163.311), true, false
 entity.set_entity_visible(obj11, false)
 entity.set_entity_rotation(obj11, v3(0.000, -0.000, 151.630))
 entity.freeze_entity(obj11, true)
-menu.notify("ZeusV20\nBlocked Bunker 1!")
+menu.notify("Zeus\nBlocked Bunker 1!")
 end
 )
 ------------------------------------------------------------------------------------Bunker end-----------------------------------------------------------------------------------------------
@@ -39238,7 +39231,7 @@ entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -87.337))
 entity.freeze_entity(obj14, true)
 
-menu.notify("ZeusV20\nBlocked 400k Apartment!")
+menu.notify("Zeus\nBlocked 400k Apartment!")
 end
 )
 -----------------------------------------------------------------------------------------400k end---------------------------------------------------------------------------------------------------
@@ -39260,7 +39253,7 @@ obj14 = object.create_object(Hash14, v3(-554.349, 666.209, 143.748), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, 141.531))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 1!")
+menu.notify("Zeus\nBlocked Apartment 1!")
 end
 )
 
@@ -39282,7 +39275,7 @@ obj14 = object.create_object(Hash14, v3(-554.349, 666.209, 143.748), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, 141.531))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 2!")
+menu.notify("Zeus\nBlocked Apartment 2!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 2 end--------------------------------------------------------------------------------------------
@@ -39323,7 +39316,7 @@ obj14 = object.create_object(Hash14, v3(-177.996, 504.066, 135.861), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -157.322))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 3!")
+menu.notify("Zeus\nBlocked Apartment 3!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 3 end--------------------------------------------------------------------------------------------
@@ -39365,7 +39358,7 @@ obj14 = object.create_object(Hash14, v3(-177.996, 504.066, 135.861), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -157.322))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 4!")
+menu.notify("Zeus\nBlocked Apartment 4!")
 end
 )
 
@@ -39407,7 +39400,7 @@ obj14 = object.create_object(Hash14, v3(-23.024, -625.205, 34.709), true, false)
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 70.985))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 5!")
+menu.notify("Zeus\nBlocked Apartment 5!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 5 end--------------------------------------------------------------------------------------------
@@ -39449,7 +39442,7 @@ obj14 = object.create_object(Hash14, v3(-822.698, -437.788, 35.641), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -60.301))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 6!")
+menu.notify("Zeus\nBlocked Apartment 6!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 6 end--------------------------------------------------------------------------------------------
@@ -39531,7 +39524,7 @@ obj14 = object.create_object(Hash14, v3(-938.323, -378.731, 37.964), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -99.377))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 7!")
+menu.notify("Zeus\nBlocked Apartment 7!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 7 end------------------------------------------------------------------------------------------
@@ -39583,7 +39576,7 @@ obj14 = object.create_object(Hash14, v3(-1441.271, -547.295, 33.745), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 35.419))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked Apartment 8!")
+menu.notify("Zeus\nBlocked Apartment 8!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 8 end------------------------------------------------------------------------------------------
@@ -39705,7 +39698,7 @@ obj14 = object.create_object(Hash14, v3(764.412, -1762.192, 28.401), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -151.130))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked LS CAR MEET!")
+menu.notify("Zeus\nBlocked LS CAR MEET!")
 end
 )
 
@@ -39767,7 +39760,7 @@ entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -26.878))
 entity.freeze_entity(obj14, true)
 
-menu.notify("ZeusV20\nBlocked NightClub 1!")
+menu.notify("Zeus\nBlocked NightClub 1!")
 end
 )
 ------------------------------------------------------------------------------------Nightclub 1 End--------------------------------------------------------------------------------------
@@ -39829,7 +39822,7 @@ obj14 = object.create_object(Hash14, v3(-165.331, -1295.802, 30.097), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -39.186))
 entity.freeze_entity(obj14, true)
-menu.notify("ZeusV20\nBlocked NightClub 2!")
+menu.notify("Zeus\nBlocked NightClub 2!")
 end
 )
 -----------------------------------------------
@@ -39837,7 +39830,7 @@ end
 
 
 -------------------------------------------------------------------Online Player Troll Options-----------------------------------------------------------------------------------------------------
-online = menu.add_player_feature("ZeusV20", "parent", main_menu.id)
+online = menu.add_player_feature("Zeus", "parent", main_menu.id)
 Immunevirus = menu.add_player_feature("Immune virus Options", "parent", online.id)
 trolls = menu.add_player_feature("Troll Options", "parent", online.id)
 peds1 = menu.add_player_feature("Pedestrian Options", "parent", online.id)
