@@ -4,7 +4,7 @@ if zeus_version then
 end
 
 --Set Version Here
-zeus_version = "20.16"
+zeus_version = "20.17"
 
 menu.create_thread(function()
 
@@ -6175,11 +6175,6 @@ MN = menu.notify
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-MxU = "[?] Check compatibility with current GTA Online"
-MxU_0 = "[!] You must be in an online session to check correctly."
-MxU_1 = "[*] Zeus V20 is compatible with the current GTA Online version"
-MxU_2 =
-    "Zeus V13 detected that you are outdated\nProblems such as crashes, or functions not working properly will be common.\nAlways update through official channels\nUse Zeus discord for updates."
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 VEHS = "Sell vehicle for $8.0M"
 VEHHEL =
@@ -6243,25 +6238,6 @@ SUB_CL_ = "Cooldown Removed\nMissiles Range Improved"
 
 
 ---------------------------------------------------------------------------------------------------------------------------------
-
-MU(
-    MxU .. "",
-    "action",
-    misc.id,
-    function()
-        local q = player.player_count()
-        if q == 0 then
-            MN(MxU_0 .. "", "", 5, red)
-        else
-            UpdateCheck = script.get_local_f(gameplay.get_hash_key("Freemode"), 3494)
-            if UpdateCheck == 10 then
-                MN(MxU_1 .. "", "", 5, green)
-            else
-                MN(MxU_2 .. "", "Update required", 20, yellow)
-            end
-        end
-    end
-)
 
 local money =
     MU(
