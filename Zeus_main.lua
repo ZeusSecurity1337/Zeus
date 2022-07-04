@@ -4,7 +4,7 @@ if zeus_version then
 end
 
 --Set Version Here
-zeus_version = "20.17"
+zeus_version = "20.18"
 
 menu.create_thread(function()
 
@@ -83,7 +83,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.", 
+				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.\n\n", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(0, 255, 255, 255)
