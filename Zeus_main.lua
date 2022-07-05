@@ -1,10 +1,10 @@
 if zeus_version then 
 	menu.notify("Zeus is already loaded!", "Initialization Cancelled!", 3, 0xff0000ff) 
 	return
-end
+end 
 
 --Set Version Here
-zeus_version = "20.24"
+zeus_version = "20.25"
 
 menu.create_thread(function()
 
