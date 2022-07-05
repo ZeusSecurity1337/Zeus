@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment
-zeus_version = "20.27"      
+zeus_version = "20.28"      
 
 menu.create_thread(function()
 
@@ -93,7 +93,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true) 
 			ui.draw_text(
-				"\nmessage will disappear in 25 seconds and will not update your menu.", 
+				"\nMessage will disappear in 25 seconds and will not update your menu.\nYou will need to reset to Prompt again", 
 				v2(0.5, 0.6)
 			)
 			if utils.time_ms() > time or controls.is_control_pressed(0, 143) or controls.is_disabled_control_pressed(0, 143) then
