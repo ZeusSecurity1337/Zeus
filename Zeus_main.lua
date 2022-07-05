@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.34"      
+zeus_version = "20.34"       
 
 menu.create_thread(function()
 
@@ -11187,30 +11187,6 @@ normalgod_mode3 =
             end
         end)
 normalgod_mode3.on = false
-
-
-normalgod_mode1 =
-    menu.add_feature(
-    "God mode V1",
-    "toggle",
-    HealthOp.id,
-    function(feat)
-        if feat.on then
-            me = player.player_id()
-            ped.set_ped_max_health(player.get_player_ped(me), 99999999999999999999)
-            ped.set_ped_health(player.get_player_ped(me), 99999999999999999999)
-            ped.set_ped_max_health(player.get_player_ped(me), 328)
-            ped.set_ped_health(player.get_player_ped(me), 328)
-            ped.clear_ped_blood_damage(player.get_player_ped(me))
-            gameplay.set_override_weather(3)
-            return HANDLER_CONTINUE
-        else
-             me = player.player_id()
-            ped.set_ped_max_health(player.get_player_ped(me), 328)
-            ped.set_ped_health(player.get_player_ped(me), 328)
-        end
-    end)
-normalgod_mode1.on = false
 
 
 Godmode =

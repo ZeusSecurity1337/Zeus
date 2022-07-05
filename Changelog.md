@@ -7,8 +7,7 @@
 ### 6. Added Feature Auto-Deposit Money is now toggled on by defult.
 ### 7. Added Black background for change logs after installing new script update.
 ### 8. Added the ability to turn on and off Session Logger.
-### 9. Fixed an issue where users couldn't teleport locations
-### When toggling Auto Teleport.
+### 9. Fixed an issue where users couldn't teleport to locations.
 ### 10. Fixed an issue where overlapping would occur when promoting
 ### user to install new update.  
 ### More soon
