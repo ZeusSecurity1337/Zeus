@@ -3,8 +3,8 @@ if zeus_version then
 	return
 end 
 
---Set Version Here requeriment
-zeus_version = "20.30"      
+--Set Version Here requeriment for the script to work
+zeus_version = "20.31"      
 
 menu.create_thread(function()
 
@@ -84,7 +84,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.", 
+				"[!] Caution There is an update for Zeus.\nPress ENTER to install or press SPACE to dismiss it.", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(255, 0, 0, 255)
@@ -93,7 +93,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true) 
 			ui.draw_text(
-				"\nMessage will disappear in 25 seconds\nTo Update again You will need to refresh and reset to Prompt update again.", 
+				"Message will disappear in 25 seconds\nTo Update again You will need to refresh and reset.", 
 				v2(0.5, 0.6)
 			)
 			if utils.time_ms() > time or controls.is_control_pressed(0, 143) or controls.is_disabled_control_pressed(0, 143) then

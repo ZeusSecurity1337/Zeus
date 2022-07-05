@@ -11,5 +11,4 @@
 ### When toggling Auto Teleport.
 ### 10. Fixed an issue where overlapping would occur when promoting
 ### user to install new update. 
-### 11. Fixing issues.
 ### More soon
