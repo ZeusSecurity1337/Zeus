@@ -4,7 +4,7 @@ if zeus_version then
 end
 
 --Set Version Here
-zeus_version = "20.20"
+zeus_version = "20.22"
 
 menu.create_thread(function()
 
@@ -78,22 +78,22 @@ function update_zeus()
 		and not controls.is_disabled_control_pressed(0, 215)
 		and time > utils.time_ms() do
 			system.yield(0)
-			ui.set_text_color(212, 169, 0, 255)
+			ui.set_text_color(255, 251, 0, 255)
 			ui.set_text_scale(0.6)
 			ui.set_text_font(0)
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.", 
+				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.\n", 
 				v2(0.5, 0.45)
 			)
-			ui.set_text_color(0, 255, 255, 255)
-			ui.set_text_scale(0.7)
+			ui.set_text_color(255, 0, 0, 255)
+			ui.set_text_scale(0.6)
 			ui.set_text_font(0)
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"This message will disappear in 25 seconds and will not update your menu.", 
+				"\n\nThis message will disappear in 25 seconds and will not update your menu.", 
 				v2(0.5, 0.5)
 			)
 			if utils.time_ms() > time or controls.is_control_pressed(0, 143) or controls.is_disabled_control_pressed(0, 143) then
@@ -209,7 +209,7 @@ function show_changelog()
 				ui.draw_text(line, v2(0.3, start_y_pos + y_offset_from_top))
 				y_offset_from_top = y_offset_from_top + (number_of_lines <= max_lines_before_shrinking and 0.018 or 0.018 / (number_of_lines / max_lines_before_shrinking))
 			end
-			ui.set_text_color(255, 0, 0, 255)
+			ui.set_text_color(21, 255, 0, 255)
 			ui.set_text_scale(0.4)
 			ui.set_text_font(0)
 			ui.set_text_outline(true)
