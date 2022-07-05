@@ -3,8 +3,8 @@ if zeus_version then
 	return
 end 
 
---Set Version Here
-zeus_version = "20.26"
+--Set Version Here requeriment
+zeus_version = "20.27"      
 
 menu.create_thread(function()
 
