@@ -84,11 +84,11 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.\n\n", 
+				"[!] Caution There is an update for Zeus.\nPress ENTER to install. press SPACE to dismiss it.", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(0, 255, 255, 255)
-			ui.set_text_scale(0.6)
+			ui.set_text_scale(0.7)
 			ui.set_text_font(0)
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
@@ -11234,7 +11234,7 @@ Godmode =
     end
 
 )
-Godmode.on = false
+Godmode.on = true
 --Health Options End
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Funny Options
@@ -47724,7 +47724,7 @@ local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\
     end 
 end)
 
-menu.notify("Welcome to Zeus\n\nDeveloper: odín\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
 require("Zeus/Lib/Animation")
