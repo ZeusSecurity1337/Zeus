@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.32"      
+zeus_version = "20.33"      
 
 menu.create_thread(function()
 
@@ -47726,7 +47726,7 @@ end)
 
 menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
-audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id(), player.get_player_ip()), "HUD_AWARDS", false, 0, true)
+audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
 require("Zeus/Lib/Animation")
 
 end, nil)
