@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.33"      
+zeus_version = "20.34"      
 
 menu.create_thread(function()
 
@@ -15,7 +15,7 @@ local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\
 --Requires a file to be present in the same directory as the script.
 local text_func = require("Zeus/Lib/Text_Func")
 local natives = require("Zeus/Lib/Natives")
-local Utils = require("Zeus//Lib/Utils")
+local Utils = require("Zeus//Lib/Utils") 
 
 
 local paths <const> = {
