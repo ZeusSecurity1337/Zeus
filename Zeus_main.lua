@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.40"       
+zeus_version = "20.41"       
 
 menu.create_thread(function()
 
@@ -29374,7 +29374,7 @@ menu.add_feature("Wallet Money Loop", "value_str", fakemoney1.id, function(f)
 end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
 
 
-bank =
+
 menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
 	while f.on do
 		system.yield(100)
@@ -29395,7 +29395,7 @@ menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
 		end
 	end
 end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
-bank.on = true
+
 
 
 ---------------------------------------------------------------------------------Moneybag End------------------------------------------------------------------------------------------------
@@ -30183,6 +30183,45 @@ menu.add_feature("Rapid Respawn", "toggle", misc.id, function(f)
 	end
 end)
 RapidRespawn.on = false
+
+--kill tracker
+killtracker =
+menu.add_feature("Kill Tracker", "toggle", misc.id, function(f, pid)
+	if f.on then
+		while f.on do
+			system.yield(100)
+			for pid = 0, 31 do
+				if entity.is_entity_dead(player.get_player_ped(pid)) then
+					if not IsPlayerDead[pid] then
+						for pid2 = 0, 31 do
+							if entity.has_entity_been_damaged_by_entity(player.get_player_ped(pid), player.get_player_ped(pid2)) then
+								if player.is_player_valid(pid) and player.is_player_valid(pid2) then
+									if pid == pid2 then
+										if player.is_player_female(pid) then
+											menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Her Self", "Kill Tracker", 4, 0x64FA7800)
+										else
+											menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Him Self", "Kill Tracker", 4, 0x64FA7800)
+										end
+									elseif pid ~= pid2 then
+										menu.notify("Player: " .. tostring(player.get_player_name(pid2)) .. "\nKilled: " .. tostring(player.get_player_name(pid)), "Kill Tracker", 4, 0x64FA7800)
+									end
+								end
+							end
+							system.wait(0)
+						end
+					end
+					IsPlayerDead[pid] = true
+					IsPlayerAlive[pid] = false
+				elseif not entity.is_entity_dead(player.get_player_ped(pid)) and IsPlayerDead[pid] then
+					IsPlayerDead[pid] = false
+					IsPlayerAlive[pid] = true
+				end
+				system.wait(0)
+			end
+		end
+	end
+end)
+killtracker.on = true
 
 
 enableLog = 

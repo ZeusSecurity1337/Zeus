@@ -2,7 +2,7 @@
 ### 1. Added auto depositing feature
 ### 2. Ceo loop
 ### 3. Added Bounty Placer
-### 4. Added Feature Fake Money Loop as a troll feature
+### 4. Added Kill tracker
 ### 5. Added Bank Option allowing player to deposit and withdraw money
 ### 6. Added Feature Auto-Deposit Money is now toggled on by defult.
 ### 7. Added Black background for change logs after installing new script update.
