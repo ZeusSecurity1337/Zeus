@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.36"       
+zeus_version = "20.37"       
 
 menu.create_thread(function()
 
@@ -15,13 +15,16 @@ local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\
 --Requires a file to be present in the same directory as the script.
 local text_func = require("Zeus/Lib/Text_Func")
 local natives = require("Zeus/Lib/Natives")
-local Utils = require("Zeus//Lib/Utils") 
+local utilities = require("Zeus//Lib/Utils") 
 
 
 local paths <const> = {
 	home = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\"
 }
 paths.zeus = paths.home.."scripts\\Zeus\\"
+
+local settings <const> = {}
+settings.in_use = {}
 
 -- Trusted Mode requeriment
 if menu.is_trusted_mode_enabled() then
@@ -41,6 +44,19 @@ function parse_html(str, extension)
 		}
 	end
 	return files
+end
+
+function settings.assert(bool, msg, ...)
+	if not bool then
+		local n_args <const> = select("#", ...)
+		msg = string.format(
+			(n_args > 0 and "%s\nExtra info:\n" or msg)..string.rep("%s\n", n_args), 
+			msg, ...
+		)
+		print(debug.traceback(msg, 2))
+		menu.notify(debug.traceback(msg, 2), "Error", 12, 0xff0000ff)
+		error(msg, 2)
+	end
 end
 
 function update_zeus()
@@ -46182,6 +46198,263 @@ menu.add_player_feature("Give Coffee", "action", trolls.id, function(f, pid)
 		end, nil)
 	end
 end)
+
+do
+	local memoized <const> = {}
+	local is_valid <const> = player.is_player_valid
+	function zeusplayers(me)
+		local pid = -1
+		if not me then
+			me = player.player_id()
+		end
+		if #memoized == 0 then
+			local func
+			func = function()
+				repeat
+					pid = pid + 1
+				until pid == 32 or (me ~= pid and is_valid(pid))
+				if pid ~= 32 then
+					return pid
+				end
+				table.insert(memoized, func)
+			end
+			return func
+		else
+			local i <const> = #memoized
+			local func <const> = memoized[i]
+			table.remove(memoized, i)
+            settings.assert(debug.getupvalue(func, 2) == "me" and debug.setupvalue(func, 2, me), "FAILED TO SET UPVALUE: me")
+			settings.assert(debug.getupvalue(func, 1) == "pid" and debug.setupvalue(func, 1, -1), "FAILED TO SET UPVALUE: pid")
+			return func
+		end
+	end
+end
+
+function is_not_friend(pid)
+	return not network.is_scid_friend(player.get_player_scid(pid))
+end
+
+local eventtrack = {}
+
+eventtrack.script_event_tracker = setmetatable({count = 0, id = 0}, {
+	__index = {},
+	__newindex = function(Table, index, value)
+		if value ~= nil then
+			Table.count = Table.count + 1
+			Table.id = Table.id + 1
+			getmetatable(Table).__index[Table.id] = value
+		else
+			getmetatable(Table).__index[index] = nil
+			Table.count = Table.count - 1
+		end
+	end,
+	__pairs = function(Table)
+		return next, getmetatable(Table).__index
+	end
+})
+
+do
+	local _ENV <const> = { -- 12% faster, 20% less garbage created
+		getmetatable = getmetatable, 
+		setmetatable = setmetatable, 
+		__newindex = function()
+			settings.assert(false, "Tried to modify a read-only table.")
+		end,
+		__pairs = function(Table)
+			return next, getmetatable(Table).__index
+		end,
+		__len = function(Table)
+			return #getmetatable(Table).__index
+		end
+	}
+
+	function eventtrack.const(Table)
+		settings.assert(not getmetatable(Table) or getmetatable(Table).__is_const, "Tried to overwrite a non-const metatable while changing the table to const.")
+		if not getmetatable(Table) then
+			return setmetatable({}, {
+				__is_const = true,
+				__index = Table,
+				__newindex = __newindex,
+				__pairs = __pairs,
+				__len = __len
+			})
+		else
+			return Table
+		end
+	end
+end
+
+eventtrack.global_indices = eventtrack.const({
+	time = 					2810701 + 4624, 	-- NETWORK::GET_NETWORK_TIME()
+
+	current = 				1921039 + 9, 		-- Negative framecount * ((joaat(script host name) * cloud time) + random(0, 65534) + random(0, 65534))
+
+	previous = 				1921039 + 10		-- Negative framecount * ((joaat(script host name) * cloud time) + random(0, 65534) + random(0, 65534))
+})
+
+eventtrack.player_global_indices = eventtrack.const({
+	personal_vehicle = 				{offset = 2703660 + 1 + 173, 		pid_multiplier = 1},
+
+	generic = 						{offset = 1893551 + 1 + 510, 		pid_multiplier = 599}, 		-- Equivalent to global(1921036 + 9) if pid is script host
+
+	organization_associate_hash = 	{offset = 1893551 + 1 + 10 + 2, 	pid_multiplier = 599},		-- Seems to be 1639791091 + (unknown * 3)
+
+	organization_id = 				{offset = 1893551 + 1 + 10, 		pid_multiplier = 599},
+
+	otr_status = 					{offset = 2689224 + 1 + 207, 		pid_multiplier = 451}, 		-- Returns 1 if player is otr
+
+	bounty_status = 				{offset = 1835502 + 1 + 4,			pid_multiplier = 3}, 		-- Returns 1 if player has bounty.
+
+	is_player_typing = 				{offset = 1644218 + 2 + 241 + 136 --[[+ ((16 // 32) * 33)--]], pid_multiplier = 1} -- < this > & 1 << 16 ~= 0 if they're typing.
+})
+
+local script_event_hashes <const> = eventtrack.const({
+	["Crash 1"] = 							962740265,
+
+	["Crash 2"] = 							-1386010354,
+
+	["Crash 3"] = 							2112408256,
+
+	["Disown personal vehicle"] = 			-520925154,
+
+	["Vehicle EMP"] =						-2042927980,
+
+	["Destroy personal vehicle"] = 			-1026787486,
+
+	["Kick out of vehicle"] = 				578856274,
+
+	["Give OTR or ghost organization"] =	-391633760,
+
+	["Block passive"] = 					1114091621,
+
+	["Send to mission"] = 					2020588206,
+
+	["Send to Perico island"] = 			-621279188,
+
+	["Apartment invite"] = 					603406648,
+
+	["CEO ban"] = 							-764524031,
+
+	["Dismiss or terminate from CEO"] = 	248967238,
+
+	["Transaction error"] = 				-1704141512,
+
+	["CEO money"] = 						1890277845,
+
+	["Bounty"] = 							1294995624,
+
+	["Generic event"] = 					801199324,
+
+	["Notifications"] = 					677240627
+})
+
+function get_player_global(global_name, pid, get_index)
+	settings.assert(eventtrack.player_global_indices[global_name], "Invalid player global name.", global_name)
+	settings.assert(pid >= 0 and pid <= 31, "Invalid pid.", global_name, pid) -- Invalid pids can cause access violation crash
+	local pid_offset <const> = pid * eventtrack.player_global_indices[global_name].pid_multiplier
+	if get_index == true then
+		return eventtrack.player_global_indices[global_name].offset + pid_offset
+	else
+		return script.get_global_i(eventtrack.player_global_indices[global_name].offset + pid_offset)
+	end
+end
+
+function get_script_event_hash(name)
+	settings.assert(script_event_hashes[name], "Failed to get hash from script name:", name)
+	return script_event_hashes[name]
+end
+
+function send_script_event(...)
+	local name <const>,
+	pid <const>,
+	args <const>,
+	friend_condition <const>,
+	priority <const>, -- Some script events like emp will not work if delayed too much. 12 se in one frame is far below the the dangerous threshold of 20.
+	cant_yield <const> = ... -- Like priority events, this can send if current count is under 12. This allows for most events of this kind to send immediately.
+	if player.is_player_valid(pid)
+	and (not friend_condition or is_not_friend(pid)) then
+		repeat
+			for i, time in pairs(eventtrack.script_event_tracker) do
+				if time < utils.time_ms() then
+					eventtrack.script_event_tracker[i] = nil
+				end
+			end
+			if not cant_yield and (eventtrack.script_event_tracker.count >= 10 and (not priority or eventtrack.script_event_tracker.count < 12)) then
+				system.yield(0)
+			end
+		until cant_yield or (eventtrack.script_event_tracker.count < 10 or (priority and eventtrack.script_event_tracker.count < 12))
+		if player.is_player_valid(pid) and eventtrack.script_event_tracker.count < 12 then
+			eventtrack.script_event_tracker[true] = utils.time_ms() + math.ceil(2000 * gameplay.get_frame_time())
+			script.trigger_script_event(get_script_event_hash(name), pid, args)
+			return true
+		end
+	elseif not cant_yield then
+		system.yield(0)
+	end
+	return false
+end
+
+function get_global(global_name)
+	settings.assert(eventtrack.global_indices[global_name], "Invalid global name.", global_name)
+	return script.get_global_i(eventtrack.global_indices[global_name])
+end
+
+function set_bounty(...)
+	local script_target <const>,
+	friend_relevant <const>,
+	anonymous = ...
+	if player.player_count() > 0
+	and get_player_global("bounty_status", script_target) == 0
+	and player.player_id() ~= script.get_host_of_this_script()
+	and player.is_player_valid(script_target) 
+	and player.is_player_playing(script_target) 
+	and (not friend_relevant or is_not_friend(script_target)) then
+		local amount = math.tointeger(settings.in_use["Bounty amount"]) or 10000
+		for pid in zeusplayers(true) do
+			send_script_event(
+				"Bounty", 
+				pid, 
+				{
+					pid, 
+					script_target, 
+					3, 
+					amount > 0 and amount or 10000, 
+					1,
+					anonymous and 1 or 0, 
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+					get_global("current"), get_global("previous")
+				}
+			)
+		end
+	end
+end
+
+function wait_conditional(duration, func, ...)
+	local duration <const> = duration
+	local func <const> = func
+	settings.assert(duration > 0, "Duration must be longer than 0.", duration)
+	local time <const> = utils.time_ms() + duration
+	repeat -- Must guarantee one yield or else there's a possibility of loops without yield
+		system.yield(0)
+	until not func(...) or utils.time_ms() > time
+end
+
+menu.add_feature("Reapply bounty", "value_str", Troll2.id, function(f)
+	while f.on do
+		for pid in zeusplayers() do
+			if is_not_friend(pid) then
+				set_bounty(pid, true, f.value == 0)
+			end
+		end
+		local value <const> = f.value
+		wait_conditional(10000, function() -- Spamming script events leads to inevitable crash. Setting one bounty sends up to 32 script events.
+			return f.on and f.value == value
+		end)
+	end
+end):set_str_data({
+	"Anonymous",
+	"With your name"
+})
 
 
 menu.add_player_feature("Give Mc Donalds", "action", trolls.id, function(f, pid)
