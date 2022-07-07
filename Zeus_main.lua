@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.38"       
+zeus_version = "20.39"       
 
 menu.create_thread(function()
 
@@ -110,6 +110,120 @@ function settings.assert(bool, msg, ...)
 		error(msg, 2)
 	end
 end
+
+local eventtrack = {}
+
+eventtrack.script_event_tracker = setmetatable({count = 0, id = 0}, {
+	__index = {},
+	__newindex = function(Table, index, value)
+		if value ~= nil then
+			Table.count = Table.count + 1
+			Table.id = Table.id + 1
+			getmetatable(Table).__index[Table.id] = value
+		else
+			getmetatable(Table).__index[index] = nil
+			Table.count = Table.count - 1
+		end
+	end,
+	__pairs = function(Table)
+		return next, getmetatable(Table).__index
+	end
+})
+
+do
+	local _ENV <const> = { -- 12% faster, 20% less garbage created
+		getmetatable = getmetatable, 
+		setmetatable = setmetatable, 
+		__newindex = function()
+			settings.assert(false, "Tried to modify a read-only table.")
+		end,
+		__pairs = function(Table)
+			return next, getmetatable(Table).__index
+		end,
+		__len = function(Table)
+			return #getmetatable(Table).__index
+		end
+	}
+
+	function eventtrack.const(Table)
+		settings.assert(not getmetatable(Table) or getmetatable(Table).__is_const, "Tried to overwrite a non-const metatable while changing the table to const.")
+		if not getmetatable(Table) then
+			return setmetatable({}, {
+				__is_const = true,
+				__index = Table,
+				__newindex = __newindex,
+				__pairs = __pairs,
+				__len = __len
+			})
+		else
+			return Table
+		end
+	end
+end
+
+eventtrack.global_indices = eventtrack.const({
+	time = 					2810701 + 4624, 	-- NETWORK::GET_NETWORK_TIME()
+
+	current = 				1921039 + 9, 		-- Negative framecount * ((joaat(script host name) * cloud time) + random(0, 65534) + random(0, 65534))
+
+	previous = 				1921039 + 10		-- Negative framecount * ((joaat(script host name) * cloud time) + random(0, 65534) + random(0, 65534))
+})
+
+eventtrack.player_global_indices = eventtrack.const({
+	personal_vehicle = 				{offset = 2703660 + 1 + 173, 		pid_multiplier = 1},
+
+	generic = 						{offset = 1893551 + 1 + 510, 		pid_multiplier = 599}, 		-- Equivalent to global(1921036 + 9) if pid is script host
+
+	organization_associate_hash = 	{offset = 1893551 + 1 + 10 + 2, 	pid_multiplier = 599},		-- Seems to be 1639791091 + (unknown * 3)
+
+	organization_id = 				{offset = 1893551 + 1 + 10, 		pid_multiplier = 599},
+
+	otr_status = 					{offset = 2689224 + 1 + 207, 		pid_multiplier = 451}, 		-- Returns 1 if player is otr
+
+	bounty_status = 				{offset = 1835502 + 1 + 4,			pid_multiplier = 3}, 		-- Returns 1 if player has bounty.
+
+	is_player_typing = 				{offset = 1644218 + 2 + 241 + 136 --[[+ ((16 // 32) * 33)--]], pid_multiplier = 1} -- < this > & 1 << 16 ~= 0 if they're typing.
+})
+
+local script_event_hashes <const> = eventtrack.const({
+	["Crash 1"] = 							962740265,
+
+	["Crash 2"] = 							-1386010354,
+
+	["Crash 3"] = 							2112408256,
+
+	["Disown personal vehicle"] = 			-520925154,
+
+	["Vehicle EMP"] =						-2042927980,
+
+	["Destroy personal vehicle"] = 			-1026787486,
+
+	["Kick out of vehicle"] = 				578856274,
+
+	["Give OTR or ghost organization"] =	-391633760,
+
+	["Block passive"] = 					1114091621,
+
+	["Send to mission"] = 					2020588206,
+
+	["Send to Perico island"] = 			-621279188,
+
+	["Apartment invite"] = 					603406648,
+
+	["CEO ban"] = 							-764524031,
+
+	["Dismiss or terminate from CEO"] = 	248967238,
+
+	["Transaction error"] = 				-1704141512,
+
+	["CEO money"] = 						1890277845,
+
+	["Bounty"] = 							1294995624,
+
+	["Generic event"] = 					801199324,
+
+	["Notifications"] = 					677240627
+})
 
 function get_input(...)
 	local title <const>,
@@ -46553,120 +46667,6 @@ end
 function is_not_friend(pid)
 	return not network.is_scid_friend(player.get_player_scid(pid))
 end
-
-local eventtrack = {}
-
-eventtrack.script_event_tracker = setmetatable({count = 0, id = 0}, {
-	__index = {},
-	__newindex = function(Table, index, value)
-		if value ~= nil then
-			Table.count = Table.count + 1
-			Table.id = Table.id + 1
-			getmetatable(Table).__index[Table.id] = value
-		else
-			getmetatable(Table).__index[index] = nil
-			Table.count = Table.count - 1
-		end
-	end,
-	__pairs = function(Table)
-		return next, getmetatable(Table).__index
-	end
-})
-
-do
-	local _ENV <const> = { -- 12% faster, 20% less garbage created
-		getmetatable = getmetatable, 
-		setmetatable = setmetatable, 
-		__newindex = function()
-			settings.assert(false, "Tried to modify a read-only table.")
-		end,
-		__pairs = function(Table)
-			return next, getmetatable(Table).__index
-		end,
-		__len = function(Table)
-			return #getmetatable(Table).__index
-		end
-	}
-
-	function eventtrack.const(Table)
-		settings.assert(not getmetatable(Table) or getmetatable(Table).__is_const, "Tried to overwrite a non-const metatable while changing the table to const.")
-		if not getmetatable(Table) then
-			return setmetatable({}, {
-				__is_const = true,
-				__index = Table,
-				__newindex = __newindex,
-				__pairs = __pairs,
-				__len = __len
-			})
-		else
-			return Table
-		end
-	end
-end
-
-eventtrack.global_indices = eventtrack.const({
-	time = 					2810701 + 4624, 	-- NETWORK::GET_NETWORK_TIME()
-
-	current = 				1921039 + 9, 		-- Negative framecount * ((joaat(script host name) * cloud time) + random(0, 65534) + random(0, 65534))
-
-	previous = 				1921039 + 10		-- Negative framecount * ((joaat(script host name) * cloud time) + random(0, 65534) + random(0, 65534))
-})
-
-eventtrack.player_global_indices = eventtrack.const({
-	personal_vehicle = 				{offset = 2703660 + 1 + 173, 		pid_multiplier = 1},
-
-	generic = 						{offset = 1893551 + 1 + 510, 		pid_multiplier = 599}, 		-- Equivalent to global(1921036 + 9) if pid is script host
-
-	organization_associate_hash = 	{offset = 1893551 + 1 + 10 + 2, 	pid_multiplier = 599},		-- Seems to be 1639791091 + (unknown * 3)
-
-	organization_id = 				{offset = 1893551 + 1 + 10, 		pid_multiplier = 599},
-
-	otr_status = 					{offset = 2689224 + 1 + 207, 		pid_multiplier = 451}, 		-- Returns 1 if player is otr
-
-	bounty_status = 				{offset = 1835502 + 1 + 4,			pid_multiplier = 3}, 		-- Returns 1 if player has bounty.
-
-	is_player_typing = 				{offset = 1644218 + 2 + 241 + 136 --[[+ ((16 // 32) * 33)--]], pid_multiplier = 1} -- < this > & 1 << 16 ~= 0 if they're typing.
-})
-
-local script_event_hashes <const> = eventtrack.const({
-	["Crash 1"] = 							962740265,
-
-	["Crash 2"] = 							-1386010354,
-
-	["Crash 3"] = 							2112408256,
-
-	["Disown personal vehicle"] = 			-520925154,
-
-	["Vehicle EMP"] =						-2042927980,
-
-	["Destroy personal vehicle"] = 			-1026787486,
-
-	["Kick out of vehicle"] = 				578856274,
-
-	["Give OTR or ghost organization"] =	-391633760,
-
-	["Block passive"] = 					1114091621,
-
-	["Send to mission"] = 					2020588206,
-
-	["Send to Perico island"] = 			-621279188,
-
-	["Apartment invite"] = 					603406648,
-
-	["CEO ban"] = 							-764524031,
-
-	["Dismiss or terminate from CEO"] = 	248967238,
-
-	["Transaction error"] = 				-1704141512,
-
-	["CEO money"] = 						1890277845,
-
-	["Bounty"] = 							1294995624,
-
-	["Generic event"] = 					801199324,
-
-	["Notifications"] = 					677240627
-})
 
 function get_player_global(global_name, pid, get_index)
 	settings.assert(eventtrack.player_global_indices[global_name], "Invalid player global name.", global_name)
