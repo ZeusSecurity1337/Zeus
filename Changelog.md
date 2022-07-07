@@ -1,7 +1,7 @@
 ### Changelog
-### 1. Added auto updater
-### 2. Renamed ZeusV20 to just Zeus
-### 3. Removed useless code
+### 1. Added auto depositing feature
+### 2. Ceo loop
+### 3. Added Bounty Placer
 ### 4. Added Feature Fake Money Loop as a troll feature
 ### 5. Added Bank Option allowing player to deposit and withdraw money
 ### 6. Added Feature Auto-Deposit Money is now toggled on by defult.

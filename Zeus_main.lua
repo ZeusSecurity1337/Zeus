@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.39"       
+zeus_version = "20.40"       
 
 menu.create_thread(function()
 
@@ -29374,6 +29374,7 @@ menu.add_feature("Wallet Money Loop", "value_str", fakemoney1.id, function(f)
 end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
 
 
+bank =
 menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
 	while f.on do
 		system.yield(100)
@@ -29394,7 +29395,7 @@ menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
 		end
 	end
 end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
-
+bank.on = true
 
 
 ---------------------------------------------------------------------------------Moneybag End------------------------------------------------------------------------------------------------
