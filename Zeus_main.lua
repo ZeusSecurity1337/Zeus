@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.37"       
+zeus_version = "20.38"       
 
 menu.create_thread(function()
 
@@ -16,6 +16,7 @@ local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\
 local text_func = require("Zeus/Lib/Text_Func")
 local natives = require("Zeus/Lib/Natives")
 local utilities = require("Zeus//Lib/Utils") 
+local enums = require("Zeus//Lib/Enums") 
 
 
 local paths <const> = {
@@ -24,7 +25,58 @@ local paths <const> = {
 paths.zeus = paths.home.."scripts\\Zeus\\"
 
 local settings <const> = {}
+settings.default = {}
 settings.in_use = {}
+settings.toggle = {}
+settings.user_entity_features = {
+	vehicle = {feats = {}, player_feats = {}},
+	ped = {feats = {}, player_feats = {}},
+	object = {feats = {}, player_feats = {}}
+}
+settings.drive_style_toggles = {}
+settings.valuei = {}
+settings.valuef = {}
+settings.hotkey_features = {}
+
+function settings:add_setting(...)
+	local properties <const> = ...
+	assert(type(properties.setting_name) == "string" and properties.setting ~= nil,
+		debug.traceback("Tried to initialize invalid default settings.", 2))
+	self.default[properties.setting_name] = properties.setting
+end
+
+for _, properties in pairs({
+	{
+		setting_name = "Translate chat into language",
+		setting = false
+	},
+	{
+		setting_name = "Translate chat into language option",
+		setting = 0
+	},
+	{
+		setting_name = "Translate chat into language what language",
+		setting = 0
+	},
+	{
+		setting_name = "Translate your messages into",
+		setting = false
+	},
+	{
+		setting_name = "Translate your messages into option",
+		setting = 0
+	},
+	{
+		setting_name = "Where to send translations",
+		setting = 0
+	},
+	{
+		setting_name = "Where to send your translated messages",
+		setting = 0
+	}
+}) do
+	settings:add_setting(properties)
+end
 
 -- Trusted Mode requeriment
 if menu.is_trusted_mode_enabled() then
@@ -56,6 +108,31 @@ function settings.assert(bool, msg, ...)
 		print(debug.traceback(msg, 2))
 		menu.notify(debug.traceback(msg, 2), "Error", 12, 0xff0000ff)
 		error(msg, 2)
+	end
+end
+
+function get_input(...)
+	local title <const>,
+	default <const>,
+	len <const>,
+	Type <const> = ...
+	settings.assert(math.type(len) == "integer"
+	and math.type(Type) == "integer"
+	and type(title) == "string"
+	and (type(default) == "string" or default == nil),
+		"Invalid arguments to get_input.", len, Type, title, default)
+	local Keys <const> = eventtrack.const(get_virtual_key_of_2take1_bind("MenuSelect"))
+	do_vk(10000, Keys)
+	local input_status, text = nil, ""
+	repeat
+		input_status, text = input.get(title, default or "", len, Type)
+		system.yield(0)
+	until input_status ~= 1
+	do_vk(10000, Keys)
+	if not text or input_status == 2 then
+		return "", 2
+	else
+		return text, 0
 	end
 end
 
@@ -28682,6 +28759,249 @@ function off()
 
 --Area Notify End
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Translate Start
+
+translate = menu.add_feature("Translate Chat", "parent", misc.id)
+
+local translatelib = {}
+
+translatelib.listeners = {
+	player_leave = {},
+	player_join = {},
+	chat = {},
+	exit = {}
+}
+
+function is_str(f, str)
+	return f.str_data[f.value + 1] == str
+end
+
+function split_string(str, size) 
+        settings.assert(size >= 4, "Failed to split string. Split size must be 4 or more.", str, size)
+        local strings <const> = {}
+        local pos, i, len <const> = 0, 1, #str
+        local find <const>, sub <const> = string.find, string.sub
+        local found_no_more_unicode = false
+        local start_pos, end_pos = math.mininteger, math.mininteger
+        repeat
+            local posz <const> = pos + size
+            if not found_no_more_unicode and posz > end_pos then
+                start_pos, end_pos = find(str, "[\0-\x7F\xC2-\xFD][\x80-\xBF]+", posz > 4 and posz - 4 or 1)
+                if not start_pos then
+                    found_no_more_unicode, end_pos, start_pos = true, math.mininteger, math.mininteger
+                end
+            end
+            strings[i] = sub(
+                str,
+                pos + 1, 
+                end_pos >= posz - 4 and end_pos <= posz and end_pos
+                or start_pos >= posz - 4 and start_pos <= posz and start_pos - 1 
+                or posz
+            )
+            pos = pos + #strings[i]
+            i = i + 1
+        until pos >= len
+        return strings
+    end
+
+do
+	local msg_queue <const> = {}
+	local id = 0
+	function send_message(...)
+		local text, team <const> = ...
+		if not utf8.len(text) then
+			text = text:gsub("[\0-\x7F\xC2-\xFD][\x80-\xBF]+", "")
+			text = text:gsub("[\x80-\xFF]", "")
+		end
+		local local_id = id + 1
+		id = local_id
+		msg_queue[#msg_queue + 1] = local_id
+		while msg_queue[1] ~= local_id do
+			system.yield(0)
+		end
+		local strings <const> = split_string(text, 255)
+		for i = 1, math.min(#strings, 50) do
+			network.send_chat_message(strings[i], team == true)
+			system.yield(100)
+		end
+		table.remove(msg_queue, 1)
+	end
+end
+
+function add_chat_event_listener(callback)
+	local tracker <const> = {}
+	return event.add_event_listener("chat", function(event)
+		if not tracker[event.player] then
+			tracker[event.player] = true
+			callback(event)
+			tracker[event.player] = false
+		end
+	end)
+end
+
+do
+	local unicode_escape <const> = function(unicode)
+		return utf8.char(tonumber(unicode, 16))
+	end
+	function translate_text(str, translate_from, translate_to)
+		str = str:gsub("[\n\r]+", "<code>0</code>")
+		local
+			status <const>,
+			str <const> = web.get("https://translate.googleapis.com/translate_a/single?client=gtx&sl="..translate_from.."&tl="..translate_to.."&dt=t&dj=1&source=input&q="..web.urlencode(str))
+		
+		if status ~= 200 then
+			return "REQUEST FAILED", "FAILED"
+		end
+
+		local detected_language <const> = str:match("\"src\":\"([^\"]+)\"")
+		local sentences <const> = {}
+		for sentence in str:gmatch("trans\":\"(.-)\",\"orig\":") do
+			sentences[#sentences + 1] = sentence
+		end
+		local translation = table.concat(sentences)
+		translation = translation:gsub("\\u(%x%x%x%x)", unicode_escape)
+		translation = translation:gsub(" <code> 0 </code> ", "\n")
+		translation = translation:gsub("\\(.)", "%1")
+		return translation, detected_language
+	end
+end
+do
+	local excluded_languages <const> = {}
+	local language_names = {}
+	for i = 1, #enums.supported_langs_by_google do
+		language_names[#language_names + 1] = enums.supported_langs_by_google[i]
+	end
+    settings.toggle["Translate chat into language"] = menu.add_feature("Translate chat", "value_str", translate.id, function(f)
+        if f.on then
+            if translatelib.listeners["chat"]["translate"] then
+                return
+            end
+            local tracker <const> = {} -- To prevent spamming requests at Google, 1 translation every 500ms per player.
+            translatelib.listeners["chat"]["translate"] = add_chat_event_listener(function(event)
+                if (settings.toggle["Translate your messages into"].on or event.player ~= player.player_id())
+                and event.body:find("^%P") -- chat commands
+                and player.is_player_valid(event.player)
+                and utils.time_ms() > (tracker[event.player] or 0) then
+                    local language_translate_into_setting = 
+                        enums.supported_langs_by_google_to_code[
+                            enums.supported_langs_by_google[settings.valuei["Translate chat into language what language"].value + 1]
+                        ]
+                    local str, detected_language
+                    if player.player_id() == event.player and settings.toggle["Translate your messages into"].on then
+                        language_translate_into_setting = enums.supported_langs_by_google_to_code[
+                            enums.supported_langs_by_google[settings.valuei["Translate your messages into option"].value + 1]
+                        ]
+                        str, detected_language = 
+                            translate_text(
+                                event.body, 
+                                "auto", 
+                                language_translate_into_setting
+                            )
+                    else
+                        str, detected_language = 
+                            translate_text(
+                                event.body, 
+                                "auto", 
+                                language_translate_into_setting
+                            )
+                    end
+                    tracker[event.player] = utils.time_ms() + 500
+                    if ((settings.toggle["Translate your messages into"].on and event.player == player.player_id()) or not excluded_languages[detected_language])
+                    and enums.supported_langs_by_google_to_name[detected_language]
+                    and player.is_player_valid(event.player) -- Translation can take enough time for the player to become invalid in that time
+                    and str:lower():gsub("%s", "") ~= event.body:lower():gsub("%s", "") then
+                        local str <const> = enums.supported_langs_by_google_to_name[detected_language].." > "..enums.supported_langs_by_google_to_name[language_translate_into_setting]..": "..str
+                        local is_team_chat = is_str(f, "Send to team chat")
+
+                        if event.player == player.player_id() and settings.toggle["Translate your messages into"].on then
+                            is_team_chat = is_str(settings.valuei["Where to send your translated messages"], "Send to team chat")
+                        end
+
+                        if is_str(settings.valuei["Where to send translations"], "To chat") 
+                        or (event.player == player.player_id() and settings.toggle["Translate your messages into"].on) then
+                            send_message(
+                                str, 
+                                is_team_chat
+                            )
+                        elseif player.player_id() ~= event.player then
+                            menu.notify("["..player.get_player_name(event.player).."]: "..str, 10, 0xffb700)
+                        end
+                    end
+                end
+            end)
+        else
+            event.remove_event_listener("chat", translatelib.listeners["chat"]["translate"])
+            translatelib.listeners["chat"]["translate"] = nil
+        end
+    end)
+    settings.toggle["Translate chat into language"]:set_str_data({
+        "Send to team chat",
+        "Send to all chat"
+    })
+
+    settings.toggle["Translate your messages into"] = menu.add_feature("Translate your messages into", "value_str", translate.id)
+    settings.valuei["Translate your messages into option"] = settings.toggle["Translate your messages into"]
+    settings.valuei["Translate your messages into option"]:set_str_data(language_names)
+
+    settings.valuei["Where to send your translated messages"] = menu.add_feature("Translate your messages", "action_value_str", translate.id)
+    settings.valuei["Where to send your translated messages"]:set_str_data({
+        "Send to all chat",
+        "Send to team chat"
+    })
+
+    local excluded_languages_from_translation <const> = menu.add_feature("Languages to not translate", "parent", translate.id)
+	for _, name in pairs(enums.supported_langs_by_google) do
+		local code <const> = enums.supported_langs_by_google_to_code[name]
+		settings:add_setting({
+			setting_name = "Excluded "..name.." from translation",
+			setting = false
+		})
+
+		settings.toggle["Excluded "..name.." from translation"] = menu.add_feature(name, "toggle", excluded_languages_from_translation.id, function(f)
+			excluded_languages[code] = f.on
+		end)
+	end
+
+    settings.valuei["Where to send translations"] = menu.add_feature("Where to send translations", "action_value_str", translate.id)
+	settings.valuei["Where to send translations"]:set_str_data({
+		"Notification",
+		"To chat"
+	})
+
+	settings.valuei["Translate chat into language option"] = settings.toggle["Translate chat into language"]
+
+	settings.valuei["Translate chat into language what language"] = menu.add_feature("Translate into", "action_value_str", translate.id)
+	settings.valuei["Translate chat into language what language"]:set_str_data(language_names)
+
+	for i = 1, 1 do
+		settings:add_setting(
+			{
+				setting_name = "Input text to translate to chat "..i,
+				setting = i - 1
+			}
+		)
+		settings.valuei["Input text to translate to chat "..i] = menu.add_feature("Translate Input", "action_value_str", translate.id, function(f)
+			local text <const>, status <const> = get_input("Type in what to translate.".. " ["..enums.supported_langs_by_google[f.value + 1].."]", "", 128, 0)
+			if status == 2 then
+				return
+			end
+			local str <const>, detected_language <const> = 
+				translate_text(
+					text, 
+					"auto", 
+					enums.supported_langs_by_google_to_code[enums.supported_langs_by_google[f.value + 1]]
+				)
+			send_message(
+				str, 
+				is_str(settings.toggle["Translate chat into language"], "Send to team chat")
+			)
+		end)
+		settings.valuei["Input text to translate to chat "..i]:set_str_data(language_names)
+	end
+end
+
+-- Translate End
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Start Info Help
 menu.add_feature(
    "Send clipboard to chat",
@@ -46455,6 +46775,190 @@ end):set_str_data({
 	"Anonymous",
 	"With your name"
 })
+
+local menu_keys_to_vk <const> = eventtrack.const({
+	["NUM5"] = 0x65,
+	["RETURN"] = 0x0D,
+	["CLEAR"] = 0xC,
+	["NUM0"] = 0x60,
+	["NUM1"] = 0x61,
+	["NUM2"] = 0x62,
+	["NUM3"] = 0x63,
+	["NUM4"] = 0x64,
+	["NUM6"] = 0x66,
+	["NUM7"] = 0x67,
+	["NUM8"] = 0x68,
+	["NUM9"] = 0x69,
+	["NUM+"] = 0xBB,
+	["NUM-"] = 0xBD,
+	["0"] = 0x30,
+	["1"] = 0x31,
+	["2"] = 0x32,
+	["3"] = 0x33,
+	["4"] = 0x34,
+	["5"] = 0x35,
+	["6"] = 0x36,
+	["7"] = 0x37,
+	["8"] = 0x38,
+	["9"] = 0x39,
+	["A"] = 0x41,
+	["B"] = 0x42,
+	["C"] = 0x43,
+	["D"] = 0x44,
+	["E"] = 0x45,
+	["F"] = 0x46,
+	["G"] = 0x47,
+	["H"] = 0x48,
+	["I"] = 0x49,
+	["J"] = 0x4A,
+	["K"] = 0x4B,
+	["L"] = 0x4C,
+	["M"] = 0x4D,
+	["N"] = 0x4E,
+	["O"] = 0x4F,
+	["P"] = 0x50,
+	["Q"] = 0x51,
+	["R"] = 0x52,
+	["S"] = 0x53,
+	["T"] = 0x54,
+	["U"] = 0x55,
+	["V"] = 0x56,
+	["W"] = 0x57,
+	["X"] = 0x58,
+	["Y"] = 0x59,
+	["Z"] = 0x5A,
+	["END"] = 0x23,
+	["F1"] = 0x70,
+	["F2"] = 0x71,
+	["F3"] = 0x72,
+	["F4"] = 0x73,
+	["F5"] = 0x74,
+	["F6"] = 0x75,
+	["F7"] = 0x76,
+	["F8"] = 0x77,
+	["F9"] = 0x78,
+	["F10"] = 0x79,
+	["F11"] = 0x7A,
+	["F12"] = 0x7B,
+	["LSHIFT"] = 0xA0,
+	["RSHIFT"] = 0xA1,
+	["LCONTROL"] = 0xA2,
+	["RCONTROL"] = 0xA3,
+	["NUMLOCK"] = 0x90,
+	["SCROLLLOCK"] = 0x91,
+	["BACKSPACE"] = 0x08,
+	["TAB"] = 0x09,
+	["ALT"] = 0x12,
+	["PAUSE"] = 0x13,
+	["PRINTSCREEN"] = 0x2C,
+	["INSERT"] = 0x2D,
+	["DELETE"] = 0x2E,
+	["PERIOD"] = 0xBE,
+	["COMMA"] = 0xBC,
+	["CAPSLOCK"] = 0x14,
+	["HOME"] = 0x24,
+	["QUESTIONMARK"] = 0xBF,
+	["~"] = 0xC0,
+	["ESCAPESEQ"] = 0xDC,
+	["APOSTROPHE"] = 0xDE,
+	["Æ"] = 0x28,
+	["Ø"] = 0x27,
+	["Å"] = 0x1A
+})
+
+function get_virtual_key_of_2take1_bind(...)
+	local bind_name <const> = ...
+	local file <close> = io.open(utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\2Take1Menu.ini")
+	settings.assert(io.type(file) == "file", "Failed to open 2Take1Menu.ini")
+	local Key = file:read("*a")
+	settings.assert(Key, "Failed to obtain virtual key from 2Take1Menu.ini.", Key)
+	Key = Key:match(bind_name.."=([%w_%+]+)\n")
+	local keys <const> = {}
+	for key in Key:gmatch("([_%w]+)%+?") do
+		for name, _ in pairs(menu_keys_to_vk) do
+			if name:upper() == key:upper() then
+				keys[#keys + 1] = menu_keys_to_vk[key:upper()]
+				break
+			end
+		end
+	end
+	return keys
+end
+
+function is_table_of_virtual_keys_all_pressed(...)
+	local keys <const> = ...
+	for i = 1, #keys do
+		local Key <const> = MenuKey()
+		Key:push_vk(keys[i])
+		if not Key:is_down_stepped() then
+			return false
+		end
+	end
+	return true
+end
+
+function do_vk(...)
+	local time, virtual_keys <const> = ...
+	time = utils.time_ms() + time
+	while is_table_of_virtual_keys_all_pressed(virtual_keys) and time > utils.time_ms() do
+		system.yield(0)
+	end
+end
+
+menu.add_feature("Set session bounty", "action_value_str", Troll2.id, function(f)
+	if f.value == 2 then
+		local input <const>, status <const> = get_input("Type in bounty amount", "", 5, 3)
+		if status == 2 then
+			return
+		end
+		settings.in_use["Bounty amount"] = input
+	else
+		for pid in zeusplayers() do
+			if is_not_friend(pid) then
+				set_bounty(pid, true, f.value == 0)
+			end
+		end
+	end
+end):set_str_data({
+	"Anonymous",
+	"With your name",
+	"Change amount"		
+})
+
+menu.add_feature("30k CEO Loop", "toggle", Troll2.id, function(f)
+	menu.create_thread(function()
+		while f.on do
+			for pid in zeusplayers() do
+				if get_player_global("organization_associate_hash", pid) ~= -1 then
+					send_script_event("CEO money", pid, {pid, 10000, -1292453789, 0, get_player_global("generic", pid), get_global("current"), get_global("previous")})
+				end
+			end
+			wait_conditional(20000, function() 
+				return f.on 
+			end)
+			if f.on then
+				for pid in zeusplayers() do
+					if get_player_global("organization_associate_hash", pid) ~= -1 then
+						send_script_event("CEO money", pid, {pid, 10000, -1292453789, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
+					end
+				end
+			end
+			wait_conditional(20000, function() 
+				return f.on 
+			end)
+		end
+	end, nil)
+	while f.on do
+		for pid in zeusplayers() do
+			if get_player_global("organization_associate_hash", pid) ~= -1 then
+				send_script_event("CEO money", pid, {pid, 30000, 198210293, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
+			end
+		end
+		wait_conditional(120000, function() 
+			return f.on 
+		end)
+	end
+end)
 
 
 menu.add_player_feature("Give Mc Donalds", "action", trolls.id, function(f, pid)
