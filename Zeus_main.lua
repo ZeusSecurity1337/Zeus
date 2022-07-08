@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.45"       
+zeus_version = "20.46"       
 
 menu.create_thread(function()
 
@@ -29354,49 +29354,26 @@ menu.add_feature("Display Current Balance", "toggle", fakemoney1.id, function(f)
 	natives.REMOVE_MULTIPLAYER_BANK_CASH()
 end)
 
-menu.add_feature("Wallet Money Loop", "value_str", fakemoney1.id, function(f)
-	while f.on do
-		system.yield(100)
-		if f.value == 0 then
-			natives.CHANGE_FAKE_MP_CASH(100000, 0)
-		elseif f.value == 1 then
-			natives.CHANGE_FAKE_MP_CASH(250000, 0)
-		elseif f.value == 2 then
-			natives.CHANGE_FAKE_MP_CASH(500000, 0)
-		elseif f.value == 3 then
-			natives.CHANGE_FAKE_MP_CASH(750000, 0)
-		elseif f.value == 4 then
-			natives.CHANGE_FAKE_MP_CASH(1000000, 0)
-		elseif f.value == 5 then
-			natives.CHANGE_FAKE_MP_CASH(2147483647, 0)
-		elseif f.value == 6 then
-			natives.CHANGE_FAKE_MP_CASH(math.random(2147483, 2147483647), 0)
-		end
-	end
-end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
+walletLoop = menu.add_feature("Wallet Money Loop", "toggle", fakemoney1.id, function(f)
+    if f.on then
+        while f.on do
+            system.yield(100)
+            natives.CHANGE_FAKE_MP_CASH(math.random(2147483, 2147483647), 0)
+        end
+    end
+end)
+walletLoop.on = true
 
 
-
-menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
-	while f.on do
-		system.yield(100)
-		if f.value == 0 then
-			natives.CHANGE_FAKE_MP_CASH(0, 100000)
-		elseif f.value == 1 then
-			natives.CHANGE_FAKE_MP_CASH(0, 250000)
-		elseif f.value == 2 then
-			natives.CHANGE_FAKE_MP_CASH(0, 500000)
-		elseif f.value == 3 then
-			natives.CHANGE_FAKE_MP_CASH(0, 750000)
-		elseif f.value == 4 then
-			natives.CHANGE_FAKE_MP_CASH(0, 1000000)
-		elseif f.value == 5 then
-			natives.CHANGE_FAKE_MP_CASH(0, 2147483647)
-		elseif f.value == 6 then
-			natives.CHANGE_FAKE_MP_CASH(0, math.random(2147483, 2147483647))
-		end
-	end
-end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
+bankmoneyLoop = menu.add_feature("Bank Money Loop", "toggle", fakemoney1.id, function(f)
+    if f.on then
+        while f.on do
+            system.yield(100)
+            natives.CHANGE_FAKE_MP_CASH(0, math.random(2147483, 2147483647))
+        end
+    end
+end)
+bankmoneyLoop.on = true
 
 
 
@@ -48525,5 +48502,50 @@ menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_versio
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
 require("Zeus/Lib/Animation")
+
+
+while true do
+    local totalSession = 0
+    local totalModder = 0
+    local totalDead = 0
+    local totalFriends = 0
+    for pid = 0, 31 do
+        if player.is_player_valid(pid) then
+            totalSession = totalSession+1
+            if player.is_player_modder(pid, -1) then
+                totalModder = totalModder+1
+            end
+            if entity.is_entity_dead(player.get_player_ped(pid)) then
+                totalDead = totalDead+1
+            end
+            if network.is_scid_friend(player.get_player_scid(pid)) then
+                totalFriends = totalFriends+1
+            end
+        end
+    end
+
+    ui.set_text_color(21, 255, 0, 255)
+    ui.set_text_scale(0.4)
+    ui.set_text_font(0)
+    ui.set_text_outline(true)
+    ui.draw_text(totalSession.." in Session", v2(0.92, 0))
+    ui.set_text_color(21, 255, 0, 255)
+    ui.set_text_scale(0.4)
+    ui.set_text_font(0)
+    ui.set_text_outline(true)
+    ui.draw_text(totalFriends.." friends in Session", v2(0.88, 0.025))
+    ui.set_text_color(21, 255, 0, 255)
+    ui.set_text_scale(0.4)
+    ui.set_text_font(0)
+    ui.set_text_outline(true)
+    ui.draw_text(totalModder.." Modder", v2(0.94, 0.050))
+    ui.set_text_color(21, 255, 0, 255)
+    ui.set_text_scale(0.4)
+    ui.set_text_font(0)
+    ui.set_text_outline(true)
+    ui.draw_text(totalDead.." Dead", v2(0.95, 0.075))
+    ui.draw_rect(0.95, 0.05, 0.15, 0.12, 0, 0, 0, 180)
+    system.yield(0)
+end
 
 end, nil)
