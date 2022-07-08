@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.44"       
+zeus_version = "20.45"       
 
 menu.create_thread(function()
 
@@ -48521,7 +48521,6 @@ local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\
     end 
 end)
 
-show_changelog()
 menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
