@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.47"       
+zeus_version = "20.49"       
 
 menu.create_thread(function()
 
@@ -11478,6 +11478,7 @@ function NET_GAMESERVER_TRANSFER_WALLET_TO_BANK(charSlot, amount)
     return native.call(0xC2F7FE5309181C7D, charSlot, amount)
 end   
 
+bankToWallet =
 menu.add_feature("Transfer All Bank To Wallet", "toggle", Bank.id, function(f)
     if f.on then
     	while f.on do
@@ -11494,7 +11495,9 @@ menu.add_feature("Transfer All Bank To Wallet", "toggle", Bank.id, function(f)
 		end
     end 
 end)
+bankToWallet.on = false
 
+walletToBank =
 menu.add_feature("Transfer All Wallet To Bank", "toggle", Bank.id, function(f)
     if f.on then
     	while f.on do
@@ -11511,6 +11514,7 @@ menu.add_feature("Transfer All Wallet To Bank", "toggle", Bank.id, function(f)
 		end
     end 
 end)
+walletToBank.on = true
 
 --Bank Options End
 
@@ -29354,26 +29358,48 @@ menu.add_feature("Display Current Balance", "toggle", fakemoney1.id, function(f)
 	natives.REMOVE_MULTIPLAYER_BANK_CASH()
 end)
 
-walletLoop = menu.add_feature("Wallet Money Loop", "toggle", fakemoney1.id, function(f)
-    if f.on then
-        while f.on do
-            system.yield(100)
-            natives.CHANGE_FAKE_MP_CASH(math.random(2147483, 2147483647), 0)
-        end
-    end
-end)
-walletLoop.on = true
+menu.add_feature("Wallet Money Loop", "value_str", fakemoney1.id, function(f)
+	while f.on do
+		system.yield(100)
+		if f.value == 0 then
+			natives.CHANGE_FAKE_MP_CASH(100000, 0)
+		elseif f.value == 1 then
+			natives.CHANGE_FAKE_MP_CASH(250000, 0)
+		elseif f.value == 2 then
+			natives.CHANGE_FAKE_MP_CASH(500000, 0)
+		elseif f.value == 3 then
+			natives.CHANGE_FAKE_MP_CASH(750000, 0)
+		elseif f.value == 4 then
+			natives.CHANGE_FAKE_MP_CASH(1000000, 0)
+		elseif f.value == 5 then
+			natives.CHANGE_FAKE_MP_CASH(2147483647, 0)
+		elseif f.value == 6 then
+			natives.CHANGE_FAKE_MP_CASH(math.random(2147483, 2147483647), 0)
+		end
+	end
+end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
 
 
-bankmoneyLoop = menu.add_feature("Bank Money Loop", "toggle", fakemoney1.id, function(f)
-    if f.on then
-        while f.on do
-            system.yield(100)
-            natives.CHANGE_FAKE_MP_CASH(0, math.random(2147483, 2147483647))
-        end
-    end
-end)
-bankmoneyLoop.on = true
+menu.add_feature("Bank Money Loop", "value_str", fakemoney1.id, function(f)
+	while f.on do
+		system.yield(100)
+		if f.value == 0 then
+			natives.CHANGE_FAKE_MP_CASH(0, 100000)
+		elseif f.value == 1 then
+			natives.CHANGE_FAKE_MP_CASH(0, 250000)
+		elseif f.value == 2 then
+			natives.CHANGE_FAKE_MP_CASH(0, 500000)
+		elseif f.value == 3 then
+			natives.CHANGE_FAKE_MP_CASH(0, 750000)
+		elseif f.value == 4 then
+			natives.CHANGE_FAKE_MP_CASH(0, 1000000)
+		elseif f.value == 5 then
+			natives.CHANGE_FAKE_MP_CASH(0, 2147483647)
+		elseif f.value == 6 then
+			natives.CHANGE_FAKE_MP_CASH(0, math.random(2147483, 2147483647))
+		end
+	end
+end):set_str_data({"$100k", "$250k", "$500k", "$750k", "$1000k", "2147483647", "Random"})
 
 
 
@@ -30084,6 +30110,59 @@ end):set_str_data({
 })
 --Rockstargames Chat End
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+overlay =
+menu.add_feature("Enable Overlay", "toggle", misc.id, function(f)
+    if f.on then
+        while f.on do
+            local totalSession = 0
+            local totalModder = 0
+            local totalFriends = 0
+            for pid = 0, 31 do
+                if player.is_player_valid(pid) then
+                    totalSession = totalSession+1
+                    if player.is_player_modder(pid, -1) then
+                        totalModder = totalModder+1
+                    end
+                    if network.is_scid_friend(player.get_player_scid(pid)) then
+                        totalFriends = totalFriends+1
+                    end
+                end
+            end
+
+            namehost = player.get_player_name(player.get_host())
+            nameSH = player.get_player_name(script.get_host_of_this_script())
+            ui.set_text_color(21, 255, 0, 255)
+            ui.set_text_scale(0.25)
+            ui.set_text_font(0)
+            ui.set_text_outline(true)
+            ui.draw_text(totalSession.." in Session", v2(0.45, 0))
+            ui.set_text_color(21, 255, 0, 255)
+            ui.set_text_scale(0.25)
+            ui.set_text_font(0)
+            ui.set_text_outline(true)
+            ui.draw_text(totalFriends.." friends in Session", v2(0.45, 0.015))
+            ui.set_text_color(21, 255, 0, 255)
+            ui.set_text_scale(0.25)
+            ui.set_text_font(0)
+            ui.set_text_outline(true)
+            ui.draw_text(totalModder.." Modder", v2(0.45, 0.03))
+            ui.set_text_color(21, 255, 0, 255)
+            ui.set_text_scale(0.25)
+            ui.set_text_font(0)
+            ui.set_text_outline(true)
+            ui.draw_text(namehost.." is Host", v2(0.45, 0.045))
+            ui.set_text_color(21, 255, 0, 255)
+            ui.set_text_scale(0.25)
+            ui.set_text_font(0)
+            ui.set_text_outline(true)
+            ui.draw_text(nameSH.." is Script Host", v2(0.45, 0.06))
+            ui.draw_rect(0.5, 0.038, 0.13, 0.1, 0, 0, 0, 180)
+            system.yield(0)
+        end
+    end
+end)
+overlay.on = true
+
 TP2 =
 menu.add_feature("Auto Waypoint Tp", "toggle", misc.id, function(f)
 	if f.on then
@@ -30183,8 +30262,8 @@ killtracker =
                                             else
                                                 menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Himself", "Kill Tracker", 4, 0x64FA7800)
                                             end
-                                        elseif pid ~= pid2 then
-                                            menu.notify("Player: " .. tostring(player.get_player_name(pid2)) .. "\nKilled: " .. tostring(player.get_player_name(pid)), "Kill Tracker", 4, 0x64FA7800)
+                                        elseif pid ~= pid2 then 
+                                            menu.notify(tostring(player.get_player_name(pid)).."has been killed by " .. tostring(player.get_player_name(pid2)) .. " with " .. weapon.get_weapon_name(ped.get_current_ped_weapon(player.get_player_ped(pid))), "Kill Tracker", 4, 0x64FA7800)
                                         end
                                     end
                                 end
@@ -48502,50 +48581,5 @@ menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_versio
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
 require("Zeus/Lib/Animation")
-
-
-while true do
-    local totalSession = 0
-    local totalModder = 0
-    local totalDead = 0
-    local totalFriends = 0
-    for pid = 0, 31 do
-        if player.is_player_valid(pid) then
-            totalSession = totalSession+1
-            if player.is_player_modder(pid, -1) then
-                totalModder = totalModder+1
-            end
-            if entity.is_entity_dead(player.get_player_ped(pid)) then
-                totalDead = totalDead+1
-            end
-            if network.is_scid_friend(player.get_player_scid(pid)) then
-                totalFriends = totalFriends+1
-            end
-        end
-    end
-
-    ui.set_text_color(21, 255, 0, 255)
-    ui.set_text_scale(0.4)
-    ui.set_text_font(0)
-    ui.set_text_outline(true)
-    ui.draw_text(totalSession.." in Session", v2(0.46, 0))
-    ui.set_text_color(21, 255, 0, 255)
-    ui.set_text_scale(0.4)
-    ui.set_text_font(0)
-    ui.set_text_outline(true)
-    ui.draw_text(totalFriends.." friends in Session", v2(0.443, 0.025))
-    ui.set_text_color(21, 255, 0, 255)
-    ui.set_text_scale(0.4)
-    ui.set_text_font(0)
-    ui.set_text_outline(true)
-    ui.draw_text(totalModder.." Modder", v2(0.47, 0.050))
-    ui.set_text_color(21, 255, 0, 255)
-    ui.set_text_scale(0.4)
-    ui.set_text_font(0)
-    ui.set_text_outline(true)
-    ui.draw_text(totalDead.." Dead", v2(0.476, 0.075))
-    ui.draw_rect(0.5, 0.05, 0.15, 0.12, 0, 0, 0, 180)
-    system.yield(0)
-end
 
 end, nil)
