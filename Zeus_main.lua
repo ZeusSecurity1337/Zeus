@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.49"       
+zeus_version = "20.50"       
 
 menu.create_thread(function()
 
@@ -30129,8 +30129,8 @@ menu.add_feature("Enable Overlay", "toggle", misc.id, function(f)
                 end
             end
 
-            namehost = player.get_player_name(player.get_host())
-            nameSH = player.get_player_name(script.get_host_of_this_script())
+            namehost = player.get_player_name(player.get_host()) or 'Unknown'
+            nameSH = player.get_player_name(script.get_host_of_this_script()) or 'Unknown'
             ui.set_text_color(21, 255, 0, 255)
             ui.set_text_scale(0.25)
             ui.set_text_font(0)
