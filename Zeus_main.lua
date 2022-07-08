@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.50"       
+zeus_version = "20.51"       
 
 menu.create_thread(function()
 
@@ -30263,7 +30263,9 @@ killtracker =
                                                 menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Himself", "Kill Tracker", 4, 0x64FA7800)
                                             end
                                         elseif pid ~= pid2 then 
-                                            menu.notify(tostring(player.get_player_name(pid)).."has been killed by " .. tostring(player.get_player_name(pid2)) .. " with " .. weapon.get_weapon_name(ped.get_current_ped_weapon(player.get_player_ped(pid))), "Kill Tracker", 4, 0x64FA7800)
+                                            weaponHash = ped.get_current_ped_weapon(player.get_player_ped(pid))
+                                            weaponName = weapon.get_weapon_name(weaponHash) or "Unknown"
+                                            menu.notify(tostring(player.get_player_name(pid)).."has been killed by " .. tostring(player.get_player_name(pid2)) .. " with " .. weaponName, "Kill Tracker", 4, 0x64FA7800)
                                         end
                                     end
                                 end
