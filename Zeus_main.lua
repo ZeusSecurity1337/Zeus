@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.42"       
+zeus_version = "20.43"       
 
 menu.create_thread(function()
 
@@ -303,6 +303,7 @@ function update_zeus()
 				"Message will disappear in 25 seconds\nTo Update again You will need to refresh and reset.", 
 				v2(0.5, 0.6)
 			)
+            ui.draw_rect(0.5, 0.5, 0.40, 0.25, 0, 0, 0, 180)
 			if utils.time_ms() > time or controls.is_control_pressed(0, 143) or controls.is_disabled_control_pressed(0, 143) then
 				return "Cancelled update"		
 			end
@@ -406,6 +407,7 @@ function show_changelog()
 			number_of_lines = number_of_lines + 1
 		end
 		local start_y_pos <const> = math.max(0, 0.5 - (number_of_lines * 0.01))
+		local blackbox_y <const> = (number_of_lines * 0.01) + 0.35
 		while not controls.is_control_pressed(0, 143) and not controls.is_disabled_control_pressed(0, 143) do
 			local y_offset_from_top = 0
 			for line in str:gmatch("[^\n]+") do
@@ -421,8 +423,9 @@ function show_changelog()
 			ui.set_text_font(0)
 			ui.set_text_outline(true)
 			ui.draw_text("Press SPACE to remove this message.", v2(0.3, start_y_pos + y_offset_from_top + 0.005))
-            ui.draw_rect(0.451, 0.511, 0.4, 0.3, 0, 0, 0, 180)
+            ui.draw_rect(0.47, 0.5, 0.45, blackbox_y, 0, 0, 0, 180)
 			system.yield(0)
+            menu.notify(blackbox_y)
 		end
 	end, nil)
 end
@@ -30184,44 +30187,46 @@ menu.add_feature("Rapid Respawn", "toggle", misc.id, function(f)
 end)
 RapidRespawn.on = false
 
---kill tracker
---killtracker =
---menu.add_feature("Kill Tracker", "toggle", misc.id, function(f, pid)
-	--if f.on then
-		--while f.on do
-			--system.yield(100)
-			--for pid = 0, 31 do
-				--if entity.is_entity_dead(player.get_player_ped(pid)) then
-					--if not IsPlayerDead[pid] then
-						--for pid2 = 0, 31 do
-							--if entity.has_entity_been_damaged_by_entity(player.get_player_ped(pid), player.get_player_ped(pid2)) then
-								--if player.is_player_valid(pid) and player.is_player_valid(pid2) then
-									--if pid == pid2 then
-										--if player.is_player_female(pid) then
-											--menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Her Self", "Kill Tracker", 4, 0x64FA7800)
-										--else
-											--menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Him Self", "Kill Tracker", 4, 0x64FA7800)
-										--end
-									--elseif pid ~= pid2 then
-										--menu.notify("Player: " .. tostring(player.get_player_name(pid2)) .. "\nKilled: " .. tostring(player.get_player_name(pid)), "Kill Tracker", 4, 0x64FA7800)
-									--end
-								--end
-							--end
-							--system.wait(0)
-						--end
-					--end
-					--IsPlayerDead[pid] = true
-					--IsPlayerAlive[pid] = false
-				--elseif not entity.is_entity_dead(player.get_player_ped(pid)) and IsPlayerDead[pid] then
-					--IsPlayerDead[pid] = false
-					--IsPlayerAlive[pid] = true
-				--end
-				--system.wait(0)
-			--end
-		--end
-	--end
---end)
---killtracker.on = true
+
+local IsPlayerDead = {}
+local IsPlayerAlive = {}
+killtracker =
+    menu.add_feature("Kill Tracker", "toggle", misc.id, function(f, pid)
+        if f.on then
+            while f.on do
+                system.yield(100)
+                for pid = 0, 31 do
+                    if entity.is_entity_dead(player.get_player_ped(pid)) then
+                        if not IsPlayerDead[pid] then
+                            for pid2 = 0, 31 do
+                                if entity.has_entity_been_damaged_by_entity(player.get_player_ped(pid), player.get_player_ped(pid2)) then
+                                    if player.is_player_valid(pid) and player.is_player_valid(pid2) then
+                                        if pid == pid2 then
+                                            if player.is_player_female(pid) then
+                                                menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Her Self", "Kill Tracker", 4, 0x64FA7800)
+                                            else
+                                                menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Him Self", "Kill Tracker", 4, 0x64FA7800)
+                                            end
+                                        elseif pid ~= pid2 then
+                                            menu.notify("Player: " .. tostring(player.get_player_name(pid2)) .. "\nKilled: " .. tostring(player.get_player_name(pid)), "Kill Tracker", 4, 0x64FA7800)
+                                        end
+                                    end
+                                end
+                                system.wait(0)
+                            end
+                        end
+                        IsPlayerDead[pid] = true
+                        IsPlayerAlive[pid] = false
+                    elseif not entity.is_entity_dead(player.get_player_ped(pid)) and IsPlayerDead[pid] then
+                        IsPlayerDead[pid] = false
+                        IsPlayerAlive[pid] = true
+                    end
+                    system.wait(0)
+                end
+            end
+        end
+    end)
+killtracker.on = true
 
 
 enableLog = 
@@ -48517,6 +48522,7 @@ local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\
     end 
 end)
 
+show_changelog()
 menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
