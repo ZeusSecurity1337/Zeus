@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.46"       
+zeus_version = "20.47"       
 
 menu.create_thread(function()
 
@@ -48528,23 +48528,23 @@ while true do
     ui.set_text_scale(0.4)
     ui.set_text_font(0)
     ui.set_text_outline(true)
-    ui.draw_text(totalSession.." in Session", v2(0.92, 0))
+    ui.draw_text(totalSession.." in Session", v2(0.46, 0))
     ui.set_text_color(21, 255, 0, 255)
     ui.set_text_scale(0.4)
     ui.set_text_font(0)
     ui.set_text_outline(true)
-    ui.draw_text(totalFriends.." friends in Session", v2(0.88, 0.025))
+    ui.draw_text(totalFriends.." friends in Session", v2(0.443, 0.025))
     ui.set_text_color(21, 255, 0, 255)
     ui.set_text_scale(0.4)
     ui.set_text_font(0)
     ui.set_text_outline(true)
-    ui.draw_text(totalModder.." Modder", v2(0.94, 0.050))
+    ui.draw_text(totalModder.." Modder", v2(0.47, 0.050))
     ui.set_text_color(21, 255, 0, 255)
     ui.set_text_scale(0.4)
     ui.set_text_font(0)
     ui.set_text_outline(true)
-    ui.draw_text(totalDead.." Dead", v2(0.95, 0.075))
-    ui.draw_rect(0.95, 0.05, 0.15, 0.12, 0, 0, 0, 180)
+    ui.draw_text(totalDead.." Dead", v2(0.476, 0.075))
+    ui.draw_rect(0.5, 0.05, 0.15, 0.12, 0, 0, 0, 180)
     system.yield(0)
 end
 
