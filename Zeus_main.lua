@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.43"       
+zeus_version = "20.44"       
 
 menu.create_thread(function()
 
@@ -303,7 +303,7 @@ function update_zeus()
 				"Message will disappear in 25 seconds\nTo Update again You will need to refresh and reset.", 
 				v2(0.5, 0.6)
 			)
-            ui.draw_rect(0.5, 0.5, 0.40, 0.25, 0, 0, 0, 180)
+            ui.draw_rect(0.5, 0.56, 0.5, 0.30, 0, 0, 0, 180)
 			if utils.time_ms() > time or controls.is_control_pressed(0, 143) or controls.is_disabled_control_pressed(0, 143) then
 				return "Cancelled update"		
 			end
@@ -425,7 +425,6 @@ function show_changelog()
 			ui.draw_text("Press SPACE to remove this message.", v2(0.3, start_y_pos + y_offset_from_top + 0.005))
             ui.draw_rect(0.47, 0.5, 0.45, blackbox_y, 0, 0, 0, 180)
 			system.yield(0)
-            menu.notify(blackbox_y)
 		end
 	end, nil)
 end
@@ -30203,9 +30202,9 @@ killtracker =
                                     if player.is_player_valid(pid) and player.is_player_valid(pid2) then
                                         if pid == pid2 then
                                             if player.is_player_female(pid) then
-                                                menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Her Self", "Kill Tracker", 4, 0x64FA7800)
+                                                menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Herself", "Kill Tracker", 4, 0x64FA7800)
                                             else
-                                                menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Him Self", "Kill Tracker", 4, 0x64FA7800)
+                                                menu.notify(tostring(player.get_player_name(pid2)) .. " Killed Himself", "Kill Tracker", 4, 0x64FA7800)
                                             end
                                         elseif pid ~= pid2 then
                                             menu.notify("Player: " .. tostring(player.get_player_name(pid2)) .. "\nKilled: " .. tostring(player.get_player_name(pid)), "Kill Tracker", 4, 0x64FA7800)
