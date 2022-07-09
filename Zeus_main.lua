@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.52"
+zeus_version = "20.53"
 
 menu.create_thread(function()
 
@@ -29044,7 +29044,7 @@ do
                                 is_team_chat
                             )
                         elseif player.player_id() ~= event.player then
-                            menu.notify("["..player.get_player_name(event.player).."]: "..str, 10, 0xffb700)
+                            menu.notify("["..player.get_player_name(event.player).."]: ", "",  10, 0xffb700)
                         end
                     end
                 end
@@ -30135,28 +30135,28 @@ menu.add_feature("Enable Overlay", "toggle", misc.id, function(f)
             ui.set_text_scale(0.25)
             ui.set_text_font(0)
             ui.set_text_outline(true)
-            ui.draw_text(totalSession.." in Session", v2(0.45, 0))
+            ui.draw_text(totalSession.." in Session", v2(0.9, 0.3))
             ui.set_text_color(21, 255, 0, 255)
             ui.set_text_scale(0.25)
             ui.set_text_font(0)
             ui.set_text_outline(true)
-            ui.draw_text(totalFriends.." friends in Session", v2(0.45, 0.015))
+            ui.draw_text(totalFriends.." friends in Session", v2(0.9, 0.315))
             ui.set_text_color(21, 255, 0, 255)
             ui.set_text_scale(0.25)
             ui.set_text_font(0)
             ui.set_text_outline(true)
-            ui.draw_text(totalModder.." Modder", v2(0.45, 0.03))
+            ui.draw_text(totalModder.." Modder", v2(0.9, 0.33))
             ui.set_text_color(21, 255, 0, 255)
             ui.set_text_scale(0.25)
             ui.set_text_font(0)
             ui.set_text_outline(true)
-            ui.draw_text(namehost.." is Host", v2(0.45, 0.045))
+            ui.draw_text(namehost.." is Host", v2(0.9, 0.345))
             ui.set_text_color(21, 255, 0, 255)
             ui.set_text_scale(0.25)
             ui.set_text_font(0)
             ui.set_text_outline(true)
-            ui.draw_text(nameSH.." is Script Host", v2(0.45, 0.06))
-            ui.draw_rect(0.5, 0.038, 0.13, 0.1, 0, 0, 0, 180)
+            ui.draw_text(nameSH.." is Script Host", v2(0.9, 0.36))
+            ui.draw_rect(0.95, 0.35, 0.12, 0.15, 0, 0, 0, 180)
             system.yield(0)
         end
     end
