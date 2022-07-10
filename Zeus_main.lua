@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.63"
+zeus_version = "20.64"
 
 menu.create_thread(function()
 
@@ -6471,7 +6471,7 @@ menu.add_feature("Safe RockStarGames Refund 5.1M", "toggle", money.id, function(
         script.set_global_i(1964179, 3)
         system.wait(3500)
         script.set_global_i(262145+22853 , 133377)
-        system.wait(4500)
+        system.wait(3500)
         script.set_global_i(1964179, 2)
         system.wait(3500)
         script.set_global_i(1964179, 1)
