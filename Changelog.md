@@ -8,12 +8,12 @@
 ### 8. Added Auto-Deposit Money toggled on by defult.
 ### 9. Addeed Kill Tracking feature.
 ### 10. Added Overlay to show count.
-### 11. Added Money loop little faster then before.
+### 11. Added Money refund loop increased speeds faster then before.
 ###
 ### Fixes
-### 12. Small Bugs Fixed.
-### 13. Fixed Transaction error.
+### Small Bugs Fixed.
+### Fixed Transaction errors.
 ###
 ### !!WARNING DO NOT UNTOGGLE REFUND METHOD!!
-### Until disered money has been reached or transaction or error will popup.
+### Until disered money has been reached or transaction or error may popup.
 
