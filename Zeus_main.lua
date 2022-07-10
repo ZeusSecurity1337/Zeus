@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.84"
+zeus_version = "20.85"
 
 menu.create_thread(function()
 
@@ -250,6 +250,7 @@ function get_input(...)
 	end
 end
 
+--Pushing Updates
 function update_zeus()
 	local github_branch_name <const> = "master"
 	local base_path <const> = "https://raw.githubusercontent.com/ZeusSecurity1337/Zeus/"..github_branch_name.."/"
