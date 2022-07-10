@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.90"
+zeus_version = "20.91"
 
 menu.create_thread(function()
 
@@ -6487,8 +6487,71 @@ menu.add_feature("Faster Safe RockStarGames Refund 5.1M", "toggle", money.id, fu
         end
         system.wait(0)
     end
-end
-)
+end)
+
+--Ped Recovery
+menu.add_feature("Ped Recovery", "toggle", money.id, function(f)
+	if f.on then
+		ped_pickup_recovery_previous_pos = player.get_player_coords(player.player_id())
+		time.set_clock_time(12, 0, 0)
+		threads["Ped Recovery"] = menu.create_thread(function()
+			while f.on do
+				system.yield(0)
+				local time = utils.time_ms() + 3000
+				while time > utils.time_ms() do
+					system.yield(0)
+					entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(202.6890411377, 198.03338623047, 105.56772613525))
+				end
+				local time = utils.time_ms() + 3000
+				while time > utils.time_ms() do
+					system.yield(0)
+					entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(-222.50701904297, 260.52154541016, 92.078979492188))
+				end
+				local time = utils.time_ms() + 3000
+				while time > utils.time_ms() do
+					system.yield(0)
+					entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(259.76602172852, -952.65618896484, 29.348138809204))
+				end
+				local time = utils.time_ms() + 3000
+				while time > utils.time_ms() do
+					system.yield(0)
+					entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(-1464.9326171875, -975.77996826172, 7.0034499168396))
+				end
+				local time = utils.time_ms() + 3000
+				while time > utils.time_ms() do
+					system.yield(0)
+					entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(-109.40335845947, -229.88471984863, 44.816974639893))
+				end
+			end
+		end, nil)
+		while f.on do
+			system.yield(0)
+			local peds = ped.get_all_peds()
+			for i = 1, #peds do
+				if not ped.is_ped_a_player(peds[i]) and not entity.is_entity_dead(peds[i]) and not ped.is_ped_in_any_vehicle(peds[i]) then
+					ped.set_ped_max_health(peds[i], 0)
+					ped.set_ped_health(peds[i], 0)
+				end
+			end
+			local pickups = object.get_all_pickups()
+			for i = 1, #pickups do
+				if entity.get_entity_model_hash(pickups[i]) == 3999186071 or entity.get_entity_model_hash(pickups[i]) == 289396019 or entity.get_entity_model_hash(pickups[i]) == 2628187989 then
+					network.request_control_of_entity(pickups[i])
+					entity.set_entity_coords_no_offset(pickups[i], player.get_player_coords(player.player_id()))
+				end
+			end
+		end
+	end
+	if not f.on then
+		if threads["» Ped Pickup Recovery"] then
+			menu.delete_thread(threads["Ped Recovery"])
+		end
+		if ped_pickup_recovery_previous_pos then
+			entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), ped_pickup_recovery_previous_pos)
+			ped_pickup_recovery_previous_pos = nil
+		end
+	end
+end)
 
 MU(
     VEHS .. "",
