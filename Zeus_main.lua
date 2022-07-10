@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.81"
+zeus_version = "20.82"
 
 menu.create_thread(function()
 
