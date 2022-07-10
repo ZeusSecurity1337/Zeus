@@ -9,6 +9,10 @@
 ### 9. Addeed Kill Tracking feature.
 ### 10. Added Overlay to show count.
 ### 11. Added Money refund loop increased speeds faster then before.
+### 12. Added Area Notification Location Explosion 
+### It now shows deatiled information about the player upon entering proximity.
+### When a player enters the proximity it will take weapons away temporarily.
+### When modders enter any location, they automatically get kicked from the lobby. 
 ###
 ### Fixes
 ### Small Bugs Fixed.

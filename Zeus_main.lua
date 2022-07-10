@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.87"
+zeus_version = "20.88"
 
 menu.create_thread(function()
 
@@ -12105,106 +12105,6 @@ notifi =
    end
 )
 
-excludeFriends =
-   menu.add_feature(
-   "Exclude Friends and Self",
-   "toggle",
-   notify.id,
-   function(toggle)
-       if toggle.on then
-           excludeFriends.on = true
-       else
-           excludeFriends.on = false
-       end
-   end
-)
-excludeFriends.on = true
-
-function explodeFunc(pid, modder)
-    local allweaponhashes = weapon.get_all_weapon_hashes()
-    for i = 1, #allweaponhashes do
-        weapon.remove_weapon_from_ped(player.get_player_ped(pid), allweaponhashes[i])
-        CD(5)
-    end
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
-    graphics.set_next_ptfx_asset("scr_xm_orbital")
-    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
-        graphics.request_named_ptfx_asset("scr_xm_orbital")
-        system.wait(0)
-    end
-    if modder > '0'  then
-        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-            -- do nothing to friend modder or self
-        else
-            if network.network_is_host() then
-                network.network_session_kick_player(pid)
-            elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
-                script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-            else
-                network.force_remove_player(pid)
-            end
-            system.wait(4000)
-        end
-    end
-    system.wait(5000)
-    for i, weapon_hash in pairs(weapon.get_all_weapon_hashes()) do
-        weapon.give_delayed_weapon_to_ped(player.get_player_ped(pid), weapon_hash, 0, 0)
-        found, maxAmmo = weapon.get_max_ammo(player.get_player_ped(pid), weapon_hash)
-        if (found) then
-            weapon.set_ped_ammo(player.get_player_ped(pid), weapon_hash, maxAmmo)
-        else
-            menu.notify("No Weapon with hash" .. weapon_hash .. "found", "Error", 5, 140)
-        end
-    end
-end
-
 --two
 block1 =
    menu.add_feature(
@@ -12212,10 +12112,10 @@ block1 =
    "toggle",
    notify.id,
    function(toggle)
-        while toggle.on do
-            for pid = 0, 32 do
+       while toggle.on do
+           for pid = 0, 32 do
                 player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -12286,33 +12186,76 @@ block1 =
                 n4 = math.floor((n - n1*(2^24) - n2*(2^16) - n3*(2^8)))
                 world_pos1 = v3(923.203 + 6, 47.584 + 6, 81.106 + 6)
                 world_pos2 = v3(923.203 - 6, 47.584 - 6, 81.106 - 6)
-                if
-                    (player_pos.x <= world_pos1.x) and (player_pos.y <= world_pos1.y) and (player_pos.z <= world_pos1.z) and
-                    (player_pos.x >= world_pos2.x) and
-                    (player_pos.y >= world_pos2.y) and
-                    (player_pos.z >= world_pos2.z)
+               if
+                   (player_pos.x <= world_pos1.x) and (player_pos.y <= world_pos1.y) and (player_pos.z <= world_pos1.z) and
+                       (player_pos.x >= world_pos2.x) and
+                       (player_pos.y >= world_pos2.y) and
+                       (player_pos.z >= world_pos2.z)
                 then
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
                     if modder > '0'  then
-                        menu.notify(players .." Is At The Casino's Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                    menu.notify(players .." Is At The Casino's Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
                         system.wait(20)
-                    else 
-                        menu.notify(players .." Is At The Casino's Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                      else 
+                    menu.notify(players .." Is At The Casino's Front Doorn \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
                         system.wait(20)
-                    end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
-                    end
-                end
-            end
-        system.wait(2)
-        end
+                      end
+               end
+           end
+           system.wait(2)
+       end
    end)
 
 
@@ -12325,70 +12268,71 @@ block2 =
        while toggle.on do
            for pid = 0, 32 do
                 --Area Notify Start
-                local wanted;
-                if getplayerwantedlevel == "0" then
-                    wanted = "Not Wanted"
-                elseif getplayerwantedlevel == "1" then
-                    wanted = "Wanted *"
-                elseif getplayerwantedlevel == "2" then
-                    wanted = "Wanted **"
-                elseif getplayerwantedlevel == "3" then
-                    wanted = "Wanted ***"
-                elseif getplayerwantedlevel == "4" then
-                    wanted = "Wanted ****"
-                elseif getplayerwantedlevel == "5" then
-                    wanted = "Wanted *****"
-                end
-                --Gender Male or Female
-                local gender;
 
-                if(isplayerfemale) then
-                gender = "Female"
-                else
-                gender = "Male"
-                end
-                ----------------------
-                --isplayerinanyvehicle yes or no
-                local vehicle;
+local wanted;
+if getplayerwantedlevel == "0" then
+    wanted = "Not Wanted"
+elseif getplayerwantedlevel == "1" then
+    wanted = "Wanted *"
+elseif getplayerwantedlevel == "2" then
+    wanted = "Wanted **"
+elseif getplayerwantedlevel == "3" then
+    wanted = "Wanted ***"
+elseif getplayerwantedlevel == "4" then
+    wanted = "Wanted ****"
+elseif getplayerwantedlevel == "5" then
+    wanted = "Wanted *****"
+end
+--Gender Male or Female
+local gender;
 
-                if(isplayerinanyvehicle) then
-                    vehicle = "Yes"
-                else
-                    vehicle = "No"
-                end
-                ----------------------
-                --Host Yes or No
-                local host;
+if(isplayerfemale) then
+gender = "Female"
+else
+gender = "Male"
+end
+----------------------
+--isplayerinanyvehicle yes or no
+local vehicle;
 
-                if(isplayerhost) then
-                    host = "Yes"
-                else
-                    host = "No"
-                end
-                ----------------------
+if(isplayerinanyvehicle) then
+    vehicle = "Yes"
+else
+    vehicle = "No"
+end
+----------------------
+--Host Yes or No
+local host;
 
-                --isplayerplaying Yes or No
-                local playing;
+if(isplayerhost) then
+    host = "Yes"
+else
+    host = "No"
+end
+----------------------
 
-                if(isplayerplaying) then
-                    playing = "Yes"
-                else
-                    playing = "No"
-                end
-                ----------------------
-                player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
-                scid = player.get_player_scid(pid)
-                ip = player.get_player_ip(pid)
-                isplayerhost = (player.is_player_host(pid))
-                isplayerplaying = (player.is_player_playing(pid))
-                modder = tostring(player.get_player_modder_flags(pid))
-                maxhealth = tostring(player.get_player_max_health(pid))
-                armour = tostring(player.get_player_armour(pid))
-                playergod = (player.is_player_god(pid))
-                isplayerfemale = (player.is_player_female(pid))
-                isplayerinanyvehicle = (player.is_player_in_any_vehicle(pid))
-                getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
+--isplayerplaying Yes or No
+local playing;
+
+if(isplayerplaying) then
+    playing = "Yes"
+else
+    playing = "No"
+end
+----------------------
+player_pos = player.get_player_coords(pid)
+players = player.get_player_name(pid)
+scid = player.get_player_scid(pid)
+ip = player.get_player_ip(pid)
+isplayerhost = (player.is_player_host(pid))
+isplayerplaying = (player.is_player_playing(pid))
+modder = tostring(player.get_player_modder_flags(pid))
+maxhealth = tostring(player.get_player_max_health(pid))
+armour = tostring(player.get_player_armour(pid))
+playergod = (player.is_player_god(pid))
+isplayerfemale = (player.is_player_female(pid))
+isplayerinanyvehicle = (player.is_player_in_any_vehicle(pid))
+getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                 n = tonumber(ip)
                 n1 = math.floor(n / (2^24))
                 n2 = math.floor((n - n1*(2^24)) / (2^16))
@@ -12397,32 +12341,75 @@ block2 =
                 world_pos1 = v3(933.399 + 6, -3.316 + 6, 78.764 + 6)
                 world_pos2 = v3(933.399 - 6, -3.316 - 6, 78.764 - 6)
 
-                if
-                (player_pos.x <= world_pos1.x) and (player_pos.y <= world_pos1.y) and (player_pos.z <= world_pos1.z) and
-                (player_pos.x >= world_pos2.x) and
-                (player_pos.y >= world_pos2.y) and
-                (player_pos.z >= world_pos2.z)
-                then
-                    if modder > '0'  then
-                        menu.notify(players .." Is At The Casino's Garage \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                            system.wait(20)
-                          else 
-                        menu.notify(players .." Is At The Casino's Garage \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                            system.wait(20)
-                          end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
+               if
+                   (player_pos.x <= world_pos1.x) and (player_pos.y <= world_pos1.y) and (player_pos.z <= world_pos1.z) and
+                       (player_pos.x >= world_pos2.x) and
+                       (player_pos.y >= world_pos2.y) and
+                       (player_pos.z >= world_pos2.z)
+                          then
+                            while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
                     end
-                end
-            end
-        system.wait(2)
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                            if modder > '0'  then
+                            menu.notify(players .." Is At The Casino's Garage \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                system.wait(20)
+                              else 
+                            menu.notify(players .." Is At The Casino's Garage \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                system.wait(20)
+                              end
+               end
+           end
+           system.wait(2)
        end
    end
 )
@@ -12487,7 +12474,7 @@ block3 =
                 end
                 ----------------------
                 player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -12513,23 +12500,66 @@ block3 =
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Casino's Music Locker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Casino's Music Locker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Casino's Music Locker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Casino's Music Locker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -12598,7 +12628,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -12624,23 +12654,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Rockford's Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Rockford's Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Rockford's Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Rockford's Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -12708,7 +12781,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -12734,23 +12807,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Vespucci's Canals Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Vespucci's Canals Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Vespucci's Canals Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Vespucci's Canals Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -12803,7 +12919,7 @@ block62 =
             end
             ----------------------
     player_pos = player.get_player_coords(pid)
-            players = tostring(player.get_player_name(pid))
+            players = player.get_player_name(pid)
             scid = player.get_player_scid(pid)
             ip = player.get_player_ip(pid)
             isplayerhost = (player.is_player_host(pid))
@@ -12829,23 +12945,66 @@ block62 =
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Little Seoul Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Little Seoul Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Little Seoul Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Little Seoul Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -12913,7 +13072,7 @@ block63 =
                 end
                 ----------------------
 		player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -12940,23 +13099,66 @@ block63 =
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Hawick's Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Hawick's Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Hawick's Agency Front Door \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Hawick's Agency Front Door \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13025,7 +13227,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -13051,23 +13253,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arena \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arena \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Arena \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arena \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13136,7 +13381,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -13162,23 +13407,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The PillBox's Hill Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The PillBox's Hill Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The HAWICK's Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The HAWICK's Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13247,7 +13535,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -13274,23 +13562,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Little Seoul's Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Little Seoul's Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The PillBox's Hill Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The PillBox's Hill Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13359,7 +13690,7 @@ block7 =
             end
             ----------------------
             player_pos = player.get_player_coords(pid)
-            players = tostring(player.get_player_name(pid))
+            players = player.get_player_name(pid)
             scid = player.get_player_scid(pid)
             ip = player.get_player_ip(pid)
             isplayerhost = (player.is_player_host(pid))
@@ -13385,23 +13716,66 @@ block7 =
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Little Seoul's Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Little Seoul's Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Little Seoul's Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Little Seoul's Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13470,7 +13844,7 @@ block8 =
             end
             ----------------------
     player_pos = player.get_player_coords(pid)
-            players = tostring(player.get_player_name(pid))
+            players = player.get_player_name(pid)
             scid = player.get_player_scid(pid)
             ip = player.get_player_ip(pid)
             isplayerhost = (player.is_player_host(pid))
@@ -13498,23 +13872,66 @@ block8 =
                        (player_pos.z >= world_pos2.z)
 
                           then
+                            while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                             if modder > '0'  then
-                                menu.notify(players .." Is At Morningwood's Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                    system.wait(20)
-                                  else 
-                                menu.notify(players .." Is At Morningwood's Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                    system.wait(20)
-                                  end
-        
-                            if excludeFriends.on then
-                                if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                    -- do nothing
-                                else
-                                    explodeFunc(pid, modder)
-                                end
-                            else
-                                explodeFunc(pid, modder)
-                            end
+                            menu.notify(players .." Is At Morningwood's Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                system.wait(20)
+                              else 
+                            menu.notify(players .." Is At Morningwood's Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                system.wait(20)
+                              end
                end
            end
            system.wait(2)
@@ -13584,7 +14001,7 @@ local wanted;
                 end
                 ----------------------
 		        player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -13610,23 +14027,66 @@ local wanted;
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                then
-                if modder > '0'  then
-                    menu.notify(players .." Is At The Chumash Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                    if modder > '0'  then
+                    menu.notify(players .." Is At The Cypress Flats Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
                         system.wait(20)
                       else 
-                    menu.notify(players .." Is At The Chumash Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                    menu.notify(players .." Is At The Cypress Flats Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
                         system.wait(20)
                       end
-
-                if excludeFriends.on then
-                    if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                        -- do nothing
-                    else
-                        explodeFunc(pid, modder)
-                    end
-                else
-                    explodeFunc(pid, modder)
-                end
                 end
            end
            system.wait(2)
@@ -13696,7 +14156,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -13723,23 +14183,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Chumash Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Chumash Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Chumash Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Chumash Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13808,7 +14311,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -13835,23 +14338,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Great Chaparral Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Great Chaparral Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Great Chaparral Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Great Chaparral Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -13920,7 +14466,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -13947,23 +14493,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Sandy Shores Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Sandy Shores Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Sandy Shores Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Sandy Shores Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14032,7 +14621,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14056,24 +14645,67 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.x >= world_pos2.x) and
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
-                    then
-                        if modder > '0'  then
-                            menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
+                              then
+                                while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
                     end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                                if modder > '0'  then
+                                menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                    system.wait(20)
+                                  else 
+                                menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                    system.wait(20)
+                                  end
                end
            end
            system.wait(2)
@@ -14141,7 +14773,7 @@ block14 =
                 end
                 ----------------------
 		player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -14167,23 +14799,66 @@ block14 =
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Paleto Bay Gun Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14252,7 +14927,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14278,23 +14953,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Pillbox Hill \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Pillbox Hill \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Pillbox Hill \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Pillbox Hill \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14363,7 +15081,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14390,23 +15108,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.z >= world_pos2.z)
 
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The LS CAR MEET \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LS CAR MEET \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The LS CAR MEET \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LS CAR MEET \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14475,7 +15236,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14501,23 +15262,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Del Perro Office \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Del Perro Office \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Del Perro Office \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Del Perro Office \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14586,7 +15390,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14613,23 +15417,67 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.z >= world_pos2.z)
 
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Del Perro Office Garage \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Del Perro Office Garage \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
+                        menu.notify(players .." Is At The Del Perro Office Garage \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Del Perro Office Garage \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
     
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
                end
            end
            system.wait(2)
@@ -14698,7 +15546,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14724,23 +15572,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is Is At The Reservoir Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is Is At The Reservoir Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is Is At The Reservoir Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is Is At The Reservoir Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14809,7 +15700,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14835,23 +15726,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Wind Farm Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Wind Farm Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Wind Farm Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Wind Farm Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -14920,7 +15854,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -14947,23 +15881,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -15032,7 +16009,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15058,23 +16035,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Facility 2 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Facility 2 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Facility 2 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Facility 2 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -15143,7 +16163,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15169,23 +16189,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Zanudo River Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Zanudo River Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Zanudo River Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Zanudo River Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -15254,7 +16317,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15280,23 +16343,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Sandy Shores Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Sandy Shores Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Sandy Shores Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Sandy Shores Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -15365,7 +16471,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15391,23 +16497,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                           then
+                            while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                             if modder > '0'  then
-                                menu.notify(players .." Is At The Lago Zancudo Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                    system.wait(20)
-                                  else 
-                                menu.notify(players .." Is At The Lago Zancudo Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                    system.wait(20)
-                                  end
-        
-                            if excludeFriends.on then
-                                if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                    -- do nothing
-                                else
-                                    explodeFunc(pid, modder)
-                                end
-                            else
-                                explodeFunc(pid, modder)
-                            end
+                            menu.notify(players .." Is At The Lago Zancudo Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                system.wait(20)
+                              else 
+                            menu.notify(players .." Is At The Lago Zancudo Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                system.wait(20)
+                              end
                end
            end
            system.wait(2)
@@ -15476,7 +16625,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15502,22 +16651,65 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                           then
+                            while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                             if modder > '0'  then
-                                menu.notify(players .." Is At The Paleto Bay Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                    system.wait(20)
-                                  else 
-                                menu.notify(players .." Is At The Paleto Bay Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                    system.wait(20)
-                                end
-        
-                            if excludeFriends.on then
-                                if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                    -- do nothing
-                                else
-                                    explodeFunc(pid, modder)
-                                end
-                            else
-                                explodeFunc(pid, modder)
+                            menu.notify(players .." Is At The Paleto Bay Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                system.wait(20)
+                              else 
+                            menu.notify(players .." Is At The Paleto Bay Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                system.wait(20)
                             end
                         end
                     end
@@ -15587,7 +16779,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15613,23 +16805,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                 then
-                    if modder > '0'  then
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                        if modder > '0'  then
                         menu.notify(players .." Is At The Mount Gordo Facility \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
                             system.wait(20)
                           else 
                         menu.notify(players .." Is At The Mount Gordo Facility \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
                             system.wait(20)
                           end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
-                    end
                end
            end
            system.wait(2)
@@ -15698,7 +16933,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15724,23 +16959,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Paleto Forest Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Paleto Forest Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Paleto Forest Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Paleto Forest Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -15809,7 +17087,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15835,23 +17113,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Raton Canyon Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Raton Canyon Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Raton Canyon Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Raton Canyon Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -15920,7 +17241,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -15946,23 +17267,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Grapeseed Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Grapeseed Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Grapeseed Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Grapeseed Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16031,7 +17395,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16057,23 +17421,67 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Lago Zancudo Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Lago Zancudo Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
+                        menu.notify(players .." Is At The Lago Zancudo Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Lago Zancudo Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
     
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
                end
            end
            system.wait(2)
@@ -16142,7 +17550,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16168,23 +17576,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Bunker \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Bunker \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16305,7 +17756,7 @@ local wanted;
                 end
                 ----------------------
 		player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -16331,23 +17782,66 @@ local wanted;
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Bunker 2 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Bunker 2 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Bunker 2 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Bunker 2 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16416,7 +17910,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16443,23 +17937,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.z >= world_pos2.z)
 
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Bunker 3 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Bunker 3 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Bunker 3 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Bunker 3 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16528,7 +18065,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16555,22 +18092,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                           then
+                            while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                             if modder > '0'  then
-                                menu.notify(players .." Is At The Senora Desert Bunker 4 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                    system.wait(20)
-                                  else 
-                                menu.notify(players .." Is At The Senora Desert Bunker 4 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                    system.wait(20)
-                                  end
-                            if excludeFriends.on then
-                                if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                    -- do nothing
-                                else
-                                    explodeFunc(pid, modder)
-                                end
-                            else
-                                explodeFunc(pid, modder)
-                            end
+                            menu.notify(players .." Is At The Senora Desert Bunker 4 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                system.wait(20)
+                              else 
+                            menu.notify(players .." Is At The Senora Desert Bunker 4 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                system.wait(20)
+                              end
                end
            end
            system.wait(2)
@@ -16639,7 +18220,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16665,23 +18246,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Bunker 5 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Bunker 5 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Bunker 5 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Bunker 5 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16750,7 +18374,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16776,23 +18400,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Senora Desert Bunker 6 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Senora Desert Bunker 6 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Senora Desert Bunker 6 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Senora Desert Bunker 6 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16861,7 +18528,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16887,23 +18554,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The 400k Apartment \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The 400k Apartment \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The 400k Apartment \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The 400k Apartment \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -16972,7 +18682,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -16998,23 +18708,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -17083,7 +18836,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17108,23 +18861,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The West Vinwood Nightclub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -17193,7 +18989,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17219,23 +19015,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                 then
-                    if modder > '0'  then
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                        if modder > '0'  then
                         menu.notify(players .." Is At The Del Perror NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
                             system.wait(20)
                           else 
                         menu.notify(players .." Is At The Del Perror NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
                             system.wait(20)
                           end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
-                    end
                end
            end
            system.wait(2)
@@ -17303,7 +19142,7 @@ block41 =
                 end
                 ----------------------
 		player_pos = player.get_player_coords(pid)
-                players = tostring(player.get_player_name(pid))
+                players = player.get_player_name(pid)
                 scid = player.get_player_scid(pid)
                 ip = player.get_player_ip(pid)
                 isplayerhost = (player.is_player_host(pid))
@@ -17329,23 +19168,66 @@ block41 =
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Canals NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Canals NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Canals NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Canals NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -17414,7 +19296,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17440,23 +19322,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Mission Row NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Mission Row NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Mission Row NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Mission Row NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -17525,7 +19450,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17551,23 +19476,67 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Strawberry NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Strawberry NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Strawberry NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Strawberry NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
+
                end
            end
            system.wait(2)
@@ -17636,7 +19605,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17662,23 +19631,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The La Mesa NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The La Mesa NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The La Mesa NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The La Mesa NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -17747,7 +19759,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17773,24 +19785,68 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.x >= world_pos2.x) and
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
-                    then
-                        if modder > '0'  then
+                          then
+                            while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                            if modder > '0'  then
                             menu.notify(players .." Is At The Cypress Flats NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
                                 system.wait(20)
                               else 
                             menu.notify(players .." Is At The Cypress Flats NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
                                 system.wait(20)
                               end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
-                    end
+        
                end
            end
            system.wait(2)
@@ -17859,7 +19915,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17885,23 +19941,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The LSIA NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LSIA NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The LSIA NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LSIA NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -17970,7 +20069,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -17996,23 +20095,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                   then
-                    if modder > '0'  then
-                        menu.notify(players .." Is At The Elysian Island NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                            system.wait(20)
-                          else 
-                        menu.notify(players .." Is At The Elysian Island NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                            system.wait(20)
-                          end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
                     end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                    if modder > '0'  then
+                    menu.notify(players .." Is At The Elysian Island NightClub \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                        system.wait(20)
+                      else 
+                    menu.notify(players .." Is At The Elysian Island NightClub \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                        system.wait(20)
+                      end
                end
            end
            system.wait(2)
@@ -18081,7 +20223,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18105,24 +20247,67 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.x >= world_pos2.x) and
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
-                    then
-                        if modder > '0'  then
-                            menu.notify(players .." Is At The LSCM Rancho \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LSCM Rancho \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
+                      then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
                     end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                        if modder > '0'  then
+                        menu.notify(players .." Is At The LSCM Rancho \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LSCM Rancho \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18191,7 +20376,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18217,23 +20402,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The LSCM Strayberry \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LSCM Strayberry \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The LSCM Strayberry \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LSCM Strayberry \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18302,7 +20530,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18328,23 +20556,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The LSCM Misson Row \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LSCM Misson Row \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The LSCM Misson Row \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LSCM Misson Row \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18413,7 +20684,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18439,23 +20710,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The LSCM La Mesa \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LSCM La Mesa \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The LSCM La Mesa \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LSCM La Mesa \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18524,7 +20838,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18550,23 +20864,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The LSCM Burton \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The LSCM Burton \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The LSCM Burton \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The LSCM Burton \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18635,7 +20992,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18661,23 +21018,67 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arcade Davis \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arcade Davis \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
+                        menu.notify(players .." Is At The Arcade Davis \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arcade Davis \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
     
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
                end
            end
            system.wait(2)
@@ -18746,7 +21147,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18772,23 +21173,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arcade La Mesa \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arcade La Mesa \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Arcade La Mesa \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arcade La Mesa \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18857,7 +21301,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18884,23 +21328,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.z >= world_pos2.z)
 
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arcade Vinewood \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arcade Vinewood \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Arcade Vinewood \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arcade Vinewood \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -18969,7 +21456,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -18996,23 +21483,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.z >= world_pos2.z)
 
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arcade Rockford Hills \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arcade Rockford Hills \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Arcade Rockford Hills \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arcade Rockford Hills \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19081,7 +21611,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19107,23 +21637,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arcade Paleto Bay \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arcade Paleto Bay \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Arcade Grapeseed \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arcade Grapeseed \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19192,7 +21765,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19218,23 +21791,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At The Arcade Paleto Bay \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At The Arcade Paleto Bay \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At The Arcade Paleto Bay \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At The Arcade Paleto Bay \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19303,7 +21919,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19329,23 +21945,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Vinewood Weed \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Vinewood Weed \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Vinewood Weed \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Vinewood Weed \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19415,7 +22074,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19441,23 +22100,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Elysian island Coke \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Elysian island Coke \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Elysian island Coke \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Elysian island Coke \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19527,7 +22229,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19553,23 +22255,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At El Burro Meth \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At El Burro Meth \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At El Burro Meth \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At El Burro Meth \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19639,7 +22384,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19665,23 +22410,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Textile Forgery \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Textile Forgery \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Textile Forgery \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Textile Forgery \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19751,7 +22539,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19777,23 +22565,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Cash Factory \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Cash Factory \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Cash Factory \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Cash Factory \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19864,7 +22695,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -19890,23 +22721,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Senora Club Business \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Senora Club Business \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Senora Club Business \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Senora Club Business \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -19977,7 +22851,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20003,23 +22877,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Sandy Shores Tattoo Parlor \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Sandy Shores Tattoo Parlor \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Sandy Shores Tattoo Parlor \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Sandy Shores Tattoo Parlor \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20090,7 +23007,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20116,23 +23033,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Sandy Shores Barber Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Sandy Shores Barber Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Sandy Shores Barber Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Sandy Shores Barber Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20203,7 +23163,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20229,23 +23189,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Sandy Shores Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Sandy Shores Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Sandy Shores Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Sandy Shores Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20316,7 +23319,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20342,23 +23345,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Sandy Shores Store 2 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Sandy Shores Store 2 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Sandy Shores Store 2 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Sandy Shores Store 2 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20428,7 +23474,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20454,23 +23500,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Harmony Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Harmony Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Harmony Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Harmony Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20541,7 +23630,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20567,23 +23656,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is Harmony Clothes Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Harmony Clothes Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is Harmony Clothes Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Harmony Clothes Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20654,7 +23786,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20680,23 +23812,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is Senora Desert Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Senora Desert Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is Senora Desert Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Senora Desert Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20767,7 +23942,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20793,23 +23968,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is Senora Desert Discount Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Senora Desert Discount Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is Senora Desert Discount Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Senora Desert Discount Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20880,7 +24098,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -20906,23 +24124,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Senora Desert LS Customs \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Senora Desert LS Customs \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Senora Desert LS Customs \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Senora Desert LS Customs \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -20994,7 +24255,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21020,23 +24281,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Senora Desert Store 1 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Senora Desert Store 1 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Senora Desert Store 1 \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Senora Desert Store 1 \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21107,7 +24411,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21133,23 +24437,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Grapeseed Cloth Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Grapeseed Cloth Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Grapeseed Cloth Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Grapeseed Cloth Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21219,7 +24566,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21245,23 +24592,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Grapeseed Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Grapeseed Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Grapeseed Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Grapeseed Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21332,7 +24722,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21358,23 +24748,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Mount Chiliad Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Mount Chiliad Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Mount Chiliad Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Mount Chiliad Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21445,7 +24878,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21471,23 +24904,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Paleto Bay Garage \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Paleto Bay Garage \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Paleto Bay Garage \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Paleto Bay Garage \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21558,7 +25034,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21584,23 +25060,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Paleto Discount Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Paleto Discount Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Paleto Discount Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Paleto Discount Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21671,7 +25190,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21697,23 +25216,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Paleto Barber Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Paleto Barber Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Paleto Barber Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Paleto Barber Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21784,7 +25346,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21810,23 +25372,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Paleto Barber Tatto Parlor \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Paleto Barber Tatto Parlor \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Paleto Barber Tatto Parlor \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Paleto Barber Tatto Parlor \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -21898,7 +25503,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -21924,23 +25529,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Paleto Gun Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Paleto Gun Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Paleto Gun Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Paleto Gun Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22011,7 +25659,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22037,23 +25685,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22124,7 +25815,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22150,23 +25841,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Chumash Tattoo Parlor \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Chumash Tattoo Parlor \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Chumash Tattoo Parlor \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Chumash Tattoo Parlor \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22237,7 +25971,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22263,23 +25997,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Chumash Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22350,7 +26127,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22376,23 +26153,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Canyon Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Canyon Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Canyon Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Canyon Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22463,7 +26283,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22489,23 +26309,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Ocean HWY Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Ocean HWY Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Ocean HWY Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Ocean HWY Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22577,7 +26440,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22603,23 +26466,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Morningwood Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Morningwood Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Morningwood Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Morningwood Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22689,7 +26595,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22715,23 +26621,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Morningwood Cloths Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Morningwood Cloths Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Morningwood Cloths Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Morningwood Cloths Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22803,7 +26752,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22829,23 +26778,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Del Perro Cloths Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Del Perro Cloths Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Del Perro Cloths Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Del Perro Cloths Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -22916,7 +26908,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -22942,23 +26934,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Vespucci Cloths Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Vespucci Cloths Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Vespucci Cloths Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Vespucci Cloths Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23029,7 +27064,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23055,23 +27090,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Benny's Chop Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Benny's Chop Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Benny's Chop Shop \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Benny's Chop Shop \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23142,7 +27220,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23168,23 +27246,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Strawberry Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Strawberry Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Strawberry Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Strawberry Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23256,7 +27377,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23282,23 +27403,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Strawberry Cloth Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Strawberry Cloth Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Strawberry Cloth Store \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Strawberry Cloth Store \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23369,7 +27533,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23395,23 +27559,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Strawberry Strip Club \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Strawberry Strip Club \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Strawberry Strip Club \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Strawberry Strip Club \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23481,7 +27688,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23507,23 +27714,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is Going To Cayo Perico \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is Going To Cayo Perico \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is Going To Cayo Perico \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is Going To Cayo Perico \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23592,7 +27842,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23618,23 +27868,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Cayo Perico Beach Party \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Cayo Perico Beach Party \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Cayo Perico Beach Party \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Cayo Perico Beach Party \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23702,7 +27995,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23728,6 +28021,59 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
                         menu.notify(players .." Is at Cayo Beach Dancing. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
                             system.wait(20)
@@ -23735,16 +28081,6 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                         menu.notify(players .." Is at Cayo Beach Dancing. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
                             system.wait(20)
                           end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
                end
            end
            system.wait(2)
@@ -23813,7 +28149,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23839,23 +28175,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is Now Leaving Cayo Perico. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is Now Leaving Cayo Perico. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is Now Leaving Cayo Perico. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is Now Leaving Cayo Perico. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -23925,7 +28304,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -23951,23 +28330,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
                         if modder > '0'  then
-                            menu.notify(players .." Is At Cypress Flats Gun Store. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Cypress Flats Gun Store. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
+                        menu.notify(players .." Is At Cypress Flats Gun Store. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At Cypress Flats Gun Store. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -24037,7 +28459,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -24141,7 +28563,7 @@ else
 end
 ----------------------
 player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
+players = player.get_player_name(pid)
 scid = player.get_player_scid(pid)
 ip = player.get_player_ip(pid)
 isplayerhost = (player.is_player_host(pid))
@@ -24167,133 +28589,66 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
                        (player_pos.y >= world_pos2.y) and
                        (player_pos.z >= world_pos2.z)
                       then
-                        if modder > '0'  then
-                            menu.notify(players .." Is At LS Custom Burton. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At LS Custom Burton. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-    
-                        if excludeFriends.on then
-                            if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                                -- do nothing
-                            else
-                                explodeFunc(pid, modder)
-                            end
-                        else
-                            explodeFunc(pid, modder)
-                        end
-               end
-           end
-           system.wait(2)
-       end
-   end)
-
-   block108 =
-   menu.add_feature(
-   "Prison Nuke",
-   "toggle",
-   notify.id,
-   function(toggle)
-       while toggle.on do
-           for pid = 0, 32 do
-            
-local wanted;
-if getplayerwantedlevel == "0" then
-    wanted = "Not Wanted"
-elseif getplayerwantedlevel == "1" then
-    wanted = "Wanted *"
-elseif getplayerwantedlevel == "2" then
-    wanted = "Wanted **"
-elseif getplayerwantedlevel == "3" then
-    wanted = "Wanted ***"
-elseif getplayerwantedlevel == "4" then
-    wanted = "Wanted ****"
-elseif getplayerwantedlevel == "5" then
-    wanted = "Wanted *****"
-end
---Gender Male or Female
-local gender;
-
-if(isplayerfemale) then
-gender = "Female"
-else
-gender = "Male"
-end
-----------------------
---isplayerinanyvehicle yes or no
-local vehicle;
-
-if(isplayerinanyvehicle) then
-    vehicle = "Yes"
-else
-    vehicle = "No"
-end
-----------------------
---Host Yes or No
-local host;
-
-if(isplayerhost) then
-    host = "Yes"
-else
-    host = "No"
-end
-----------------------
-
---isplayerplaying Yes or No
-local playing;
-
-if(isplayerplaying) then
-    playing = "Yes"
-else
-    playing = "No"
-end
-----------------------
-player_pos = player.get_player_coords(pid)
-players = tostring(player.get_player_name(pid))
-scid = player.get_player_scid(pid)
-ip = player.get_player_ip(pid)
-isplayerhost = (player.is_player_host(pid))
-isplayerplaying = (player.is_player_playing(pid))
-modder = tostring(player.get_player_modder_flags(pid))
-maxhealth = tostring(player.get_player_max_health(pid))
-armour = tostring(player.get_player_armour(pid))
-playergod = (player.is_player_god(pid))
-isplayerfemale = (player.is_player_female(pid))
-isplayerinanyvehicle = (player.is_player_in_any_vehicle(pid))
-getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
-            n = tonumber(ip)
-            n1 = math.floor(n / (2^24))
-            n2 = math.floor((n - n1*(2^24)) / (2^16))
-            n3 = math.floor((n - n1*(2^24) - n2*(2^16)) / (2^8))
-            n4 = math.floor((n - n1*(2^24) - n2*(2^16) - n3*(2^8)))
-            world_pos1 = v3(967.658 + 6, -1021.516 + 6, 40.847 + 6)
-            world_pos2 = v3(967.658 - 6, -1021.516 - 6, 40.847 - 6)
-
-               if
-                   (player_pos.x <= world_pos1.x) and (player_pos.y <= world_pos1.y) and (player_pos.z <= world_pos1.z) and
-                       (player_pos.x >= world_pos2.x) and
-                       (player_pos.y >= world_pos2.y) and
-                       (player_pos.z >= world_pos2.z)
-                      then
-                        if modder > '0'  then
-                            menu.notify(players .." Is At Prison. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
-                                system.wait(20)
-                              else 
-                            menu.notify(players .." Is At Prison. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
-                                system.wait(20)
-                              end
-
-                    if excludeFriends.on then
-                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-                            -- do nothing
-                        else
-                            explodeFunc(pid, modder)
-                        end
-                    else
-                        explodeFunc(pid, modder)
+                        while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
                     end
+                    fire.add_explosion(player.get_player_coords(pid), 59, true, false, 5, player.get_player_ped(pid))
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end
+                    graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", player.get_player_coords(pid), player.get_player_coords(pid), 4.5, true, true, true)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+                    while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+                        graphics.request_named_ptfx_asset("scr_xm_orbital")
+                        system.wait(0)
+                    end 
+                        if modder > '0'  then
+                        menu.notify(players .." Is At LS Custom Burton. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                            system.wait(20)
+                          else 
+                        menu.notify(players .." Is At LS Custom Burton. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                            system.wait(20)
+                          end
                end
            end
            system.wait(2)
@@ -24408,7 +28763,7 @@ function on()
    block105.on = true
    block106.on = true
    block107.on = true
-   block108.on = true
+
 end
 notifi.on = false
 
@@ -24520,7 +28875,7 @@ function off()
     block105.on = false
     block106.on = false
     block107.on = false
-    block108.on = false
+ 
  end
  notifi.on = false
 
@@ -41634,7 +45989,7 @@ end):set_str_data({"Rockets", "Grenades", "Smoke Grenades", "Molotovs", "Firewor
 
 menu.add_player_feature("Rain Cow Shit", "toggle", trolls.id, function(f, pid)
 	if f.on then
-        menu.notify("Raining Cow Shit On\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 11, 0x000dff)
+        menu.notify("Raining Cow Shit On\n" .. player.get_player_name(pid), troll_menu_ver, 11, 0x000dff)
 		menu.create_thread(function()
 			local object_ = object.create_object(2223607550, player.get_player_coords(pid) + v3(math.random(-20, 20), math.random(-20, 20), math.random(20, 30)), true, true)
 			entity.apply_force_to_entity(object_, 3, 0, 0, -10, 0.0, 0.0, 0.0, true, true)
@@ -41650,7 +46005,7 @@ end)
 
 --Fun
 menu.add_player_feature("Suffocate George Floyd", "toggle", trolls.id, function(playerfeat, pid)
-    menu.notify("Suffocating " .. tostring(player.get_player_name(pid)), troll_menu_ver)
+    menu.notify("Suffocating " .. player.get_player_name(pid), troll_menu_ver)
     ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
 
     local cage = object.create_object(251770068, player.get_player_coords(pid) - v3(0, 0, 2.6), true, false)
@@ -41669,7 +46024,7 @@ end)
 
 
 menu.add_player_feature("Steam", "toggle", trolls.id, function(playerfeat_toggle, pid)
-    menu.notify("Blasting " .. tostring(player.get_player_name(pid)) .. " around with steam", troll_menu_ver)
+    menu.notify("Blasting " .. player.get_player_name(pid) .. " around with steam", troll_menu_ver)
     while playerfeat_toggle.on do
         fire.add_explosion(player.get_player_coords(pid) - v3(0, 0, 1), 11, true, false, 0, pid)
         system.wait(0)
@@ -41678,7 +46033,7 @@ end)
 
 -- Noahs Floods
 menu.add_player_feature("Noahs Flood", "toggle", trolls.id, function(playerfeat_toggle, pid)
-    menu.notify("Giving " .. tostring(player.get_player_name(pid)) .. " a once in a century flood", troll_menu_ver, 10, 2)
+    menu.notify("Giving " .. player.get_player_name(pid) .. " a once in a century flood", troll_menu_ver, 10, 2)
     while playerfeat_toggle.on do
          pos = player.get_player_coords(pid)
         pos.z = pos.z -1
@@ -41689,7 +46044,7 @@ end)
 
 --Eternal Lake of Fire
 menu.add_player_feature("Eternal Lake of Fire", "toggle", trolls.id, function(playerfeat_toggle, pid)
-    menu.notify("Throwing " .. tostring(player.get_player_name(pid)) .. " Lake of Fire", troll_menu_ver, 10, 2)
+    menu.notify("Throwing " .. player.get_player_name(pid) .. " Lake of Fire", troll_menu_ver, 10, 2)
     while playerfeat_toggle.on do
          pos = player.get_player_coords(pid)
         pos.z = pos.z -1
@@ -41847,11 +46202,11 @@ menu.add_player_feature(
 -- Cause a player's vehicle to slip on Ice
 menu.add_player_feature("Icey Driving", "toggle", trolls.id, function(playerfeat, pid)
     if (player.is_player_in_any_vehicle(pid)) then
-        menu.notify("Caused " .. tostring(player.get_player_name(pid)) .. "'s vehicle to slip on Ice", troll_menu_ver, 10, 2)
+        menu.notify("Caused " .. player.get_player_name(pid) .. "'s vehicle to slip on Ice", troll_menu_ver, 10, 2)
          pos = player.get_player_coords(pid)
         fire.add_explosion(pos, 67, true, false, 0, pid)
     else
-        menu.notify(tostring(player.get_player_name(pid)) .. " is not in a vehicle", troll_menu_ver, 10, 2)
+        menu.notify(player.get_player_name(pid) .. " is not in a vehicle", troll_menu_ver, 10, 2)
     end
 end)
 
@@ -41882,7 +46237,7 @@ menu.add_player_feature("Cosmetic Bleed Out", "toggle", trolls.id, function(play
 end)
 
 menu.add_player_feature("Blind Player", "toggle", trolls.id, function(playerfeat_toggle, pid)
-    menu.notify("Blinding " .. tostring(player.get_player_name(pid)), troll_menu_ver)
+    menu.notify("Blinding " .. player.get_player_name(pid), troll_menu_ver)
 
     local ptfx_loaded = false
     local ptfx_executed = false
@@ -42133,12 +46488,12 @@ menu.add_player_feature("Disable Oppressor MK2 Usage", "value_str", veh1.id, fun
         local player_veh = ped.get_vehicle_ped_is_using(player.get_player_ped(pid))
         if (playerfeat_toggle_val.value == 0) then
             if (player.is_player_in_any_vehicle(pid) and vehicle.is_vehicle_model(player_veh, 0x7B54A9D3)) then
-                menu.notify("Kicked " .. tostring(player.get_player_name(pid)) .. " off their " .. vehicle.get_vehicle_model(player_veh), "")
+                menu.notify("Kicked " .. player.get_player_name(pid) .. " off their " .. vehicle.get_vehicle_model(player_veh), "")
                 ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
             end
         elseif (playerfeat_toggle_val.value == 1) then
             if (player.is_player_in_any_vehicle(pid) and vehicle.is_vehicle_model(player_veh, 0x7B54A9D3)) then
-                menu.notify("Destroyed " .. tostring(player.get_player_name(pid)) .. "'s " .. vehicle.get_vehicle_model(player_veh), anti_tryhard_menu_ver)
+                menu.notify("Destroyed " .. player.get_player_name(pid) .. "'s " .. vehicle.get_vehicle_model(player_veh), anti_tryhard_menu_ver)
                 network.request_control_of_entity(player_veh)
                 vehicle.set_vehicle_engine_health(player_veh, -1)
             end
@@ -42165,7 +46520,7 @@ end)
 
 menu.add_player_feature("Ghetto Bounce Vehicle", "toggle", veh1.id, function(f, pid)
     while f.on do
-        menu.notify("Giving The Ghetto Bounce To\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 11, 0x000dff)
+        menu.notify("Giving The Ghetto Bounce To\n" .. player.get_player_name(pid), troll_menu_ver, 11, 0x000dff)
 		network.request_control_of_entity(player.get_player_vehicle(pid))
         local vehicle_velocity = entity.get_entity_velocity(player.get_player_vehicle(pid))
         entity.set_entity_velocity(player.get_player_vehicle(pid), v3(vehicle_velocity.x, vehicle_velocity.y, vehicle_velocity.z + 2.5))
@@ -42194,7 +46549,7 @@ menu.add_player_feature("Remove Any Vehicle God Mode", "action", veh1.id, functi
 
 
 menu.add_player_feature("Send Karen", "action", veh1.id, function(f, pid)
-    menu.notify("Sending Karen To Jack\n" .. tostring(player.get_player_name(pid)) .. "Ride", "", 10, 2)
+    menu.notify("Sending Karen To Jack\n" .. player.get_player_name(pid) .. "Ride", "", 10, 2)
 	if player.is_player_in_any_vehicle(pid) then
 		streaming.request_model(0xB5CF80E4)
 		while not streaming.has_model_loaded(0xB5CF80E4) do
@@ -42233,16 +46588,16 @@ menu.add_player_feature("Spawn A Jet Spray", "action_value_str", trolls.id, func
     local pos = player.get_player_coords(pid)
     pos.z = pos.z -1
     if (playerfeat_val.value == 0) then
-        menu.notify("Burnt " .. tostring(player.get_player_name(pid)).. " with a gout of fire", "Fire Jet", 10, 2)
+        menu.notify("Burnt " .. player.get_player_name(pid).. " with a gout of fire", "Fire Jet", 10, 2)
         fire.add_explosion(pos, 12, true, false, 0, pid)
     elseif (playerfeat_val.value == 1) then
-        menu.notify("Doused " .. tostring(player.get_player_name(pid)) .. " with water", "Water Jet", 10, 2)
+        menu.notify("Doused " .. player.get_player_name(pid) .. " with water", "Water Jet", 10, 2)
         fire.add_explosion(pos, 13, true, false, 0, pid)
     elseif (playerfeat_val.value == 2) then
-        menu.notify("Blasted " .. tostring(player.get_player_name(pid)) .. " with steam", "Steam Jet", 10, 2)
+        menu.notify("Blasted " .. player.get_player_name(pid) .. " with steam", "Steam Jet", 10, 2)
         fire.add_explosion(pos, 11, true, false, 0, pid)
     elseif (playerfeat_val.value == 3) then
-        menu.notify("Blasted " .. tostring(player.get_player_name(pid)) .. " with fire extinguisher contents", "Steam Jet", 10, 2)
+        menu.notify("Blasted " .. player.get_player_name(pid) .. " with fire extinguisher contents", "Steam Jet", 10, 2)
         fire.add_explosion(pos, 24, true, false, 0, pid)
     end
 end):set_str_data({"Fire Jet", "Water Jet", "Steam jet", "Extinguisher Jet"})
@@ -42271,7 +46626,7 @@ end):set_str_data({"Musicians", "Prostitutes", "Statues", "Paparazzos", "Janitor
 
 -- Spawn a pole dancing terrorist
 menu.add_player_feature("Spawn Stripper Terrorist", "action_value_str", peds1.id, function(playerfeat_val, pid)
-    menu.notify("Spawned a pole dancing terrorist near "..tostring(player.get_player_name(pid))..". This only works if you're in range or spectating the player.", "", 10, 0x00ff00)
+    menu.notify("Spawned a pole dancing terrorist near "..player.get_player_name(pid)..". This only works if you're in range or spectating the player.", "", 10, 0x00ff00)
     MP_Male_ped = 0x705E61F2
     streaming.request_anim_dict("mini@strip_club@pole_dance@pole_dance1")
     streaming.request_anim_set("pd_dance_01")
@@ -42322,7 +46677,7 @@ end):set_str_data({"Sandals", "Flip Flops", "Barefoot"})
 
 -- Make Player Fart
 menu.add_player_feature("Cause Player To Fart", "action", trolls.id, function(playerfeat, pid)
-    menu.notify("Caused " .. tostring(player.get_player_name(pid)) .. " to pass gas", "", 10, 2)
+    menu.notify("Caused " .. player.get_player_name(pid) .. " to pass gas", "", 10, 2)
      player_heading = player.get_player_heading(pid)
 
     graphics.set_next_ptfx_asset("scr_xm_riotvan")
@@ -42349,7 +46704,7 @@ end)
 
 menu.add_player_feature("Give The Electric Chair", "action", trolls.id, function(f, pid)
 	for i = 1, 30 do
-        menu.notify("Gave The Electric Chair\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 11, 0x000dff)
+        menu.notify("Gave The Electric Chair\n" .. player.get_player_name(pid), troll_menu_ver, 11, 0x000dff)
 		fire.add_explosion(player.get_player_coords(pid) + v3(math.random(-2, 2), math.random(-2, 2), math.random(-2, 2)), 70, true, false, 0.2, player.get_player_ped(pid))
 		system.wait(math.random(0, 1))
 	end
@@ -42373,7 +46728,7 @@ end)
 
 menu.add_player_feature("Give Coffee", "action", trolls.id, function(f, pid)
 	for i = 1, 50 do
-        menu.notify("Giving Coffee To\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 11, 0x000dff)
+        menu.notify("Giving Coffee To\n" .. player.get_player_name(pid), troll_menu_ver, 11, 0x000dff)
 		menu.create_thread(function()
 			local object_ = object.create_object(3696781377, player.get_player_coords(pid) + v3(math.random(-2, 2) / 10, math.random(-2, 2) / 10, math.random(13, 18) / 10), true, true)
 			entity.apply_force_to_entity(object_, 3, 0, 0, -0.1, 0.0, 0.0, 0.0, true, true)
@@ -42713,7 +47068,7 @@ end)
 
 menu.add_player_feature("Give Mc Donalds", "action", trolls.id, function(f, pid)
 	for i = 1, 10 do
-        menu.notify("Giving McDonald To Fat Ass\n" .. tostring(player.get_player_name(pid)) .. " So They can take a shit", "", 10, 2)
+        menu.notify("Giving McDonald To Fat Ass\n" .. player.get_player_name(pid) .. " So They can take a shit", "", 10, 2)
 		menu.create_thread(function()
 			local object_ = object.create_object(-2054442544, player.get_player_coords(pid) + v3(math.random(-2, 2) / 10, math.random(-2, 2) / 10, math.random(13, 18) / 10), true, true)
 			entity.apply_force_to_entity(object_, 3, 0, 0, -0.1, 0.0, 0.0, 0.0, true, true)
@@ -42750,10 +47105,10 @@ end)
 
 menu.add_player_feature("Stun Vehicle", "action", veh1.id, function(playerfeat, pid)
     if player.is_player_in_any_vehicle(pid) == true then
-        menu.notify("Stunned " .. tostring(player.get_player_name(pid)) .. "'s vehicle.", troll_menu_ver)
+        menu.notify("Stunned " .. player.get_player_name(pid) .. "'s vehicle.", troll_menu_ver)
         fire.add_explosion(player.get_player_coords(pid), 83, true, false, 0, pid)
     else
-        menu.notify(tostring(player.get_player_name(pid)) .. " is not in a vehicle", troll_menu_ver)
+        menu.notify(player.get_player_name(pid) .. " is not in a vehicle", troll_menu_ver)
     end
 end)
 
@@ -42762,7 +47117,7 @@ end)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- shit--
 menu.add_player_feature("influenza Virus", "action", Immunevirus.id, function(playerfeat_toggle_val, pid)
-    menu.notify("Giving influenza Virus\n\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 11, 0x000dff)
+    menu.notify("Giving influenza Virus\n\n" .. player.get_player_name(pid), troll_menu_ver, 11, 0x000dff)
      cagepos = player.get_player_coords(pid)
     cagepos.z = cagepos.z - 2.6
      cage = object.create_object(251770068, cagepos, true, false)
@@ -42839,7 +47194,7 @@ end)
 
 
 menu.add_player_feature("Covid19 Virus", "action", Immunevirus.id, function(feat, pid)
-    menu.notify("Spreading Covid-19 Virus To\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 11, 0x000dff)
+    menu.notify("Spreading Covid-19 Virus To\n" .. player.get_player_name(pid), troll_menu_ver, 11, 0x000dff)
     
      cagepos = player.get_player_coords(pid)
     cagepos.z = cagepos.z - 2.6
@@ -42899,7 +47254,7 @@ end)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Give Weapons
 menu.add_player_feature("Give all Weapons & Ammo", "action", Weapons.id, function(playerfeat, pid)
-    menu.notify("Gave all Weapons to\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 8, 0xffb700)
+    menu.notify("Gave all Weapons to\n" .. player.get_player_name(pid), troll_menu_ver, 8, 0xffb700)
     for i, weapon_hash in pairs(weapon.get_all_weapon_hashes()) do
       local found,maxAmmo = weapon.get_max_ammo(player.get_player_ped(pid), weapon_hash)
       if(found) then
@@ -42912,7 +47267,7 @@ menu.add_player_feature("Give all Weapons & Ammo", "action", Weapons.id, functio
 
 
   menu.add_player_feature("Give Weird Weapons", "action", Weapons.id, function(playerfeat, pid)
-    menu.notify("Gave weird weapons to " .. tostring(player.get_player_name(pid)) .. ".", troll_menu_ver)
+    menu.notify("Gave weird weapons to " .. player.get_player_name(pid) .. ".", troll_menu_ver)
     local all_weaps = weapon.get_all_weapon_hashes()
     local weird_weapons = {
         0x83839C4, -- vintage pistol
@@ -42952,7 +47307,7 @@ menu.add_player_feature(
     "action",
     Weapons.id,
     function(feat, pid)
-        menu.notify("You Have Removed\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 8, 0xffb700)
+        menu.notify("You Have Removed\n" .. player.get_player_name(pid), troll_menu_ver, 8, 0xffb700)
         for pid = 0, 32 do
             if pid ~= mepid and player.is_player_valid(pid) then
                 local allweaponhashes = weapon.get_all_weapon_hashes()
@@ -42968,7 +47323,7 @@ menu.add_player_feature(
 
 --Remove Heavy Sniper mk2 Explosive Weapon
 menu.add_player_feature("Remove Heavy Sniper mk2 Rounds", "action", Weapons.id, function(playerfeat, pid)
-    menu.notify("Removed explosive rounds from " .. tostring(player.get_player_name(pid)) .. "'s Sniper Rifle Mk2.", troll_menu_ver)
+    menu.notify("Removed explosive rounds from " .. player.get_player_name(pid) .. "'s Sniper Rifle Mk2.", troll_menu_ver)
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0xA914799) -- Heavy Sniper mk2
     system.wait(50)
     weapon.give_delayed_weapon_to_ped(player.get_player_ped(pid), 0xA914799, 0, 0) -- Heavy Sniper mk2
@@ -42977,7 +47332,7 @@ end)
 
 --Remove All EWO Weapons
 menu.add_player_feature("Remove EWO Explosives", "action", Weapons.id, function(playerfeat, pid)
-    menu.notify("Removed common EWO explosives from " .. tostring(player.get_player_name(pid)), troll_menu_ver)
+    menu.notify("Removed common EWO explosives from " .. player.get_player_name(pid), troll_menu_ver)
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0xB1CA77B1) --RPG
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0x63AB0442) --Homing Launcher
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0x2C3731D9) --Sticky Bomb
@@ -42986,7 +47341,7 @@ end)
 
 --Remove All Explosives Weapons
 menu.add_player_feature("Remove All Explosives Weapons", "action", Weapons.id, function(playerfeat, pid)
-    menu.notify("Removed all explosives from " .. tostring(player.get_player_name(pid)), troll_menu_ver)
+    menu.notify("Removed all explosives from " .. player.get_player_name(pid), troll_menu_ver)
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0xB1CA77B1) --RPG
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0x63AB0442) --Homing Launcher
     weapon.remove_weapon_from_ped(player.get_player_ped(pid), 0xA284510B) --Grenade Launcher
@@ -43001,7 +47356,7 @@ end)
 --Disables
 menu.add_player_feature("Permanently Disable Weapons", "toggle", Weapons.id, function(f, pid)
     if f.on then
-        menu.notify("Weapons Been Permanently Disabled For\n" .. tostring(player.get_player_name(pid)), troll_menu_ver, 8, 0xffb700)
+        menu.notify("Weapons Been Permanently Disabled For\n" .. player.get_player_name(pid), troll_menu_ver, 8, 0xffb700)
 		if ai.is_task_active(player.get_player_ped(pid), 9) then
 			network.request_control_of_entity(player.get_player_ped(pid))
 			ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
@@ -43737,8 +48092,8 @@ menu.add_feature("Anti Barcode", "toggle", Antiprotex.id, function(f, pid)
 			system.yield(2000)
 			for pid = 0, 31 do
 				if player.is_player_valid(pid) then
-					if string.find(tostring(player.get_player_name(pid)), "llll") or string.find(tostring(player.get_player_name(pid)), "IIII") or string.find(tostring(player.get_player_name(pid)), "lI") or string.find(tostring(player.get_player_name(pid)), "Il") or string.find(tostring(player.get_player_name(pid)), "llI") or string.find(tostring(player.get_player_name(pid)), "IIl") or string.find(tostring(player.get_player_name(pid)), "lII") or string.find(tostring(player.get_player_name(pid)), "Ill") then
-						menu.notify("[!] Kicked Barcode\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. "/" .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+					if string.find(player.get_player_name(pid), "llll") or string.find(player.get_player_name(pid), "IIII") or string.find(player.get_player_name(pid), "lI") or string.find(player.get_player_name(pid), "Il") or string.find(player.get_player_name(pid), "llI") or string.find(player.get_player_name(pid), "IIl") or string.find(player.get_player_name(pid), "lII") or string.find(player.get_player_name(pid), "Ill") then
+						menu.notify("[!] Kicked Barcode\n" .. string.format("%s", player.get_player_name(pid)) .. "/" .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 						if network.network_is_host() then
 							network.network_session_kick_player(pid)
 						elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43764,12 +48119,12 @@ menu.add_feature("Anti Barcode Shit Head", "toggle", Antiprotex.id, function(f, 
 			system.yield(2000)
 			for pid = 0, 31 do
 				if player.is_player_valid(pid) then
-					if (string.find(tostring(player.get_player_name(pid)), "IIII") or string.find(tostring(player.get_player_name(pid)), "llll") or string.find(tostring(player.get_player_name(pid)), "lIIl") or string.find(tostring(player.get_player_name(pid)), "lll") or string.find(tostring(player.get_player_name(pid)), "lIl")) and pid ~= player.player_id() then
+					if (string.find(player.get_player_name(pid), "IIII") or string.find(player.get_player_name(pid), "llll") or string.find(player.get_player_name(pid), "lIIl") or string.find(player.get_player_name(pid), "lll") or string.find(player.get_player_name(pid), "lIl")) and pid ~= player.player_id() then
 						if f.value == 0 then
 							weapon.remove_all_ped_weapons(player.get_player_ped(pid))
 							system.wait(2000)
 						elseif f.value == 1 then
-							menu.notify("Kicked Barcode Shit Head\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Barcode Shit Head\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43780,7 +48135,7 @@ menu.add_feature("Anti Barcode Shit Head", "toggle", Antiprotex.id, function(f, 
 							system.wait(4000)
 						elseif f.value == 2 then
 							script_event_crash.script_event_crash(pid)
-							menu.notify("Crashed Barcode Shit Head\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Crashed Barcode Shit Head\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -43801,12 +48156,12 @@ menu.add_feature("Anti Explosive Sniper 2", "value_str", Antiprotex.id, function
 					if weapon.has_ped_got_weapon(player.get_player_ped(pid), 177293209) and weapon.has_ped_got_weapon_component(player.get_player_ped(pid), 177293209, 0x89EBDAA7) and pid ~= player.player_id() then
 						if f.value == 0 then
 							weapon.remove_weapon_from_ped(player.get_player_ped(pid), 177293209)
-							menu.notify("Removed Weapon From Explosive Sniper User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
+							menu.notify("Removed Weapon From Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
 						elseif f.value == 1 then
 							weapon.remove_all_ped_weapons(player.get_player_ped(pid))
-							menu.notify("Removed All Weapons From Explosive Sniper User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
+							menu.notify("Removed All Weapons From Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
 						elseif f.value == 2 then
-							menu.notify("Kicked Explosive Sniper User\n[!] WARNING KEEP IN MIND YOU WILL CRASH WITH THEM" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
+							menu.notify("Kicked Explosive Sniper User\n[!] WARNING KEEP IN MIND YOU WILL CRASH WITH THEM" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43817,12 +48172,12 @@ menu.add_feature("Anti Explosive Sniper 2", "value_str", Antiprotex.id, function
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Explosive Sniper User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
                     elseif f.value == 4 then
                         script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, -72614, 63007, 59027, -12012, -26996, 33398, pid})
-                        menu.notify("Freeze Kicked Explosive Sniper User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+                        menu.notify("Freeze Kicked Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
                         system.wait(8000)
 					end
 				end
@@ -43841,7 +48196,7 @@ menu.add_feature("Anti Oppressor Mk2", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 2069146067 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43852,7 +48207,7 @@ menu.add_feature("Anti Oppressor Mk2", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -43872,7 +48227,7 @@ menu.add_feature("Anti Oppressor Mk1", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 884483972 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Black Lives Kicked Oppressor Mk1 User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Black Lives Kicked Oppressor Mk1 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43883,7 +48238,7 @@ menu.add_feature("Anti Oppressor Mk1", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Black Lives Kicked Oppressor Mk1 User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
+							menu.notify("Black Lives Kicked Oppressor Mk1 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Meteor, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -43903,7 +48258,7 @@ menu.add_feature("Anti Tank", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 782665360 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43914,7 +48269,7 @@ menu.add_feature("Anti Tank", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -43934,7 +48289,7 @@ menu.add_feature("Anti khanjali Tank", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -1435527158 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("khanjali Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("khanjali Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43945,7 +48300,7 @@ menu.add_feature("Anti khanjali Tank", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("khanjali Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("khanjali Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -43965,7 +48320,7 @@ menu.add_feature("Anti Terrobyte", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 2306538597 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -43976,7 +48331,7 @@ menu.add_feature("Anti Terrobyte", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -43997,7 +48352,7 @@ menu.add_feature("Anti minitank", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -1254331310 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44008,7 +48363,7 @@ menu.add_feature("Anti minitank", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -44029,7 +48384,7 @@ menu.add_feature("Anti APC", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 562680400 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked APC Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked APC Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44040,7 +48395,7 @@ menu.add_feature("Anti APC", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked APC Tank User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked APC Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -44059,7 +48414,7 @@ menu.add_feature("Anti Hydra", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 562680400 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Hydra User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Hydra User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44070,7 +48425,7 @@ menu.add_feature("Anti Hydra", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Hydra User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Hydra User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -44090,7 +48445,7 @@ menu.add_feature("Anti Lazer", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -1281684762 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Lazer User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Lazer User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44101,7 +48456,7 @@ menu.add_feature("Anti Lazer", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Lazer User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Lazer User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -44121,7 +48476,7 @@ menu.add_feature("Anti Savage", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -82626025 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Savage User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Savage User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44132,7 +48487,7 @@ menu.add_feature("Anti Savage", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Savage User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Savage User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -44152,7 +48507,7 @@ menu.add_feature("Anti Buzzard", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 788747387 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Buzzard User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44163,7 +48518,7 @@ menu.add_feature("Anti Buzzard", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Buzzard User\n" .. string.format("%s", tostring(player.get_player_name(pid))) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
