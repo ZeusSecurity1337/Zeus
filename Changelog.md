@@ -10,5 +10,5 @@
 ### 10. Added Overlay to show count.
 ### 11. Added Money loop little faster.
 ### Fixes
-### Small Bugs Fixed.
+### 12. Small Bugs Fixed.
 
