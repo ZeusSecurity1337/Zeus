@@ -12,7 +12,7 @@
 ### Fixes
 ### 12. Small Bugs Fixed.
 ### 13. Fixed Transaction error
-```diff
-- Warning do not untoggle refund method.
-- Until disered money has been reached or transaction or error will popup.
-```
+###
+### WARNING DO NOT UNTOGGLE REFUND METHOD.
+### Until disered money has been reached or transaction or error will popup.
+
