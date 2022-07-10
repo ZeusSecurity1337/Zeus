@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.77"
+zeus_version = "20.78"
 
 menu.create_thread(function()
 
@@ -6477,7 +6477,7 @@ menu.add_feature("Fast Safe RockStarGames Refund 5.1M", "toggle", money.id, func
         script.set_global_i(1964179, 1)
         system.wait(3500)
         script.set_global_i(1964179, 0)
-        system.wait(120000)
+        system.wait(90000)
         
         if not pid.on then
             return HANDLER_CONTINUE
