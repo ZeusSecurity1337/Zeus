@@ -14,6 +14,6 @@
 ### 12. Small Bugs Fixed.
 ### 13. Fixed Transaction error
 ###
-### WARNING DO NOT UNTOGGLE REFUND METHOD
+### !!WARNING DO NOT UNTOGGLE REFUND METHOD!!
 ### Until disered money has been reached or transaction or error will popup.
 
