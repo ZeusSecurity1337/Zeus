@@ -12,7 +12,7 @@
 ###
 ### Fixes
 ### Small Bugs Fixed.
-### Fixed Transaction errors.
+### Fixed Transaction errors
 ###
 ### !!WARNING DO NOT UNTOGGLE REFUND METHOD!! 
 ### Until disered money has been reached or transaction or error may popup.
