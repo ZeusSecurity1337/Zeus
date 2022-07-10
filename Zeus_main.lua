@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.64"
+zeus_version = "20.65"
 
 menu.create_thread(function()
 
@@ -6459,7 +6459,7 @@ local money =
 )
 
 
-menu.add_feature("Safe RockStarGames Refund 5.1M", "toggle", money.id, function(pid)
+menu.add_feature("Faster Safe RockStarGames Refund 5.1M", "toggle", money.id, function(pid)
     menu.notify("Alert Message: from Rockstar Games\n\nYou've Been Refunded Money by:RockStarGames Congratulations!", "",  8, 0xffb700)
     while pid.on do 
         script.set_global_i(1964179, 6)
@@ -6477,7 +6477,7 @@ menu.add_feature("Safe RockStarGames Refund 5.1M", "toggle", money.id, function(
         script.set_global_i(1964179, 1)
         system.wait(3500)
         script.set_global_i(1964179, 0)
-        system.wait(120000)
+        system.wait(50000)
         
         if not pid.on then
             return HANDLER_CONTINUE

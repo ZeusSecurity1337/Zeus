@@ -6,7 +6,7 @@
 ### 5. Added Black background for change logs after installing new script update.
 ### 6. Added the ability to turn on and off Session Logger.
 ### 8. Auto-Deposit Money toggled on by defult.
-### 9. Kill Tracking feature.
+### 9. Addeed Kill Tracking feature.
 ### 10. Added Overlay to show count.
 ### 11. Added Money loop little faster.
 ### Fixes
