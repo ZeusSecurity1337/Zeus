@@ -8,7 +8,7 @@
 ### 8. Auto-Deposit Money toggled on by defult.
 ### 9. Kill Tracking feature.
 ### 10. Overlay to show count.
-### 11. Added Money loop little faster in test.
+### 11. Added Money loop little faster in test mode.
 ### Fixes
 ### - Fixed an issue where users couldn't teleport to locations.
 ### - Fixed an issue where overlapping would occur when promoting
