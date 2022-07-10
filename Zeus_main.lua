@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.89"
+zeus_version = "20.90"
 
 menu.create_thread(function()
 
@@ -48054,18 +48054,6 @@ local DisableHud = menu.add_feature("Game Notifcation Cleanup", "toggle", misc.i
 	return HANDLER_CONTINUE
 end)
 
-menu.add_feature("Fix Cain't Move", "action", misc.id, function(f)
-	if player.is_player_valid(player.player_id()) then
-		local max_health = player.get_player_max_health(player.player_id())
-		local health = player.get_player_health(player.player_id())
-        ped.set_ped_health(player.get_player_ped(player.player_id()), 0)
-		system.wait(100)
-		ped.resurrect_ped(player.get_player_ped(player.player_id()))
-		ped.set_ped_max_health(player.get_player_ped(player.player_id()), max_health)
-		ped.set_ped_health(player.get_player_ped(player.player_id()), health)
-		ped.clear_ped_tasks_immediately(player.get_player_ped(player.player_id()))
-	end
-end)
 
 --Settings End
 -------------------------------------------------------------------Settings End-----------------------------------------------------------------------------
@@ -48529,6 +48517,19 @@ menu.add_feature("Anti Buzzard", "value_str", Antiprotex.id, function(f)
 		end
 	end
 end):set_str_data({"Buzzard Kick"})
+
+menu.add_feature("Fix Cain't Move", "action", Antiprotex.id, function(f)
+	if player.is_player_valid(player.player_id()) then
+		local max_health = player.get_player_max_health(player.player_id())
+		local health = player.get_player_health(player.player_id())
+        ped.set_ped_health(player.get_player_ped(player.player_id()), 0)
+		system.wait(100)
+		ped.resurrect_ped(player.get_player_ped(player.player_id()))
+		ped.set_ped_max_health(player.get_player_ped(player.player_id()), max_health)
+		ped.set_ped_health(player.get_player_ped(player.player_id()), health)
+		ped.clear_ped_tasks_immediately(player.get_player_ped(player.player_id()))
+	end
+end)
 --Protections End
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

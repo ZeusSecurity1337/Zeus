@@ -12,7 +12,7 @@
 ### 12. Added Area Notification Location Explosion 
 ### It now shows deatiled information about the player upon entering proximity.
 ### When a player enters the proximity it will take weapons away temporarily.
-### When modders enter any location, they automatically get kicked from the lobby. 
+### When modders enter any location, they automatically get kicked from the lobby
 ###
 ### Fixes
 ### Small Bugs Fixed.
