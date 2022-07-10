@@ -4,10 +4,12 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.88"
+zeus_version = "20.89"
 
 menu.create_thread(function()
 
+
+--Directory
 local main_menu = menu.add_feature("Zeus", "parent", 0)
 local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\Zeus.txt"
 local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\settings\\"
