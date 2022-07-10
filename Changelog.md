@@ -8,7 +8,7 @@
 ### 8. Added Auto-Deposit Money toggled on by defult.
 ### 9. Addeed Kill Tracking feature.
 ### 10. Added Overlay to show count.
-### 11. Added Money loop little faster
+### 11. Added Money loop little faster.
 ### Fixes
 ### Small Bugs Fixed.
 
