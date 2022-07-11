@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.922"
+zeus_version = "20.923"
 
 menu.create_thread(function()
 
@@ -45400,6 +45400,6 @@ function settings:initialize(...)
 		feat.on = self.in_use["Drive style"] & feat.data == feat.data
 	end
 end
-settings:initialize(paths.home.."scripts\\Zeus\\zeussettings.ini")
+settings:initialize(paths.home.."scripts\\Zeus\\Lib\\zeussettings.ini")
 
 end, nil)
