@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.929"
+zeus_version = "20.930"
 
 menu.create_thread(function()
 
@@ -431,7 +431,6 @@ function update_zeus()
 				goto exit
 			end
 			updated_lib_files = parse_html(str, "lua")
-            updated_lib_files = parse_html(str, "ini")
 		end
 	end
 	do
