@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.943"
+zeus_version = "20.944"
 
 menu.create_thread(function()
 
@@ -43780,8 +43780,6 @@ menu.add_player_feature("Zeus's BigDick Crash", "action", crashes1.id, function(
 end)
 
 menu.add_player_feature("PTFX Crash", "action", crashes1.id, function(f, pid)
-	util.require_natives(1651208000)
-    util.keep_running()
     local ptfxIds = {}
     local ptfxName = "exp_grd_grenade_smoke"
 
