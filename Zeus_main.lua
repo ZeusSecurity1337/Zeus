@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.937"
+zeus_version = "20.938"
 
 menu.create_thread(function()
 
@@ -12343,8 +12343,11 @@ function explodeFunc(pid, modder)
         if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
             -- do nothing to friend modder or self
         else
-            network.force_remove_player(pid)
-            system.wait(4000)
+            if network.network_is_host() then
+                network.network_session_kick_player(pid)
+            else
+                network.force_remove_player(pid)
+            end
         end
     end
 end
