@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.923"
+zeus_version = "20.924"
 
 menu.create_thread(function()
 
@@ -44304,7 +44304,7 @@ settings.toggle["Log people with Stand User"] = menu.add_feature("Log: Stand Use
     end
 end)
 
-settings.toggle["Kick people with Stand User"] = menu.add_feature("Kick: Stand User", "toggle", modderlogging.id, function(f) 
+settings.toggle["Kick people with Stand User"] = menu.add_feature("Kick: Stand User", "toggle", modderkick.id, function(f) 
     settings.in_use["Kick people with Stand User"] = f.on
     if f.on then
         hook.register_script_event_hook(function(source, target, params, count)
@@ -44360,6 +44360,14 @@ do
 				return memoized[data].pos
 			end
 		end
+	end
+end
+
+function get_player_coords(pid) -- Allows you to get player coords with accurate z coordinate.
+	if pid == player.player_id() then
+		return player.get_player_coords(pid)
+	else
+		return network._network_get_player_coords(pid)
 	end
 end
 
