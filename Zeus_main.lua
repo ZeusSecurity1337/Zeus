@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.920"
+zeus_version = "20.921"
 
 menu.create_thread(function()
 
@@ -6489,6 +6489,8 @@ menu.add_feature("Faster Safe RockStarGames Refund 5.1M", "toggle", money.id, fu
     end
 end)
 
+local threads = {}
+
 --Ped Recovery
 menu.add_feature("Ped Recovery", "toggle", money.id, function(f)
 	if f.on then
@@ -6543,7 +6545,7 @@ menu.add_feature("Ped Recovery", "toggle", money.id, function(f)
 		end
 	end
 	if not f.on then
-		if threads["» Ped Pickup Recovery"] then
+		if threads["Ped Recovery"] then
 			menu.delete_thread(threads["Ped Recovery"])
 		end
 		if ped_pickup_recovery_previous_pos then
