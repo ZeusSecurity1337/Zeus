@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.921"
+zeus_version = "20.922"
 
 menu.create_thread(function()
 
@@ -20,11 +20,11 @@ local natives = require("Zeus/Lib/Natives")
 local utilities = require("Zeus//Lib/Utils") 
 local enums = require("Zeus//Lib/Enums") 
 
-
 local paths <const> = {
 	home = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\"
 }
 paths.zeus = paths.home.."scripts\\Zeus\\"
+paths.blacklist = paths.zeus.."Logs\\Blacklist.log"
 
 local settings <const> = {}
 settings.default = {}
@@ -40,6 +40,75 @@ settings.valuei = {}
 settings.valuef = {}
 settings.hotkey_features = {}
 
+
+function get_file_string(file_path, mode)
+	local file <close> = io.open(file_path, mode or "r")
+	if file and io.type(file) == "file" then
+		return file:read("*a") or ""
+	else
+		return ""
+	end
+end
+
+function get_position_of_previous_newline(str, str_pos)
+	local current_char = str:sub(str_pos, str_pos)
+	while str_pos > 1 and current_char ~= '\n' and current_char ~= '\r' do
+		str_pos = str_pos - 1
+		current_char = str:sub(str_pos, str_pos)
+	end
+	return str_pos > 1 and str_pos + 1 or 1
+end
+
+function search_for_match_and_get_line(...)
+	local file_path <const>,
+	search <const>,
+	exact <const> = ...
+	local str <const> = get_file_string(file_path, "rb")
+	for i = 1, #search do
+		local str_pos
+		if exact then
+			str_pos = str:find(string.format("[\r\n]%s[\r\n]", search[i]))
+			or str:find(string.format("^%s[\r\n]", search[i])) -- These 3 extra checks are super fast no matter size of string. Anchors make sure #search[i] is max number of characters searched.
+			or str:find(string.format("[\r\n]%s$", search[i]))
+			or str:find(string.format("^%s$", search[i]))
+		else
+			str_pos = str:find(search[i], 1, true)
+		end
+		if str_pos then
+			str_pos = get_position_of_previous_newline(str, str_pos)
+			local End = str:find("[\n\r]", str_pos)
+			if End then
+				End = End - 1
+			else
+				End = #str
+			end
+			return str:sub(str_pos, End), search[i]
+		end
+	end
+end
+
+function settings.log(...)
+	local file_path <const>,
+	text_to_log <const>,
+	search <const>, -- Whether to check if text_to_log appears in the file already or not
+	exact <const> = ... -- Whether the existing text check must be identical to an entire line or a substring of a line.
+	if search then
+		local str <const> = search_for_match_and_get_line(file_path, search, exact)
+		if str then
+			return str
+		end
+	end
+	local file <close> = io.open(file_path, "a+b")
+	file:seek("end", -1)
+	local last_char <const> = file:read("*L") -- *L keeps the newline char, unlike *l.
+	if last_char ~= "\n" and last_char ~= "\r" and file:seek("end") ~= 0 then
+		file:write("\n")
+	end
+	file:seek("end")
+	file:write(text_to_log)
+	file:write("\n")
+end
+
 function settings:add_setting(...)
 	local properties <const> = ...
 	assert(type(properties.setting_name) == "string" and properties.setting ~= nil,
@@ -47,7 +116,31 @@ function settings:add_setting(...)
 	self.default[properties.setting_name] = properties.setting
 end
 
-for _, properties in pairs({
+for _, properties in pairs({ 
+    {
+		setting_name = "Godmode detection",
+		setting = false
+	},
+	{
+		setting_name = "Automatically check player stats", 
+		setting = false
+	}, 
+	{
+		setting_name = "Auto kicker", 
+		setting = false
+	},
+	{
+		setting_name = "Auto kicker notifications",
+		setting = 0
+	},
+	{
+		setting_name = "Log modders", 
+		setting = true
+	}, 
+	{
+		setting_name = "Blacklist", 
+		setting = false
+	},
 	{
 		setting_name = "Translate chat into language",
 		setting = false
@@ -24367,6 +24460,116 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
        end
    end)
 
+   block108 =
+   menu.add_feature(
+   "Casino Car Meet",
+   "toggle",
+   notify.id,
+   function(toggle)
+       while toggle.on do
+           for pid = 0, 32 do
+            
+local wanted;
+if getplayerwantedlevel == "0" then
+    wanted = "Not Wanted"
+elseif getplayerwantedlevel == "1" then
+    wanted = "Wanted *"
+elseif getplayerwantedlevel == "2" then
+    wanted = "Wanted **"
+elseif getplayerwantedlevel == "3" then
+    wanted = "Wanted ***"
+elseif getplayerwantedlevel == "4" then
+    wanted = "Wanted ****"
+elseif getplayerwantedlevel == "5" then
+    wanted = "Wanted *****"
+end
+--Gender Male or Female
+local gender;
+
+if(isplayerfemale) then
+gender = "Female"
+else
+gender = "Male"
+end
+----------------------
+--isplayerinanyvehicle yes or no
+local vehicle;
+
+if(isplayerinanyvehicle) then
+    vehicle = "Yes"
+else
+    vehicle = "No"
+end
+----------------------
+--Host Yes or No
+local host;
+
+if(isplayerhost) then
+    host = "Yes"
+else
+    host = "No"
+end
+----------------------
+
+--isplayerplaying Yes or No
+local playing;
+
+if(isplayerplaying) then
+    playing = "Yes"
+else
+    playing = "No"
+end
+----------------------
+player_pos = player.get_player_coords(pid)
+players = tostring(player.get_player_name(pid))
+scid = player.get_player_scid(pid)
+ip = player.get_player_ip(pid)
+isplayerhost = (player.is_player_host(pid))
+isplayerplaying = (player.is_player_playing(pid))
+modder = tostring(player.get_player_modder_flags(pid))
+maxhealth = tostring(player.get_player_max_health(pid))
+armour = tostring(player.get_player_armour(pid))
+playergod = (player.is_player_god(pid))
+isplayerfemale = (player.is_player_female(pid))
+isplayerinanyvehicle = (player.is_player_in_any_vehicle(pid))
+getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
+            n = tonumber(ip)
+            n1 = math.floor(n / (2^24))
+            n2 = math.floor((n - n1*(2^24)) / (2^16))
+            n3 = math.floor((n - n1*(2^24) - n2*(2^16)) / (2^8))
+            n4 = math.floor((n - n1*(2^24) - n2*(2^16) - n3*(2^8)))
+            world_pos1 = v3(893.034 + 6, -55.288 + 6, 78.764 + 6)
+            world_pos2 = v3(893.034 - 6, -55.288 - 6, 78.764 - 6)
+
+               if
+                   (player_pos.x <= world_pos1.x) and (player_pos.y <= world_pos1.y) and (player_pos.z <= world_pos1.z) and
+                       (player_pos.x >= world_pos2.x) and
+                       (player_pos.y >= world_pos2.y) and
+                       (player_pos.z >= world_pos2.z)
+                      then
+                        if modder > '0'  then
+                            menu.notify(players .." Is At Casino Car Meet. \n\n[!] Proximity Alert" .. "\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Modder]")
+                                system.wait(20)
+                              else 
+                            menu.notify(players .." Is At Casino Car Meet. \n\n[!] Proximity Alert" .. "\n\nWanted Level Stars: "..wanted.."\nGender: "..gender.."\nMax Health: "..maxhealth.."\nArmour: "..armour.."\nVehicle "..vehicle.."\nPlaying Game: "..playing.."\nPlayer Host: "..host.."\n\nIP: "..n1.."."..n2.."."..n3.."."..n4.."\nSCID: " .. scid .."\nModder Detection: [Not Modder]")
+                                system.wait(20)
+                              end
+
+                    if excludeFriends.on then
+                        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
+                            -- do nothing
+                        else
+                            explodeFunc(pid, modder)
+                        end
+                    else
+                        explodeFunc(pid, modder)
+                    end
+               end
+           end
+           system.wait(2)
+       end
+   end)
+
 function on()
    block1.on = true
    block2.on = true
@@ -24475,7 +24678,8 @@ function on()
    block105.on = true
    block106.on = true
    block107.on = true
-
+   block108.on = true
+   block109.on = true
 end
 notifi.on = false
 
@@ -24587,7 +24791,8 @@ function off()
     block105.on = false
     block106.on = false
     block107.on = false
- 
+    block108.on = false
+    block109.on = false
  end
  notifi.on = false
 
@@ -43782,6 +43987,858 @@ menu.add_feature("Anti Crash Cam", "toggle", Protex.id, function(f)
 	end
 end)
 
+function how_many_people_named(pid)
+	local name <const> = player.get_player_name(pid)
+	local scid <const> = player.get_player_scid(pid)
+	local ip <const> = player.get_player_ip(pid)
+	local count = 0
+	for pid in zeusplayers(true) do
+		if name == player.get_player_name(pid) 
+		or scid == player.get_player_scid(pid) 
+		or ip == player.get_player_ip(pid) then
+			count = count + 1
+		end
+	end
+	return count
+end
+
+do
+	local mod_flag_memoize <const> = {}
+	function modder_flags_to_text(...)
+		local mod_flags <const> = ...
+		if not mod_flag_memoize[mod_flags] then
+			local all_flags <const> = {}
+			for i = 0, 63 do
+				local flag <const> = 1 << i
+				if flag == player.get_modder_flag_ends() then
+					break
+				end
+				if mod_flags & flag ~= 0 then
+					all_flags[#all_flags + 1] = player.get_modder_flag_text(flag)
+				end
+			end
+			mod_flag_memoize[mod_flags] = table.concat(all_flags, ", ")
+		end
+		return mod_flag_memoize[mod_flags]
+	end
+end
+
+do
+	local modder_text_to_flags_map <const> = {}
+	for i = 0, 63 do
+		if 1 << i == player.get_modder_flag_ends() then
+			break
+		end
+		modder_text_to_flags_map[player.get_modder_flag_text(1 << i)] = 1 << i
+	end
+
+	function modder_text_to_flags(modder_text)
+		local flags = 0
+		for flag in modder_text:gmatch("%a[^,]+") do
+			flags = flags | (modder_text_to_flags_map[flag] or 0)
+		end
+		return flags
+	end
+end
+
+function replace_lines_in_file_exact(...)
+	local file_path <const>,
+	what_to_be_replaced <const>,
+	replacement <const> = ...
+	local new_string <const> = {}
+	local found_what_to_be_replaced = false
+	for line in io.lines(file_path) do
+		if not found_what_to_be_replaced and line == what_to_be_replaced then
+			new_string[#new_string + 1] = replacement
+			found_what_to_be_replaced = true
+		else
+			new_string[#new_string + 1] = line
+		end
+	end
+	local file <close> = io.open(file_path, "w+")
+	new_string[#new_string + 1] = ""
+	file:write(table.concat(new_string, "\n"))
+	file:flush()
+	return found_what_to_be_replaced
+end
+
+function is_any_tasks_active(...)
+	local Ped <const>, tasks <const> = ...
+	local active_tasks <const> = {}
+	if entity.is_an_entity(Ped) then
+		settings.assert(entity.is_entity_a_ped(Ped), "Expected a ped from argument \"Ped\".")
+		for i = 1, #tasks do
+			if ai.is_task_active(Ped, tasks[i]) then
+				active_tasks[#active_tasks + 1] = tasks[i]
+			end
+		end
+	end
+	return active_tasks
+end
+
+modder = menu.add_feature("Modder Detection", "parent", Protex.id)
+
+menu.add_feature("Auto Godmode Remover", "toggle", modder.id, function(f)
+	if f.on then
+		while f.on do
+			system.yield(1000)
+			for pid = 0, 31 do
+				if player.is_player_valid(pid) then
+					if pid ~= player.player_id() and player_func.is_player_moving(pid) and player.is_player_god(pid) and not player_func.is_player_in_interior(pid) then
+						script.trigger_script_event(0x2FC154DC, pid, {player.player_id(), 869796886, 0})
+					end
+					if pid ~= player.player_id() and player.is_player_in_any_vehicle(pid) and player_func.is_player_moving(pid) and entity.get_entity_god_mode(player.get_player_vehicle(pid)) and not player_func.is_player_in_interior(pid) then
+						utilities.request_control_silent(player.get_player_vehicle(pid))
+						entity.set_entity_god_mode(player.get_player_vehicle(pid), false)
+					end
+				end
+			end
+		end
+	end
+end)
+
+
+modderlogging = menu.add_feature("Modder logging", "parent", modder.id)
+modderkick = menu.add_feature("Auto kick modder", "parent", modder.id)
+
+local custom_flags = 
+	{
+		["Has-Suspicious-Stats"] = 0,
+		["Blacklist"] = 0,
+		["Godmode"] = 0
+	}
+	
+modder_flag_setting_properties = 
+	{
+		["Log people with "] = {
+			feat_name = "Log:", 
+			parent = modderlogging,
+			bits = 0
+		}, 
+		["Kick people with "] = {
+			feat_name = "Kick:", 
+			parent = modderkick,
+			bits = 0
+		}
+	}
+
+settings.toggle["Log modders"] = menu.add_feature("Log flags to blacklist", "toggle", modderlogging.id, function(f)
+    local blacklist_flag <const> = custom_flags["Blacklist"]
+    while f.on do
+        system.yield(0)
+        for pid in zeusplayers() do
+            local scid <const> = player.get_player_scid(pid)
+            if player.is_player_modder(pid, -1)
+            and is_not_friend(pid)
+            and how_many_people_named(pid) == 1
+            and (
+                (
+                    not f.data[scid] 
+                    and player.is_player_modder(pid, modder_flag_setting_properties["Log people with "].bits)
+                )
+                or (
+                    f.data.not_modder_flag_tracker[scid] 
+                    and ((f.data[scid] | player.get_player_modder_flags(pid) | blacklist_flag) ~ blacklist_flag) ~= f.data[scid]
+                )
+            ) then
+                f.data[scid] = ((f.data[scid] or 0) | player.get_player_modder_flags(pid) | blacklist_flag) ~ blacklist_flag
+                local name = player.get_player_name(pid)
+                local ip <const> = player.get_player_ip(pid)
+                local str_to_log = string.format("§%s§ /%s/ &%s& <%s>", name, scid, ip, modder_flags_to_text(f.data[scid]))
+                local found_str <const> = settings.log(
+                    paths.blacklist, 
+                    str_to_log, 
+                    {string.format("/%i/", scid), string.format("&%i&", ip), string.format("§%s§", name)}
+                )
+                local flags_from_file 
+                if found_str then
+                    flags_from_file = modder_text_to_flags(found_str:match("<(.+)>"))
+                    f.data[scid] = f.data[scid] | flags_from_file
+                else
+                    f.data.recently_logged[pid] = utils.time_ms() + 2000
+                end
+                str_to_log = string.format("§%s§ /%s/ &%s& <%s>", name, scid, ip, modder_flags_to_text(f.data[scid]))
+                f.data.not_modder_flag_tracker[scid] = not found_str or flags_from_file ~= 0
+                if f.data.not_modder_flag_tracker[scid] and found_str ~= str_to_log then
+                    replace_lines_in_file_exact(
+                        paths.blacklist, 
+                        found_str,
+                        str_to_log
+                    )
+                end
+            end
+        end
+    end
+end)
+settings.toggle["Log modders"].data = {
+    not_modder_flag_tracker = {},
+    recently_logged = {}
+}
+
+local essentials = {}
+
+function essentials.ipv4_to_dec(...)
+	local ip <const> = ...
+	local dec = 0
+	for octet in ip:gmatch("%d+") do 
+		dec = octet + dec << 8 
+	end
+	return math.ceil(dec)
+end
+
+essentials.notif_colors = eventtrack.const({
+	red = 0xff0000ff,
+	yellow = 0xff00ffff,
+	blue = 0xffff0000,
+	green = 0xff00ff00,
+	purple = 0xff800080,
+	orange = 0xff0080ff,
+	brown = 0xff336699,
+	pink = 0xffff00ff
+})
+
+function essentials.msg(...)
+	local text <const>,
+	color <const>,
+	notifyOn <const>,
+	duration <const>,
+	header = ...
+	settings.assert(essentials.notif_colors[color], "Invalid color to notification.", color)
+	settings.assert(type(text) == "string", "Failed to send a notification.", text)
+	if notifyOn then
+		header = header or ""
+		if header == "" and zeus_version then
+			header = "Zeus Menu".." "..zeus_version
+		end
+		menu.notify(text, header, duration or 3, essentials.notif_colors[color])
+	end
+end
+
+settings.toggle["Auto kicker"] = menu.add_feature("Auto kicker", "value_str", modderkick.id, function(f)
+	while f.on do
+		system.yield(0)
+		for pid in zeusplayers() do
+			local scid <const> = player.get_player_scid(pid)
+			if utils.time_ms() > (f.data[scid] or 0)
+			and player.is_player_modder(pid, -1) 
+			and is_not_friend(pid)
+			and player.is_player_modder(pid, modder_flag_setting_properties["Kick people with "].bits) then
+				if settings.toggle["Log modders"].on and player.is_player_modder(pid, modder_flag_setting_properties["Log people with "].bits) then
+					local time <const> = utils.time_ms() + 1500
+					while f.on and player.is_player_valid(pid) and time > utils.time_ms() and ((settings.toggle["Log modders"].on and not settings.toggle["Log modders"].data[scid]) or (settings.toggle["Player history"].on and not player_history.players_added_to_history(pid))) do
+						system.yield(0)
+					end
+				end
+				if player.is_player_valid(pid) and f.on and player.is_player_modder(pid, modder_flag_setting_properties["Kick people with "].bits) then
+					local modder_flags <const> = modder_flags_to_text(player.get_player_modder_flags(pid))
+					essentials.msg(string.format("%s %s%s%s", "Kicking", player.get_player_name(pid), ", flags:\n", modder_flags), "red", is_str(f, "Notifications on"))
+                    network.force_remove_player(pid)
+					f.data[scid] = utils.time_ms() + 20000
+				end
+			end
+		end
+	end
+end)
+settings.toggle["Auto kicker"]:set_str_data({
+	"Notifications on",
+	"Notifications off"
+})
+settings.valuei["Auto kicker notifications"] = settings.toggle["Auto kicker"]
+settings.toggle["Auto kicker"].data = {}
+
+local modIdStuff = {}
+do
+	local i = 0
+	repeat
+		modIdStuff[#modIdStuff + 1] = 1 << i
+		i = i + 1
+	until 1 << i == player.get_modder_flag_ends()
+	for flag_name, _ in pairs(custom_flags) do
+		local ends <const> = player.get_modder_flag_ends()
+		local flag_int <const> = player.add_modder_flag(flag_name)
+		if flag_int == ends then
+			modIdStuff[#modIdStuff + 1] = flag_int
+		end
+		custom_flags[flag_name] = flag_int
+	end
+end
+
+for setting_prefix, setting_property in pairs(modder_flag_setting_properties) do
+	for i = 1, #modIdStuff do
+		local setting_name <const> = setting_prefix..player.get_modder_flag_text(modIdStuff[i])
+		settings:add_setting({
+			setting_name = setting_name, 
+			setting = false
+		})
+
+		settings.toggle[setting_name] = menu.add_feature(setting_property.feat_name.." "..player.get_modder_flag_text(modIdStuff[i]), "toggle", setting_property.parent.id, function(f) 
+			settings.in_use[setting_name] = f.on
+			if f.on then
+				setting_property.bits = setting_property.bits | modIdStuff[i]
+			else
+				setting_property.bits = setting_property.bits & (setting_property.bits ~ modIdStuff[i])
+			end
+		end)
+	end
+end
+
+settings.toggle["Log people with Stand User"] = menu.add_feature("Log: Stand User", "toggle", modderlogging.id, function(f) 
+    settings.in_use["Log people with Stand User"] = f.on
+    if f.on then
+        hook.register_script_event_hook(function(source, target, params, count)
+			for i = 1, #params do
+				params[i] = params[i] & 0xFFFFFFFF
+			end
+			if ((params[1] == -1386010354) or (params[1] == -399817245 and params[4] > 31) or (params[1] == -569621836 and params[4] >= 30583) or (params[1] == -1782442696 and params[3] == 420 and params[4] == 69) or (params[1] == 1228916411 and params[3] > 10000) or (params[1] == 537760938 and params[2] == 2680059592720 and params[3] == 2680059592880 and params[4] == 539) or (params[1] == -371781708 and params[5] >= -2147483647) or (params[1] == -317318371 and params[5] >= -2147483647) or (params[1] == 911179316 and params[6] >= -2147483647) or (params[1] == 846342319 and params[3] >= -2147483647 and params[4] == 1) or (params[1] == -1991317864 and params[3] == 3 and params[4] >= -2147483647) or (params[1] == -1767058336 and params[3] >= -2147483647) or (params[1] == 296518236 and params[6] == 1) or (params[1] == 924535804 and params[3] >= -2147483647 and params[4] == 0)) and player.get_player_coords(source).z > 0 then
+                if source ~= player.player_id() and player.is_player_valid(source) and not player.is_player_modder(source, custommodderflags["Stand User"]) then
+                    if f.value == 0 then
+                        player.mark_as_modder(player.player_id(), custom_flags["Blacklist"])
+                    elseif f.value == 1 then
+                        player.mark_as_modder(player.player_id(), custom_flags["Blacklist"])
+                    elseif f.value == 2 then
+                        player.mark_as_modder(player.player_id(), custom_flags["Blacklist"])
+                    end
+                end
+			end
+		end)
+    end
+end)
+
+settings.toggle["Kick people with Stand User"] = menu.add_feature("Kick: Stand User", "toggle", modderlogging.id, function(f) 
+    settings.in_use["Kick people with Stand User"] = f.on
+    if f.on then
+        hook.register_script_event_hook(function(source, target, params, count)
+			for i = 1, #params do
+				params[i] = params[i] & 0xFFFFFFFF
+			end
+			if ((params[1] == -1386010354) or (params[1] == -399817245 and params[4] > 31) or (params[1] == -569621836 and params[4] >= 30583) or (params[1] == -1782442696 and params[3] == 420 and params[4] == 69) or (params[1] == 1228916411 and params[3] > 10000) or (params[1] == 537760938 and params[2] == 2680059592720 and params[3] == 2680059592880 and params[4] == 539) or (params[1] == -371781708 and params[5] >= -2147483647) or (params[1] == -317318371 and params[5] >= -2147483647) or (params[1] == 911179316 and params[6] >= -2147483647) or (params[1] == 846342319 and params[3] >= -2147483647 and params[4] == 1) or (params[1] == -1991317864 and params[3] == 3 and params[4] >= -2147483647) or (params[1] == -1767058336 and params[3] >= -2147483647) or (params[1] == 296518236 and params[6] == 1) or (params[1] == 924535804 and params[3] >= -2147483647 and params[4] == 0)) and player.get_player_coords(source).z > 0 then
+                if source ~= player.player_id() and player.is_player_valid(source) and not player.is_player_modder(source, custommodderflags["Stand User"]) then
+                    if f.value == 0 then
+                        player.mark_as_modder(player.player_id(), custom_flags["Blacklist"])
+                    elseif f.value == 1 then
+                        player.mark_as_modder(player.player_id(), custom_flags["Blacklist"])
+                    elseif f.value == 2 then
+                        player.mark_as_modder(player.player_id(), custom_flags["Blacklist"])
+                    end
+                end
+			end
+		end)
+    end
+end)
+
+for _, properties in pairs({
+	{
+		setting_name = "Blacklist notifications #notifications#", 
+		setting = true, 
+		feature_name = "Notify when recognized in blacklist", 
+		feature_parent = modder
+	}
+}) do
+	settings:add_setting(properties)
+	settings.toggle[properties.setting_name] = menu.add_feature(properties.feature_name, "toggle", properties.feature_parent.id, function(f)
+		settings.in_use[properties.setting_name] = f.on
+	end)
+end
+
+local memoize <const> = {}
+
+do
+	for func_name, func_table_name in pairs({
+		get_entity_coords = "entity",
+		get_player_coords = "player",
+		is_in_vehicle = "Essentials"
+
+	}) do
+		local memoized <const> = setmetatable({}, {__mode = "vk"})
+		memoize[func_name] = function(data)
+			if memoized[data] and memoized[data].time > utils.time_ms() then
+				return memoized[data].pos
+			else
+				memoized[data] = memoized[data] or {}
+				memoized[data].pos = (_G[func_table_name] or package.loaded[func_table_name])[func_name](data)
+				memoized[data].time = utils.time_ms() + math.ceil(20000 * math.min(gameplay.get_frame_time(), 0.03)) 
+				return memoized[data].pos
+			end
+		end
+	end
+end
+
+do
+	settings.toggle["Godmode detection"] = menu.add_feature("Godmode detection", "toggle", modder.id, function(f)
+		while f.on do
+			system.yield(0)
+			for pid in zeusplayers() do
+				if f.data.is_god(f, pid)
+					and (not f.data.tracker[player.get_player_scid(pid)] or utils.time_ms() > f.data.tracker[player.get_player_scid(pid)])
+					and #is_any_tasks_active(player.get_player_ped(pid), f.data.tasks) > 1 
+				then
+					local scid <const> = player.get_player_scid(pid)
+					f.data.tracker[scid] = utils.time_ms() + 15000
+					menu.create_thread(function()
+						local time <const> = utils.time_ms() + 1000
+						while time > utils.time_ms() and f.data.is_god(f, pid)
+						and #is_any_tasks_active(player.get_player_ped(pid), f.data.tasks) > 1 do
+							system.yield(0)
+						end
+						if utils.time_ms() > time then
+							local time <const> = utils.time_ms() + 10000
+							while time > utils.time_ms() and f.data.is_god(f, pid) do
+								system.yield(0)
+							end
+							if utils.time_ms() > time then
+								essentials.msg(string.format("%s %s", player.get_player_name(pid), "is in godmode."), "orange", true)
+								player.mark_as_modder(pid, custom_flags["Godmode"])
+								f.data.tracker[scid] = utils.time_ms() + 120000
+							end
+						end
+					end, nil)
+				end
+			end
+		end
+	end)
+	settings.toggle["Godmode detection"].data = {
+		tasks = {
+			enums.ctasks.Melee,
+			enums.ctasks.Cover,
+			enums.ctasks.AimAndThrowProjectile,
+			enums.ctasks.ReloadGun,
+			enums.ctasks.Weapon,
+			enums.ctasks.ReactAimWeapon,
+			enums.ctasks.Writhe,
+			enums.ctasks.StayInCover,
+			enums.ctasks.CombatFlank,
+			enums.ctasks.Parachute,
+			enums.ctasks.CombatRoll,
+			enums.ctasks.AimGunOnFoot,
+			enums.ctasks.PlayerWeapon,
+			enums.ctasks.SwapWeapon,
+			enums.ctasks.Gun,
+			enums.ctasks.MoveMeleeMovement,
+			enums.ctasks.MeleeActionResult,
+			enums.ctasks.MeleeUpperbodyAnims,
+			enums.ctasks.MountThrowProjectile,
+			enums.ctasks.ThrowProjectile,
+			enums.ctasks.AimFromGround,
+			enums.ctasks.AimGunScripted,
+			enums.ctasks.Bomb
+		},
+		is_god = function(f, pid)
+			local hash <const> = entity.get_entity_model_hash(player.get_player_vehicle(pid))
+			return 
+				f.on
+				and player.can_player_be_modder(pid)
+				and player.is_player_god(pid)
+				and entity.is_entity_visible(player.get_player_ped(pid))
+				and get_player_coords(pid).z ~= -190
+				and get_player_coords(pid).z ~= -180
+				and not is_in_vehicle(pid)
+				and not player.is_player_modder(pid, -1)
+				and not entity.is_entity_dead(player.get_player_ped(pid))
+				and is_not_friend(pid)
+				and interior.get_interior_from_entity(player.get_player_ped(pid)) == 0
+				and interior.get_interior_at_coords_with_type(get_player_coords(pid), "") == 0
+		end,
+		tracker = {}
+	}
+end
+
+settings.listeners = {
+	player_leave = {},
+	player_join = {},
+	chat = {},
+	exit = {}
+}
+
+function dec_to_ipv4(ip)
+	return string.format("%i.%i.%i.%i", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
+end
+
+settings.toggle["Blacklist"] = menu.add_feature("Blacklist", "value_str", modder.id, function(f)
+	if f.on then
+		if settings.listeners["player_join"]["blacklist"] then
+			return
+		end
+		settings.listeners["player_join"]["blacklist"] = event.add_event_listener("player_join", function(event)
+			local pid <const> = event.player
+			if player.is_player_valid(pid)
+			and player.can_player_be_modder(pid)
+			and player.player_id() ~= pid 
+			and is_not_friend(pid)
+			and how_many_people_named(pid) == 1
+			and utils.time_ms() > (settings.toggle["Log modders"].data.recently_logged[pid] or 0) 
+			and not player.is_player_modder(pid, custom_flags["Blacklist"]) then
+				local rid <const> = player.get_player_scid(pid)
+				local name = player.get_player_name(pid)
+				local ip <const> = player.get_player_ip(pid)
+				if #name < 1 then
+					name = math.random(-2^61, 2^62)
+				end
+				local tags, what_was_detected = search_for_match_and_get_line(paths.blacklist, {
+					string.format("/%i/", rid),
+					string.format("&%i&", ip),
+					string.format("§%s§", name)
+				})
+				if tags and what_was_detected then
+					what_was_detected = what_was_detected:gsub("[/&§]", "")
+					if what_was_detected:find("/", 1, true) then
+						what_was_detected = string.format("%s: %s", "Rid", what_was_detected)
+					elseif what_was_detected:find("&", 1, true) then 
+						what_was_detected = string.format("%s: %s", "IP", dec_to_ipv4(tonumber(what_was_detected)))
+					elseif what_was_detected:find("§", 1, true) then
+						what_was_detected = string.format("%s: %s", "Name", what_was_detected)
+					end
+					tags = tags:match("<(.+)>") or ""
+					local flags <const> = modder_text_to_flags(tags)
+					essentials.msg(
+						string.format("%s %s%s %s %s%s", "Recognized", name, "\nDetected:", what_was_detected, "\nTags:\n", tags), 
+						"orange", 
+						settings.in_use["Blacklist notifications #notifications#"]
+					)
+					if is_str(f, "Reapply marks") then
+						player.set_player_as_modder(pid, flags)
+					end
+					if player.is_player_valid(pid) then
+						player.mark_as_modder(pid, custom_flags["Blacklist"])
+					end
+				end
+			end
+		end)
+	else
+		event.remove_event_listener("player_join", settings.listeners["player_join"]["blacklist"])
+		settings.listeners["player_join"]["blacklist"] = nil
+	end
+end)
+settings.valuei["Blacklist option"] = settings.toggle["Blacklist"]
+settings.valuei["Blacklist option"]:set_str_data({
+	"Don't reapply marks",
+	"Reapply marks"
+})
+
+local globals <const> = {}
+
+local offsets <const> = eventtrack.const({
+	["MAIN"] = 1853131,
+	["OFFSET_PER_PLAYER"] = 888,
+	["OFFSET_TO_INFO"] = 205
+})
+
+local stats <const> = eventtrack.const({
+	["WALLET"] = 3,
+	["RANK"] = 6,
+	["CREW_TITLE"] = 7,
+	["KD"] = 26,
+	["KILLS"] = 28,
+	["DEATHS"] = 29,
+	["TOTALMONEY"] = 56,
+	["FAVOURITE_WEAPON_HASH"] = 59,
+	["TOTAL_RACES_WON"] = 15,
+	["TOTAL_RACES_LOST"] = 16, 
+	["TIMES_FINISH_RACE_TOP_3"] = 17, 
+	["TIMES_FINISH_RACE_LAST"] = 18,
+	["TIMES_RACE_BEST_LAP"] = 19,
+	["TOTAL_DEATHMATCH_WON"] = 20,
+	["TOTAL_DEATHMATCH_LOST"] = 21, 
+	["TOTAL_TDEATHMATCH_WON"] = 22, 
+	["TOTAL_TDEATHMATCH_LOST"] = 23,
+	["TIMES_FINISH_DM_TOP_3"] = 30, 
+	["TIMES_FINISH_DM_LAST"] = 31,
+	["DARTS_TOTAL_WINS"] = 32, 
+	["DARTS_TOTAL_MATCHES"] = 33,
+	["ARMWRESTLING_TOTAL_WINS"] = 34, 
+	["ARMWRESTLING_TOTAL_MATCH"] = 35,
+	["TENNIS_MATCHES_WON"] = 36, 
+	["TENNIS_MATCHES_LOST"] = 37,
+	["BJ_WINS"] = 38,
+	["BJ_LOST"] = 39,
+	["GOLF_WINS"] = 40,
+	["GOLF_LOSSES"] = 41,
+	["SHOOTINGRANGE_WINS"] = 42, 
+	["SHOOTINGRANGE_LOSSES"] = 43,
+	["Unknown_stat"] = 44,
+	["HORDEWINS"] = 47,
+	["CRHORDE"] = 48,
+	["MCMWIN"] = 45,
+	["CRMISSION"] = 46,
+	["MISSIONS_CREATED"] = 50, 
+	["DROPOUTRATE"] = 27,
+	["MOST_FAVORITE_STATION"] = 53,
+	["CAN_SPECTATE"] = 52,
+	["IS_BAD_SPORT"] = 51,
+	["GLOBALXP"] = 5
+})
+
+function globals.get_player_info_offset(pid, info_offset) -- By Sainan
+	return offsets.MAIN + (1 + (pid * offsets.OFFSET_PER_PLAYER)) + offsets.OFFSET_TO_INFO + info_offset
+end
+function globals.get_player_info_i(pid, info_offset) -- By Sainan
+	return script.get_global_i(globals.get_player_info_offset(pid, info_offset))
+end
+function globals.get_player_info_f(pid, info_offset) -- By Sainan
+	return script.get_global_f(globals.get_player_info_offset(pid, info_offset))
+end
+
+function globals.get_player_rank(pid)
+	return globals.get_player_info_i(pid, stats.RANK)
+end
+
+function globals.get_player_money(pid)
+	return globals.get_player_info_i(pid, stats.TOTALMONEY)
+end
+
+function globals.get_player_kd(pid)
+	return globals.get_player_info_f(pid, stats.KD)
+end
+
+do
+	local strings <const> = eventtrack.const({
+		"Has a lot of money.",
+		"Has Negative lvl",
+		"Has Negative k/d",
+		"Has a high rank.",
+		"Has a high k/d.",
+		"Has modded weapons."
+	})
+	local detection_string_cache <const> = {}
+
+	local function suspicious_stats(pid)
+		if player.is_player_valid(pid)
+		and player.can_player_be_modder(pid)
+		and not player.is_player_modder(pid, custom_flags["Has-Suspicious-Stats"])
+		and globals.get_player_rank(pid) ~= 0 
+		and not settings.toggle["Automatically check player stats"].data[player.get_player_scid(pid)] 
+		and is_not_friend(pid) 
+		and pid ~= player.player_id() 
+		and (globals.get_player_money(pid) ~= globals.get_player_money(player.player_id()) 
+			or globals.get_player_rank(pid) ~= globals.get_player_rank(player.player_id()) 
+			or globals.get_player_kd(pid) ~= globals.get_player_kd(player.player_id())) then
+			local severity = 0
+			local hash = 0
+			if globals.get_player_money(pid) > 120000000 or globals.get_player_money(pid) < -0.1 then
+				severity = severity + 1
+				hash = hash | 1 << 0
+			end
+			if globals.get_player_rank(pid) < 1 then
+				severity = severity + 3
+				hash = hash | 1 << 1
+			end
+			if globals.get_player_kd(pid) < -0.1 then
+				severity = severity + 3
+				hash = hash | 1 << 2
+			end
+			if globals.get_player_rank(pid) > 1200 then
+				severity = severity + 1
+				hash = hash | 1 << 3
+			end
+			if globals.get_player_kd(pid) > 10 then
+				severity = severity + 1
+				hash = hash | 1 << 4
+			end
+			local Ped <const> = player.get_player_ped(pid)
+			if weapon.has_ped_got_weapon(Ped, gameplay.get_hash_key("weapon_stungun"))
+			or weapon.has_ped_got_weapon(Ped, gameplay.get_hash_key("weapon_stinger"))
+			or weapon.has_ped_got_weapon(Ped, gameplay.get_hash_key("weapon_railgun"))
+			or weapon.has_ped_got_weapon(Ped, gameplay.get_hash_key("weapon_hazardcan"))
+			or weapon.has_ped_got_weapon(Ped, gameplay.get_hash_key("weapon_fireextinguisher"))
+			or weapon.has_ped_got_weapon(Ped, gameplay.get_hash_key("weapon_bzgas")) then
+				severity = severity + 2
+				hash = hash | 1 << 5
+			end
+			if not detection_string_cache[hash] then
+				local str <const> = {}
+				for i = 0, #strings - 1 do
+					if hash & 1 << i ~= 0 then
+						str[#str + 1] = strings[i + 1]
+					end
+				end
+				detection_string_cache[hash] = table.concat(str, "\n")
+			end
+			if severity >= 3 then
+				player.mark_as_modder(pid, custom_flags["Has-Suspicious-Stats"])
+				settings.toggle["Automatically check player stats"].data[player.get_player_scid(pid)] = true
+				essentials.msg(string.format("%s %s\n%s", player.get_player_name(pid), "has:", detection_string_cache[hash]), "orange", true, 6)
+			end
+		end
+	end
+
+	settings.toggle["Automatically check player stats"] = menu.add_feature("Modded stats detection", "toggle", modder.id, function(f)
+		while f.on do
+			for pid in zeusplayers() do
+				suspicious_stats(pid)
+			end
+			system.yield(0)
+		end
+	end)
+	settings.toggle["Automatically check player stats"].data = {}
+end
+
+local function add_to_blacklist(...)
+	if utils.file_exists(paths.blacklist) then
+		local name,
+		ip <const>,
+		rid <const>,
+		reason,
+		text <const> = ...
+		if not name or #name < 1 then
+			name = "INVALID_NAME_758349843"
+		end
+		if not reason or #reason == 0 then
+			reason = "Manually added"
+		end
+		local results <const> = settings.log(paths.blacklist, string.format("§%s§ /%s/ &%s& <%s>", name, rid, ip, reason), {
+			string.format("/%s/", rid),
+			string.format("&%s&", ip),
+			string.format("§%s§", name)
+		})
+		if results then
+			replace_lines_in_file_exact(
+				paths.blacklist, 
+				results, 
+				string.format("%s<%s>", results:match("(.+)<"), reason)
+			)
+			essentials.msg("Changed the reason this person was added to the blacklist.", "blue", text)
+		else
+			essentials.msg("Added to blacklist.", "green", text)
+			return true
+		end
+	else
+		essentials.msg("Blacklist file doesn't exist.", "red", text)
+	end
+end
+
+function remove_lines_from_file_substring(...)
+	local file_path <const>,
+	what_to_be_removed <const>,
+	use_regex <const> = ...
+	local new_string <const> = {}
+	local found_what_to_be_removed = false
+	for line in io.lines(file_path) do
+		if found_what_to_be_removed or not line:find(what_to_be_removed, 1, not use_regex) then
+			new_string[#new_string + 1] = line
+		else
+			found_what_to_be_removed = true
+		end
+	end
+	local file <close> = io.open(file_path, "w+")
+	new_string[#new_string + 1] = ""
+	file:write(table.concat(new_string, "\n"))
+	file:flush()
+	return found_what_to_be_removed
+end
+
+local function remove_from_blacklist(...)
+	if utils.file_exists(paths.blacklist) then
+		local name,
+		ip,
+		rid,
+		text <const> = ...
+		ip = tostring(ip)
+		rid = tostring(rid)
+		if ip:find("%.") then
+			ip = tostring(essentials.ipv4_to_dec(ip))
+		end
+		local result = remove_lines_from_file_substring(paths.blacklist, string.format("/%i/", rid))
+		result = result or remove_lines_from_file_substring(paths.blacklist, string.format("&%i&", ip))
+		result = result or remove_lines_from_file_substring(paths.blacklist, string.format("§%s§", name))
+		if result then
+			settings.toggle["Log modders"].data.not_modder_flag_tracker[tonumber(rid)] = nil -- So that modder logger can't add anymore
+			essentials.msg("Removed rid.", "green", text)
+		else
+			essentials.msg("Couldn't find player.", "blue", text)
+		end
+	else
+		essentials.msg("Blacklist file doesn't exist.", "red", text)
+	end
+end
+
+menu.add_feature("Blacklist", "action_value_str", modder.id, function(f)
+	local illegal_chars_msg <const> = "Illegal characters detected. Please try again. Illegal chars:".." \"/\", \"§\", \"&\", \"<\", \">\""
+	if is_str(f, "Add") then
+		local ip, reason, name = "", "", ""
+		local scid <const>, status = get_input("Type in social club ID, also known as: rid / scid.", "", 16, 3)
+		if status == 2 then
+			return
+		end
+		while true do
+			ip, status = get_input("Type in ip.", ip, 128, 0)
+			if status == 2 then
+				return
+			end
+			if ip:find("[/§&<>]") then
+				essentials.msg(illegal_chars_msg, "red", true, 7)
+			else
+				break
+			end
+			system.yield(0)
+		end
+		if ip:find(".", 1, true) then
+			ip = essentials.ipv4_to_dec(ip)
+		end
+		while true do
+			reason, status = get_input("Type in why you're adding this person.", reason, 128, 0)
+			if status == 2 then
+				return
+			end
+			if reason:find("[/§&<>]") then
+				essentials.msg(illegal_chars_msg, "red", true, 7)
+			else
+				break
+			end
+			system.yield(0)
+		end
+		while true do
+			name, status = get_input("Type in their name.", name, 128, 0)
+			if status == 2 then
+				return
+			end
+			if name:find("[/§&<>]") then
+				essentials.msg(illegal_chars_msg, "red", true, 7)
+			else
+				break
+			end
+			system.yield(0)
+		end
+		add_to_blacklist(name, ip, scid, reason, true)
+		for pid in zeusplayers() do
+			if player.get_player_scid(pid) == scid then
+				player.mark_as_modder(pid, custom_flags["Blacklist"])
+			end
+		end
+	elseif is_str(f, "Remove") then
+		local scid <const>, status <const> = get_input("Type in social club ID, also known as: rid / scid.", "", 16, 3)
+		if status == 2 then
+			return
+		end
+		local ip <const>, status <const> = get_input("Type in ip.", "", 128, 0)
+		if status == 2 then
+			return
+		end
+		remove_from_blacklist("", ip, scid, true)
+	elseif is_str(f, "Add session") then
+		local reason <const>, status <const> = get_input("Type in the why you're adding everyone.", "", 128, 0)
+		if status == 2 then
+			return
+		end
+		local number_of_players_added = 0
+		local number_of_players_modified = 0
+		for pid in zeusplayers() do
+			if is_not_friend(pid) and add_to_blacklist(player.get_player_name(pid), player.get_player_ip(pid), player.get_player_scid(pid), reason) then
+				number_of_players_added = number_of_players_added + 1
+			else
+				number_of_players_modified = number_of_players_modified + 1
+			end
+		end
+	elseif is_str(f, "Remove session") then
+		for pid in zeusplayers() do
+			remove_from_blacklist(player.get_player_name(pid), player.get_player_ip(pid), player.get_player_scid(pid))
+		end
+	end
+end):set_str_data({
+	"Add",
+	"Remove",
+	"Add session",
+	"Remove session"
+})
+
 
 Antiprotex = menu.add_feature("Anti Protex Option", "parent", Protex.id)
 
@@ -44299,5 +45356,50 @@ menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_versio
 menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
 require("Zeus/Lib/Animation")
+
+function settings:initialize(...)
+	local file_path <const> = ...
+	assert(utils.file_exists(file_path), debug.traceback("Tried to initialize settings from a file that doesn't exist.", 2))
+	local file = io.open(file_path)
+	assert(file, debug.traceback("Failed to open settings file.", 2))
+	local str <const> = file:read("*a")
+	file:close()
+	local type <const>, tonumber <const> = type, tonumber
+	for name, setting in str:gmatch("([^\n\r]+)=([^\n\r]+)") do
+		local num <const> = tonumber(setting)
+		local setting_type <const> = type(self.default[name])
+		if setting_type == "number" then
+			setting = num
+		elseif setting == nil then
+			setting = self.default[name]
+		elseif setting_type == "boolean" then
+			setting = setting == "true"
+		end
+		self.in_use[name] = setting
+	end
+	local file = io.open(file_path, "a+")
+	file:setvbuf("full")
+	assert(io.type(file) == "file", debug.traceback("Failed to open settings file.", 2))
+	for setting_name, default in pairs(self.default) do
+		if self.in_use[setting_name] == nil then
+			self.in_use[setting_name] = default
+			file:write(string.format("%s=%s\n", setting_name, tostring(self.in_use[setting_name])))
+		end
+	end
+	file:close()
+	for name, feat in pairs(self.toggle) do
+		feat.on = self.in_use[name]
+	end
+	for name, feat in pairs(self.valuei) do
+		feat.value = self.in_use[name]
+	end
+	for name, feat in pairs(self.valuef) do
+		feat.value = self.in_use[name]
+	end
+	for _, feat in pairs(self.drive_style_toggles) do
+		feat.on = self.in_use["Drive style"] & feat.data == feat.data
+	end
+end
+settings:initialize(paths.home.."scripts\\Zeus\\zeussettings.ini")
 
 end, nil)
