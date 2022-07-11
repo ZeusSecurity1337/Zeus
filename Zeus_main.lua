@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.942"
+zeus_version = "20.943"
 
 menu.create_thread(function()
 
@@ -12338,34 +12338,6 @@ function explodeFunc(pid, modder)
     while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
         graphics.request_named_ptfx_asset("scr_xm_orbital")
         system.wait(0)
-    end
-    if modder > '0'  then
-        if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
-            -- do nothing to friend modder or self
-        else
-            util.require_natives(1651208000)
-            util.keep_running()
-            local ptfxIds = {}
-            local ptfxPower = 500
-            local ptfxSize = 500
-            local ptfxName = "exp_grd_grenade_smoke"
-
-            if player.is_player_valid(pid) then
-                graphics.request_named_ptfx_asset("core")
-                while not graphics.has_named_ptfx_asset_loaded("core") do
-                    util.yield()
-                end
-                for i = 1, ptfxPower, 1 do
-                    graphics.set_next_ptfx_asset("core")
-                    local ptfxId = graphics.start_networked_ptfx_looped_on_entity(ptfxName, player.get_player_ped(pid), 0, 0, -1, 0, 0, 0, ptfxSize)
-                    table.insert(ptfxIds, ptfxId)
-                end
-            else
-                for _, i in pairs(ptfxIds) do
-                    graphics.remove_named_ptfx_asset(ptfxName)
-                end
-            end
-        end
     end
 end
 
@@ -43807,7 +43779,37 @@ menu.add_player_feature("Zeus's BigDick Crash", "action", crashes1.id, function(
 	end
 end)
 
+menu.add_player_feature("PTFX Crash", "action", crashes1.id, function(f, pid)
+	util.require_natives(1651208000)
+    util.keep_running()
+    local ptfxIds = {}
+    local ptfxName = "exp_grd_grenade_smoke"
 
+    local ptfxPower, status = get_input("Type in PTFX Power", "", 16, 3)
+    if status == 2 then
+        return
+    end
+    local ptfxSize, status = get_input("Type in PTFX Size.", "", 128, 0)
+    if status == 2 then
+        return
+    end
+
+    if player.is_player_valid(pid) then
+        graphics.request_named_ptfx_asset("core")
+        while not graphics.has_named_ptfx_asset_loaded("core") do
+            util.yield()
+        end
+        for i = 1, ptfxPower, 1 do
+            graphics.set_next_ptfx_asset("core")
+            local ptfxId = graphics.start_networked_ptfx_looped_on_entity(ptfxName, player.get_player_ped(pid), 0, 0, -1, 0, 0, 0, ptfxSize)
+            table.insert(ptfxIds, ptfxId)
+        end
+    else
+        for _, i in pairs(ptfxIds) do
+            graphics.remove_named_ptfx_asset(ptfxName)
+        end
+    end
+end)
 
 menu.add_player_feature("Zeus's Host of Death Kick", "action", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
