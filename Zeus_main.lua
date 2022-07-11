@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.944"
+zeus_version = "20.945"
 
 menu.create_thread(function()
 
@@ -43799,7 +43799,7 @@ menu.add_player_feature("PTFX Crash", "action", crashes1.id, function(f, pid)
         end
         for i = 1, ptfxPower, 1 do
             graphics.set_next_ptfx_asset("core")
-            local ptfxId = graphics.start_networked_ptfx_looped_on_entity(ptfxName, player.get_player_ped(pid), 0, 0, -1, 0, 0, 0, ptfxSize)
+            local ptfxId = graphics.start_networked_ptfx_looped_on_entity(ptfxName, player.get_player_ped(pid), v3(0, 0, -1), v3(0, 0, 0), ptfxSize)
             table.insert(ptfxIds, ptfxId)
         end
     else
