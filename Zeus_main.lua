@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.928"
+zeus_version = "20.929"
 
 menu.create_thread(function()
 
@@ -44219,6 +44219,51 @@ function essentials.msg(...)
 	end
 end
 
+function dec_to_ipv4(ip)
+	return string.format("%i.%i.%i.%i", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
+end
+
+function rawset(...)
+	local Table <const>, 
+	index <const>, 
+	value <const> = ...
+	local metatable <const> = getmetatable(Table)
+	local __newindex
+	if metatable then
+		__newindex = metatable.__newindex
+		metatable.__newindex = nil
+	end
+	Table[index] = value
+	if __newindex then
+		metatable.__newindex = __newindex
+	end
+end
+
+local player_history <const> = {
+	year_parents = {},
+	month_parents = {},
+	day_parents = {},
+	hour_parents = {},
+	searched_players = {},
+	players_added_to_history = setmetatable({
+		__get_duplicate_check_string = function(pid)
+			return string.format("|%s| &%d& ^%s^", player.get_player_name(pid), player.get_player_scid(pid), dec_to_ipv4(player.get_player_ip(pid)))
+		end
+	}, {
+		__call = function(Table, pid)
+			return Table[Table.__get_duplicate_check_string(pid)]
+		end,
+		__newindex = function(Table, pid_or_str, value)
+			rawset(
+				Table, 
+				type(pid_or_str) == "number" and Table.__get_duplicate_check_string(pid_or_str)
+				or type(pid_or_str) == "string" and pid_or_str, 
+				value
+			)
+		end
+	})
+}
+
 settings.toggle["Auto kicker"] = menu.add_feature("Auto kicker", "value_str", modderkick.id, function(f)
 	while f.on do
 		system.yield(0)
@@ -44376,6 +44421,10 @@ function get_player_coords(pid)
 	end
 end
 
+function is_in_vehicle(pid)
+	return player.is_player_in_any_vehicle(pid) or player.get_player_coords(pid).z == -50
+end
+
 do
 	settings.toggle["Godmode detection"] = menu.add_feature("Godmode detection", "toggle", modder.id, function(f)
 		while f.on do
@@ -44461,10 +44510,6 @@ settings.listeners = {
 	chat = {},
 	exit = {}
 }
-
-function dec_to_ipv4(ip)
-	return string.format("%i.%i.%i.%i", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
-end
 
 settings.toggle["Blacklist"] = menu.add_feature("Blacklist", "value_str", modder.id, function(f)
 	if f.on then
