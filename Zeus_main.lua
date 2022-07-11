@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.925"
+zeus_version = "20.926"
 
 menu.create_thread(function()
 
@@ -44393,11 +44393,11 @@ do
 	end
 end
 
-function get_player_coords(pid) -- Allows you to get player coords with accurate z coordinate.
+function get_player_coords(pid)
 	if pid == player.player_id() then
 		return player.get_player_coords(pid)
 	else
-		return network._network_get_player_coords(pid)
+		return player.get_player_coords(pid)
 	end
 end
 
