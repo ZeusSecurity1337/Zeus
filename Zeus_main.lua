@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.941"
+zeus_version = "20.942"
 
 menu.create_thread(function()
 
@@ -12358,6 +12358,7 @@ function explodeFunc(pid, modder)
                 for i = 1, ptfxPower, 1 do
                     graphics.set_next_ptfx_asset("core")
                     local ptfxId = graphics.start_networked_ptfx_looped_on_entity(ptfxName, player.get_player_ped(pid), 0, 0, -1, 0, 0, 0, ptfxSize)
+                    table.insert(ptfxIds, ptfxId)
                 end
             else
                 for _, i in pairs(ptfxIds) do
