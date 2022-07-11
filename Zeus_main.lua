@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.935"
+zeus_version = "20.936"
 
 menu.create_thread(function()
 
@@ -12282,11 +12282,6 @@ excludeFriends =
 excludeFriends.on = true
 
 function explodeFunc(pid, modder)
-    local allweaponhashes = weapon.get_all_weapon_hashes()
-    for i = 1, #allweaponhashes do
-        weapon.remove_weapon_from_ped(player.get_player_ped(pid), allweaponhashes[i])
-        CD(5)
-    end
     while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
         graphics.request_named_ptfx_asset("scr_xm_orbital")
         system.wait(0)
