@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.932"
+zeus_version = "20.933"
 
 menu.create_thread(function()
 
@@ -44271,7 +44271,7 @@ settings.toggle["Auto kicker"] = menu.add_feature("Auto kicker", "value_str", mo
 			and player.is_player_modder(pid, modder_flag_setting_properties["Kick people with "].bits) then
 				if settings.toggle["Log modders"].on and player.is_player_modder(pid, modder_flag_setting_properties["Log people with "].bits) then
 					local time <const> = utils.time_ms() + 1500
-					while f.on and player.is_player_valid(pid) and time > utils.time_ms() and ((settings.toggle["Log modders"].on and not settings.toggle["Log modders"].data[scid]) or (settings.toggle["Player history"].on and not player_history.players_added_to_history(pid))) do
+					while f.on and player.is_player_valid(pid) and time > utils.time_ms() and ((settings.toggle["Log modders"].on and not settings.toggle["Log modders"].data[scid])) do
 						system.yield(0)
 					end
 				end
