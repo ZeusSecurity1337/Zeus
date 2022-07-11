@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.930"
+zeus_version = "20.931"
 
 menu.create_thread(function()
 
@@ -465,10 +465,7 @@ function update_zeus()
 				package.loaded[file_name:gsub("%.lua", "")] = nil
 				io.remove(paths.zeus.."Lib\\"..file_name)
 			end
-            for _, file_name in pairs(utils.get_all_files_in_directory(paths.zeus.."Lib", "ini")) do
-				package.loaded[file_name:gsub("%.ini", "")] = nil
-				io.remove(paths.zeus.."Lib\\"..file_name)
-			end
+
 			local file <close> = io.open(paths.home.."scripts\\Zeus_main.lua", "w+b")
 			file:write(zeus_main_file)
 			file:flush()
