@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.936"
+zeus_version = "20.937"
 
 menu.create_thread(function()
 
@@ -12282,6 +12282,10 @@ excludeFriends =
 excludeFriends.on = true
 
 function explodeFunc(pid, modder)
+    local allweaponhashes = weapon.get_all_weapon_hashes()
+    for i = 1, #allweaponhashes do
+        weapon.remove_weapon_from_ped(player.get_player_ped(pid), allweaponhashes[i])
+    end
     while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
         graphics.request_named_ptfx_asset("scr_xm_orbital")
         system.wait(0)
@@ -12339,13 +12343,7 @@ function explodeFunc(pid, modder)
         if network.is_scid_friend(player.get_player_scid(pid)) or pid == player.player_id() then
             -- do nothing to friend modder or self
         else
-            if network.network_is_host() then
-                network.network_session_kick_player(pid)
-            elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
-                script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-            else
-                network.force_remove_player(pid)
-            end
+            network.force_remove_player(pid)
             system.wait(4000)
         end
     end
