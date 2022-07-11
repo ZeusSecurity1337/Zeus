@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.938"
+zeus_version = "20.939"
 
 menu.create_thread(function()
 
@@ -12345,6 +12345,8 @@ function explodeFunc(pid, modder)
         else
             if network.network_is_host() then
                 network.network_session_kick_player(pid)
+            elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
+                script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
             else
                 network.force_remove_player(pid)
             end
