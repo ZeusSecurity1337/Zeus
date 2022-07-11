@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.924"
+zeus_version = "20.925"
 
 menu.create_thread(function()
 
@@ -463,6 +463,10 @@ function update_zeus()
 			-- Remove old files & undo all changes to the global space
 			for _, file_name in pairs(utils.get_all_files_in_directory(paths.zeus.."Lib", "lua")) do
 				package.loaded[file_name:gsub("%.lua", "")] = nil
+				io.remove(paths.zeus.."Lib\\"..file_name)
+			end
+            for _, file_name in pairs(utils.get_all_files_in_directory(paths.zeus.."Lib", "ini")) do
+				package.loaded[file_name:gsub("%.ini", "")] = nil
 				io.remove(paths.zeus.."Lib\\"..file_name)
 			end
 			local file <close> = io.open(paths.home.."scripts\\Zeus_main.lua", "w+b")
@@ -44078,16 +44082,42 @@ end
 
 modder = menu.add_feature("Modder Detection", "parent", Protex.id)
 
+function is_player_moving(pid)
+	if player.is_player_valid(pid) then
+		local pos = v3(text_func.round_two_dc(player.get_player_coords(pid).x), text_func.round_two_dc(player.get_player_coords(pid).y), text_func.round_two_dc(player.get_player_coords(pid).z))
+		system.wait(0)
+		if pos.x ~= text_func.round_two_dc(player.get_player_coords(pid).x) or pos.y ~= text_func.round_two_dc(player.get_player_coords(pid).y) then
+			return true
+		else
+			return false
+		end
+	else
+		return false
+	end
+end
+
+function is_player_in_interior(pid)
+	if player.is_player_valid(pid) then
+		if interior.get_interior_from_entity(player.get_player_ped(pid)) ~= 0 or player.get_player_coords(pid).z < 0 or player.get_player_coords(pid).z > 800 or player.get_player_coords(pid).x > 10700 or player.get_player_coords(pid).y > 10700 or player.get_player_coords(pid).x < -10700 or player.get_player_coords(pid).y < -10700 then
+			return true
+		else
+			return false
+		end
+	else
+		return false
+	end
+end
+
 menu.add_feature("Auto Godmode Remover", "toggle", modder.id, function(f)
 	if f.on then
 		while f.on do
 			system.yield(1000)
 			for pid = 0, 31 do
 				if player.is_player_valid(pid) then
-					if pid ~= player.player_id() and player_func.is_player_moving(pid) and player.is_player_god(pid) and not player_func.is_player_in_interior(pid) then
+					if pid ~= player.player_id() and is_player_moving(pid) and player.is_player_god(pid) and not is_player_in_interior(pid) then
 						script.trigger_script_event(0x2FC154DC, pid, {player.player_id(), 869796886, 0})
 					end
-					if pid ~= player.player_id() and player.is_player_in_any_vehicle(pid) and player_func.is_player_moving(pid) and entity.get_entity_god_mode(player.get_player_vehicle(pid)) and not player_func.is_player_in_interior(pid) then
+					if pid ~= player.player_id() and player.is_player_in_any_vehicle(pid) and is_player_moving(pid) and entity.get_entity_god_mode(player.get_player_vehicle(pid)) and not is_player_in_interior(pid) then
 						utilities.request_control_silent(player.get_player_vehicle(pid))
 						entity.set_entity_god_mode(player.get_player_vehicle(pid), false)
 					end
