@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.926"
+zeus_version = "20.927"
 
 menu.create_thread(function()
 
@@ -42156,32 +42156,6 @@ menu.add_player_feature("Cosmetic Bleed Out", "toggle", trolls.id, function(play
         system.wait(1000)
     end
 end)
-
-menu.add_player_feature("Blind Player", "toggle", trolls.id, function(playerfeat_toggle, pid)
-    menu.notify("Blinding " .. player.get_player_name(pid), troll_menu_ver)
-
-    local ptfx_loaded = false
-    local ptfx_executed = false
-    graphics.set_next_ptfx_asset("core")
-    if (ptfx_loaded == false or ptfx_executed == false) then
-        ptfx_loaded = requestPTFX("core")
-        ptfx_executed = true
-    end
-
-    while playerfeat_toggle.on do
-        local flare_ptfx = graphics.start_networked_ptfx_looped_on_entity("exp_grd_flare", player.get_player_ped(pid), v3(0, 0.6, 0.45), v3(0, 0, 0), 2)
-        system.wait(250)
-        graphics.remove_particle_fx(flare_ptfx, true)
-        return HANDLER_CONTINUE
-    end
-
-    if (not playerfeat_toggle.on) then
-        graphics.remove_named_ptfx_asset("core")
-        ptfx_loaded = false
-        ptfx_executed = false
-    end
-end)
-
 
 local function checknumber(_num)
     if _num ~= nil and tonumber(_num) ~= nil then
