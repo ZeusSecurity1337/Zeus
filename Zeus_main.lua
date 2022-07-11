@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.933"
+zeus_version = "20.934"
 
 menu.create_thread(function()
 
@@ -24461,7 +24461,7 @@ getplayerwantedlevel = tostring(player.get_player_wanted_level(pid))
        end
    end)
 
-   block108 =
+   block109 =
    menu.add_feature(
    "Casino Car Meet",
    "toggle",
