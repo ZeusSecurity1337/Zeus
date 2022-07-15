@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.947"
+zeus_version = "20.948"
 
 menu.create_thread(function()
 
@@ -25061,12 +25061,48 @@ end)
 HostOp = menu.add_feature("Host Option", "parent", Protections.id)
 Services = menu.add_feature("Services Option", "parent", Protections.id)
 Fireworks = menu.add_feature("Fireworks Option", "parent", Protections.id)
+friendly = menu.add_feature("Friendly Options", "parent", Protections.id)
 Troll2 = menu.add_feature("Trolls Option", "parent", Protections.id)
 nuke = menu.add_feature("Nuke locations Option", "parent", Protections.id)
 blocks = menu.add_feature("Block Areas Option", "parent", Protections.id)
 Malicious = menu.add_feature("Malicious Option", "parent", Protections.id)
 --Sub Menu Tabs End
 
+
+menu.add_feature("30k CEO Loop", "toggle", friendly.id, function(f)
+	menu.create_thread(function()
+		while f.on do
+			for pid in zeusplayers() do
+				if get_player_global("organization_associate_hash", pid) ~= -1 then
+					send_script_event("CEO money", pid, {pid, 10000, -1292453789, 0, get_player_global("generic", pid), get_global("current"), get_global("previous")})
+				end
+			end
+			wait_conditional(20000, function() 
+				return f.on 
+			end)
+			if f.on then
+				for pid in zeusplayers() do
+					if get_player_global("organization_associate_hash", pid) ~= -1 then
+						send_script_event("CEO money", pid, {pid, 10000, -1292453789, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
+					end
+				end
+			end
+			wait_conditional(20000, function() 
+				return f.on 
+			end)
+		end
+	end, nil)
+	while f.on do
+		for pid in zeusplayers() do
+			if get_player_global("organization_associate_hash", pid) ~= -1 then
+				send_script_event("CEO money", pid, {pid, 30000, 198210293, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
+			end
+		end
+		wait_conditional(120000, function() 
+			return f.on 
+		end)
+	end
+end)
 
 ---------------------------------------------------------------------------------Fireworks------------------------------------------------------------------------------------------------
 --firework show Start
@@ -42892,41 +42928,6 @@ end):set_str_data({
 	"With your name",
 	"Change amount"		
 })
-
-menu.add_feature("30k CEO Loop", "toggle", Troll2.id, function(f)
-	menu.create_thread(function()
-		while f.on do
-			for pid in zeusplayers() do
-				if get_player_global("organization_associate_hash", pid) ~= -1 then
-					send_script_event("CEO money", pid, {pid, 10000, -1292453789, 0, get_player_global("generic", pid), get_global("current"), get_global("previous")})
-				end
-			end
-			wait_conditional(20000, function() 
-				return f.on 
-			end)
-			if f.on then
-				for pid in zeusplayers() do
-					if get_player_global("organization_associate_hash", pid) ~= -1 then
-						send_script_event("CEO money", pid, {pid, 10000, -1292453789, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
-					end
-				end
-			end
-			wait_conditional(20000, function() 
-				return f.on 
-			end)
-		end
-	end, nil)
-	while f.on do
-		for pid in zeusplayers() do
-			if get_player_global("organization_associate_hash", pid) ~= -1 then
-				send_script_event("CEO money", pid, {pid, 30000, 198210293, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
-			end
-		end
-		wait_conditional(120000, function() 
-			return f.on 
-		end)
-	end
-end)
 
 
 menu.add_player_feature("Give Mc Donalds", "action", trolls.id, function(f, pid)
