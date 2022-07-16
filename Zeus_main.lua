@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.949"
+zeus_version = "20.950"
 
 menu.create_thread(function()
 
@@ -11549,7 +11549,7 @@ normalgod_mode3 =
             me = player.player_id()
             ped.set_ped_max_health(player.get_player_ped(me), 99999999999999999999)
             ped.set_ped_health(player.get_player_ped(me), 99999999999999999999)
-            audio.play_sound_from_coord(-1, "1st_Person_Transition", player.get_player_coords(pid), "PLAYER_SWITCH_CUSTOM_SOUNDSET", true, str, false)
+            audio.play_sound_from_coord(-1, "1st_Person_Transition", player.get_player_cord(me), "PLAYER_SWITCH_CUSTOM_SOUNDSET") --Play sound
             ped.clear_ped_blood_damage(player.get_player_ped(me))
             gameplay.set_override_weather(3)
             return HANDLER_CONTINUE

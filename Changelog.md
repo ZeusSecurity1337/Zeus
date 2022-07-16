@@ -10,7 +10,7 @@
 ### 9. Added new modder logging and detections
 ### 10. Added auto godmode remover
 ### 11. Script will now automatically dump data to database
-### 12. Revamping menu
+### 12. Revamping menu.
 ###
 ### It now shows deatiled information about the player upon entering proximity.
 ### When a player enters the proximity it will take weapons away temporarily.
