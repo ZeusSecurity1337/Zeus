@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.948"
+zeus_version = "20.949"
 
 menu.create_thread(function()
 
@@ -11522,14 +11522,13 @@ event.add_event_listener(
         end
     end)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-HealthOp = menu.add_feature("Health Options", "parent", selfplayer.id)
-Bank = menu.add_feature("Bank Options", "parent", selfplayer.id)
-Hair = menu.add_feature("Hair Options", "parent", selfplayer.id)
-Funny = menu.add_feature("Funny Options", "parent", selfplayer.id)
+HealthOp = menu.add_feature("Blood Bank Options", "parent", selfplayer.id)
+Bank = menu.add_feature("Blood Money Options", "parent", selfplayer.id)
+Funny = menu.add_feature("Dracula Fun Options", "parent", selfplayer.id)
 
 --Sub Menu Options
-menu.add_feature("Set Health", "action", HealthOp.id, function(f)
-	local input_stat, input_val = input.get("Enter Health", "", 10, 5)
+menu.add_feature("Set Blood Strength", "action", HealthOp.id, function(f)
+	local input_stat, input_val = input.get("Enter Blood Strength", "", 10, 5)
     if input_stat == 1 then
         return HANDLER_CONTINUE
     end
@@ -11542,7 +11541,7 @@ end)
 
 normalgod_mode3 =
     menu.add_feature(
-    "Zeus's Ghost Immortality Mode",
+    "Vampiric Stealth Immortality",
     "toggle",
     HealthOp.id,
     function(feat)
@@ -11550,6 +11549,7 @@ normalgod_mode3 =
             me = player.player_id()
             ped.set_ped_max_health(player.get_player_ped(me), 99999999999999999999)
             ped.set_ped_health(player.get_player_ped(me), 99999999999999999999)
+            audio.play_sound_from_coord(-1, "1st_Person_Transition", player.get_player_coords(pid), "PLAYER_SWITCH_CUSTOM_SOUNDSET", true, str, false)
             ped.clear_ped_blood_damage(player.get_player_ped(me))
             gameplay.set_override_weather(3)
             return HANDLER_CONTINUE
@@ -11564,7 +11564,7 @@ normalgod_mode3.on = false
 
 Godmode =
     menu.add_feature(
-    "God mode V2",
+    "Vampiric Immortality",
     "toggle",
     HealthOp.id,
     function(feat)
@@ -11587,7 +11587,7 @@ Godmode.on = true
 --Health Options End
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Funny Options
-menu.add_feature("Take A Shit", "action", Funny.id, function(f)
+menu.add_feature("Vampiric Shitting", "action", Funny.id, function(f)
 	if not player.is_player_in_any_vehicle(player.player_id()) then
 		streaming.request_anim_dict("missfbi3ig_0")
 		streaming.request_anim_set("shit_loop_trev")
@@ -11606,7 +11606,7 @@ end)
 
 
 --Pissing on the ground
---menu.add_feature("Take A Piss", "action", Funny.id, function(f)
+--menu.add_feature("Vampiric Pissing", "action", Funny.id, function(f)
 	--if not player.is_player_in_any_vehicle(player.player_id()) then
 		--streaming.request_anim_dict("missfbi3ig_0")
 		--streaming.request_anim_set("piss_loop")
@@ -11643,7 +11643,7 @@ function NET_GAMESERVER_TRANSFER_WALLET_TO_BANK(charSlot, amount)
 end   
 
 bankToWallet =
-menu.add_feature("Transfer All Bank To Wallet", "toggle", Bank.id, function(f)
+menu.add_feature("Transfer All Blood Money To Wallet", "toggle", Bank.id, function(f)
     if f.on then
     	while f.on do
 			system.wait(5000)
@@ -11662,7 +11662,7 @@ end)
 bankToWallet.on = false
 
 walletToBank =
-menu.add_feature("Transfer All Wallet To Bank", "toggle", Bank.id, function(f)
+menu.add_feature("Transfer Blood Money from Wallet To Bank", "toggle", Bank.id, function(f)
     if f.on then
     	while f.on do
 			system.wait(5000)       
@@ -11681,21 +11681,6 @@ end)
 walletToBank.on = true
 
 --Bank Options End
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---Hair Options Start
-local RainbowHair = menu.add_feature("Rainbow Hair (ms)", "value_i", Hair.id, function(feat)
-	if feat.on then
-		ped.set_ped_hair_colors(player.get_player_ped(player.player_id()), math.random(0, 63), 0)
-	end
-	system.wait(feat.value)
-	return HANDLER_CONTINUE
-end)
-	RainbowHair.min = 0
-	RainbowHair.max = 1000
-	RainbowHair.value = 100
-	RainbowHair.mod = 100
---Hair Options End
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --API Simplification
@@ -41929,8 +41914,8 @@ end)
 
 
 --Fun
-menu.add_player_feature("Suffocate George Floyd", "toggle", trolls.id, function(playerfeat, pid)
-    menu.notify("Suffocating " .. player.get_player_name(pid), troll_menu_ver)
+menu.add_player_feature("Vampiric Drain", "toggle", trolls.id, function(playerfeat, pid)
+    menu.notify("Draining " .. player.get_player_name(pid), troll_menu_ver)
     ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
 
     local cage = object.create_object(251770068, player.get_player_coords(pid) - v3(0, 0, 2.6), true, false)
@@ -42023,7 +42008,7 @@ menu.add_player_feature("Rain USA", "toggle", trolls.id, function(f, pid)
 end)
 
 
-menu.add_player_feature("Rain Cum", "toggle", trolls.id, function(f, pid)
+menu.add_player_feature("Draucla Cum", "toggle", trolls.id, function(f, pid)
 	while f.on do
 		system.yield(25)
 		menu.create_thread(function()
