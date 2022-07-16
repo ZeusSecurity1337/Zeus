@@ -4,7 +4,7 @@ if Dracula_version then
 end 
 
 --Set Version Here requeriment for the script to work
-Dracula_version = "20.960"
+Dracula_version = "20.961"
 
 menu.create_thread(function()
 
@@ -45446,6 +45446,6 @@ function settings:initialize(...)
 		feat.on = self.in_use["Drive style"] & feat.data == feat.data
 	end
 end
-settings:initialize(paths.home.."settings\\Dracula\\Draculasettings.ini")
+settings:initialize(paths.home.."settings\\Dracula\\draculasettings.ini")
 
 end, nil)
