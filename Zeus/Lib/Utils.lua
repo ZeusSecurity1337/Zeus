@@ -1,5 +1,5 @@
-local text_func = require("Zeus/Lib/Text_Func")
-local natives = require("Zeus/Lib/Natives")
+local text_func = require("Dracula/Lib/Text_Func")
+local natives = require("Dracula/Lib/Natives")
 
 local utilities = {}
 

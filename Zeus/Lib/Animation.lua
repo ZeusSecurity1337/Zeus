@@ -21,7 +21,7 @@ local function HotkeyHandler(Params)
   
     local function HiOnEnter()
       advierrrr.on = false
-      ui.notify_above_map("Skipped loading", "Zeus", 222)
+      ui.notify_above_map("Skipped loading", "Dracula", 222)
      
     end
     
@@ -81,13 +81,13 @@ local function HotkeyHandler(Params)
             ui.set_text_font(7)
             ui.set_text_centre(true)
             ui.set_text_outline(true)
-            ui.draw_text("Zeus", v2(0.5, 0.48))
+            ui.draw_text("Dracula", v2(0.5, 0.48))
             ui.set_text_color(0, 132, 255, 255)
             ui.set_text_scale(0.7)
             ui.set_text_font(7)
             ui.set_text_centre(true)
             ui.set_text_outline(true)
-            ui.draw_text("Version "..zeus_version, v2(0.5, 0.57))
+            ui.draw_text("Version "..Dracula_version, v2(0.5, 0.57))
             ui.set_text_color(255, 255, 255, 255)
             ui.set_text_scale(0.5)
             ui.set_text_font(7)

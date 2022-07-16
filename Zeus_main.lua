@@ -1,30 +1,30 @@
-if zeus_version then 
-	menu.notify("Zeus is already loaded!", "Initialization Cancelled!", 3, 0xff0000ff) 
+if Dracula_version then 
+	menu.notify("Dracula is already loaded!", "Initialization Cancelled!", 3, 0xff0000ff) 
 	return
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.951"
+Dracula_version = "20.952"
 
 menu.create_thread(function()
 
 
 --Directory
-local main_menu = menu.add_feature("Zeus", "parent", 0)
-local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Zeus\\Zeus.txt"
+local main_menu = menu.add_feature("Dracula", "parent", 0)
+local file_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\scripts\\Dracula\\Dracula.txt"
 local path = utils.get_appdata_path("PopstarDevs", "").."\\2Take1Menu\\scripts\\settings\\"
 
 --Requires a file to be present in the same directory as the script.
-local text_func = require("Zeus/Lib/Text_Func")
-local natives = require("Zeus/Lib/Natives")
-local utilities = require("Zeus//Lib/Utils") 
-local enums = require("Zeus//Lib/Enums") 
+local text_func = require("Dracula/Lib/Text_Func")
+local natives = require("Dracula/Lib/Natives")
+local utilities = require("Dracula//Lib/Utils") 
+local enums = require("Dracula//Lib/Enums") 
 
 local paths <const> = {
 	home = utils.get_appdata_path("PopstarDevs", "2Take1Menu").."\\"
 }
-paths.zeus = paths.home.."scripts\\Zeus\\"
-paths.blacklist = paths.zeus.."Logs\\Blacklist.log"
+paths.Dracula = paths.home.."scripts\\Dracula\\"
+paths.blacklist = paths.Dracula.."Logs\\Blacklist.log"
 
 local settings <const> = {}
 settings.default = {}
@@ -177,7 +177,7 @@ end
 if menu.is_trusted_mode_enabled() then
 else 
     if not menu.is_trusted_mode_enabled() then
-        menu.notify("\tThis Script requires Trusted Mode to be activated", "Zeus", 8, 0x5014F0FF) end
+        menu.notify("\tThis Script requires Trusted Mode to be activated", "Dracula", 8, 0x5014F0FF) end
 return end
 
 function parse_html(str, extension)
@@ -346,10 +346,10 @@ function get_input(...)
 end
 
 --Pushing Updates
-function update_zeus()
+function update_Dracula()
 	local github_branch_name <const> = "master"
-	local base_path <const> = "https://raw.githubusercontent.com/ZeusSecurity1337/Zeus/"..github_branch_name.."/"
-	local version_check_status <const>, script_version = web.get(base_path.."ZEUS_VERSION.txt")
+	local base_path <const> = "https://raw.githubusercontent.com/DraculaSecurity1337/Dracula/"..github_branch_name.."/"
+	local version_check_status <const>, script_version = web.get(base_path.."Dracula_VERSION.txt")
 	local script_version <const> = script_version:gsub("[^%w\32.]", "")
 	local
 		update_status,
@@ -357,15 +357,15 @@ function update_zeus()
 		lib_file_strings, 
 		current_file,
 		html_page_info,
-		zeus_main_file,
+		Dracula_main_file,
 		updated_lib_files = true, 0, {}, {}
 
 	if version_check_status ~= 200 then
         menu.notify("Failed to update to the latest script.", "Update Failed!", 3, 0xff0000ff) 
 		return "failed to check what is the latest version"
 	end
-	if zeus_version == script_version then
-        menu.notify("You have the latest version of Zeus", "", 3, 0xff00ff00)
+	if Dracula_version == script_version then
+        menu.notify("You have the latest version of Dracula", "", 3, 0xff00ff00)
 		return "is latest version"
 	else
 		while controls.is_control_pressed(0, 215) 
@@ -387,7 +387,7 @@ function update_zeus()
 			ui.set_text_centre(true)
 			ui.set_text_outline(true)
 			ui.draw_text(
-				"[!] Caution There is an update for Zeus.\nPress ENTER to install or press SPACE to dismiss it.", 
+				"[!] Caution There is an update for Dracula.\nPress ENTER to install or press SPACE to dismiss it.", 
 				v2(0.5, 0.45)
 			)
 			ui.set_text_color(255, 0, 0, 255)
@@ -425,7 +425,7 @@ function update_zeus()
 			end
 		end, nil)
 		do
-			local status <const>, str <const> = web.get("https://github.com/ZeusSecurity1337/Zeus/tree/"..github_branch_name.."/Zeus/Lib")
+			local status <const>, str <const> = web.get("https://github.com/DraculaSecurity1337/Dracula/tree/"..github_branch_name.."/Dracula/Lib")
 			update_status = status == 200
 			if not update_status then
 				goto exit
@@ -434,19 +434,19 @@ function update_zeus()
 		end
 	end
 	do
-		current_file = "Zeus_main.lua" -- Download updated files
-		local status <const>, str <const> = web.get(base_path.."Zeus_main.lua")
+		current_file = "Dracula_main.lua" -- Download updated files
+		local status <const>, str <const> = web.get(base_path.."Dracula_main.lua")
 		update_status = status == 200
 		if not update_status then
 			goto exit
 		end
-		zeus_main_file = str
+		Dracula_main_file = str
 		current_file_num = current_file_num + 1
 	end
 
 	for _, properties in pairs(updated_lib_files) do
 		current_file = properties.system_file_name
-		local status <const>, str <const> = web.get(base_path.."Zeus/Lib/"..properties.web_file_name)
+		local status <const>, str <const> = web.get(base_path.."Dracula/Lib/"..properties.web_file_name)
 		update_status = status == 200
 		if not update_status then
 			goto exit
@@ -455,24 +455,24 @@ function update_zeus()
 		current_file_num = current_file_num + 1
 	end
 	::exit::
-	if zeus_version ~= script_version then
+	if Dracula_version ~= script_version then
 		if update_status then
-			zeus_version = script_version
+			Dracula_version = script_version
             menu.notify("Updated Installed!", "",  10, 0xff00ff00)
 
 			-- Remove old files & undo all changes to the global space
-			for _, file_name in pairs(utils.get_all_files_in_directory(paths.zeus.."Lib", "lua")) do
+			for _, file_name in pairs(utils.get_all_files_in_directory(paths.Dracula.."Lib", "lua")) do
 				package.loaded[file_name:gsub("%.lua", "")] = nil
-				io.remove(paths.zeus.."Lib\\"..file_name)
+				io.remove(paths.Dracula.."Lib\\"..file_name)
 			end
 
-			local file <close> = io.open(paths.home.."scripts\\Zeus_main.lua", "w+b")
-			file:write(zeus_main_file)
+			local file <close> = io.open(paths.home.."scripts\\Dracula_main.lua", "w+b")
+			file:write(Dracula_main_file)
 			file:flush()
 
 			-- Copy new files to their desired locations
 			for file_name in pairs(lib_file_strings) do
-				local file <close> = io.open(paths.zeus.."Lib\\"..file_name, "w+b")
+				local file <close> = io.open(paths.Dracula.."Lib\\"..file_name, "w+b")
 				file:write(lib_file_strings[file_name])
 				file:flush()
 			end
@@ -480,8 +480,8 @@ function update_zeus()
 			update_status = "done"
 			show_changelog()
 			system.yield(0) -- show_changelog creates a thread
-			zeus_version = nil
-			dofile(paths.home.."scripts\\Zeus_main.lua")
+			Dracula_version = nil
+			dofile(paths.home.."scripts\\Dracula_main.lua")
 			return "has updated"
 		else
 			update_status = "done"
@@ -494,7 +494,7 @@ end
 function show_changelog()
 	menu.create_thread(function()
 		local github_branch_name <const> = "master"
-		local status <const>, str <const> = web.get("https://raw.githubusercontent.com/ZeusSecurity1337/Zeus/"..github_branch_name.."/Changelog.md")
+		local status <const>, str <const> = web.get("https://raw.githubusercontent.com/DraculaSecurity1337/Dracula/"..github_branch_name.."/Changelog.md")
 		if status ~= 200 then
 			return
 		end
@@ -526,7 +526,7 @@ function show_changelog()
 	end, nil)
 end
 
-if update_zeus() == "has updated" then
+if update_Dracula() == "has updated" then
     return
 end
                                
@@ -11549,7 +11549,7 @@ normalgod_mode3 =
             me = player.player_id()
             ped.set_ped_max_health(player.get_player_ped(me), 99999999999999999999)
             ped.set_ped_health(player.get_player_ped(me), 99999999999999999999)
-            audio.play_sound_from_coord(-1, "1st_Person_Transition", player.get_player_cord(me), "PLAYER_SWITCH_CUSTOM_SOUNDSET") --Play sound
+            audio.play_sound_from_coord(-1, "1st_Person_Transition", "PLAYER_SWITCH_CUSTOM_SOUNDSET") --Play sound
             ped.clear_ped_blood_damage(player.get_player_ped(me))
             gameplay.set_override_weather(3)
             return HANDLER_CONTINUE
@@ -25016,7 +25016,7 @@ menu.add_feature(
 --Auto Teleport Setting End
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 menu.add_feature("Gods Wrath On Waypoint", "action", Protections.id, function(f)
-   menu.notify("[!] Sending Gods Wrath", Zeus, 3, 211)
+   menu.notify("[!] Sending Gods Wrath", Dracula, 3, 211)
    local wp = ui.get_waypoint_coord()
    if wp.x ~= 16000 then
        local maxz = player.get_player_coords(player.player_id()).z + 170
@@ -25057,7 +25057,7 @@ Malicious = menu.add_feature("Malicious Option", "parent", Protections.id)
 menu.add_feature("30k CEO Loop", "toggle", friendly.id, function(f)
 	menu.create_thread(function()
 		while f.on do
-			for pid in zeusplayers() do
+			for pid in Draculaplayers() do
 				if get_player_global("organization_associate_hash", pid) ~= -1 then
 					send_script_event("CEO money", pid, {pid, 10000, -1292453789, 0, get_player_global("generic", pid), get_global("current"), get_global("previous")})
 				end
@@ -25066,7 +25066,7 @@ menu.add_feature("30k CEO Loop", "toggle", friendly.id, function(f)
 				return f.on 
 			end)
 			if f.on then
-				for pid in zeusplayers() do
+				for pid in Draculaplayers() do
 					if get_player_global("organization_associate_hash", pid) ~= -1 then
 						send_script_event("CEO money", pid, {pid, 10000, -1292453789, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
 					end
@@ -25078,7 +25078,7 @@ menu.add_feature("30k CEO Loop", "toggle", friendly.id, function(f)
 		end
 	end, nil)
 	while f.on do
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			if get_player_global("organization_associate_hash", pid) ~= -1 then
 				send_script_event("CEO money", pid, {pid, 30000, 198210293, 1, get_player_global("generic", pid), get_global("current"), get_global("previous")})
 			end
@@ -25440,7 +25440,7 @@ menu.add_feature("Russian Roulette", "action_value_str", Malicious.id, function(
            end
        end
    else
-       menu.notify("[!] You can't use this feature in Singleplayer", Zeus, 3, 211)
+       menu.notify("[!] You can't use this feature in Singleplayer", Dracula, 3, 211)
    end
 end):set_str_data({
    "Kill",
@@ -25550,7 +25550,7 @@ end)
 
 menu.add_feature("Crash Session Host", "action", Malicious.id, function(f, pid)
    if network.network_is_host() then
-       menu.notify("You are the session host. You can't use this feature", Zeus, 3, 211)
+       menu.notify("You are the session host. You can't use this feature", Dracula, 3, 211)
        return
    end
    local pos = player.get_player_coords(player.player_id())
@@ -25685,26 +25685,26 @@ menu.add_feature("Check Session Health?", "action", HostOp.id, function(f, pid)
            end
        end
        if all_session_flags_count == 0 then
-           menu.notify("Session Broken: False\nFlags: None", Zeus, 12, 0x00ff00)
+           menu.notify("Session Broken: False\nFlags: None", Dracula, 12, 0x00ff00)
        else
-           menu.notify("Session Broken: True\nFlags: " .. all_session_flags .. "", Zeus, 12, 211)
+           menu.notify("Session Broken: True\nFlags: " .. all_session_flags .. "", Dracula, 12, 211)
        end
    else
-       menu.notify("Session Broken: False\nFlags: None", Zeus, 12, 0x00ff00)
+       menu.notify("Session Broken: False\nFlags: None", Dracula, 12, 0x00ff00)
    end
 end)
 
 menu.add_feature("RockStarGames Gifted Host", "action", HostOp.id, function(feat)
    if feat.on then
-       menu.notify("[*] Zeus is Now Processing..\n", Zeus, 5, 0x5014F0FF)
+       menu.notify("[*] Dracula is Now Processing..\n", Dracula, 5, 0x5014F0FF)
        system.wait(1500)
-       menu.notify("[*] Zeus is Now Processing....\n", Zeus, 4, 0x5014F0FF)
+       menu.notify("[*] Dracula is Now Processing....\n", Dracula, 4, 0x5014F0FF)
        system.wait(1400)
-       menu.notify("[~] Zeus Processing Now Complete\n", Zeus, 3, 0x6414F000)
+       menu.notify("[~] Dracula Processing Now Complete\n", Dracula, 3, 0x6414F000)
        system.wait(1300)
-       menu.notify("[~] You Can Now Kick The Current Host\n", Zeus, 2, 0x6414F000)
+       menu.notify("[~] You Can Now Kick The Current Host\n", Dracula, 2, 0x6414F000)
        system.wait(1200)
-       menu.notify("[!] WARNING:\n\nThis kicks normal users by setting host priority. If it does not kick the user automatically It's because the user is a modder host.\n\nIn order to manually become host use\n'Ho Kick.' You will then become the automatic host for that session.", Zeus, 10, 0x501400FF)
+       menu.notify("[!] WARNING:\n\nThis kicks normal users by setting host priority. If it does not kick the user automatically It's because the user is a modder host.\n\nIn order to manually become host use\n'Ho Kick.' You will then become the automatic host for that session.", Dracula, 10, 0x501400FF)
        hostnow = player.get_host()
        fnd = player.is_player_friend(hostnow)
        if not network.network_is_host() then
@@ -25758,7 +25758,7 @@ HM1 =
                    local new_sh = player.get_host()
                    if current_sh ~= new_sh then
                        if player.get_player_scid(new_sh) ~= -1 then
-                           menu.notify("[!] Session Host migrated from " .. string.format("%s", sh_name) .. " to " .. string.format("%s", player.get_player_name(new_sh)) .. ".", Zeus, 3, 0x64FA7800)
+                           menu.notify("[!] Session Host migrated from " .. string.format("%s", sh_name) .. " to " .. string.format("%s", player.get_player_name(new_sh)) .. ".", Dracula, 3, 0x64FA7800)
                            sh_name = player.get_player_name(current_sh)
                        end
                    end
@@ -25786,7 +25786,7 @@ HM2 =
                    local new_sh = script.get_host_of_this_script()
                    if current_sh ~= new_sh then
                        if player.get_player_scid(new_sh) ~= -1 then
-                           menu.notify("[!] Script Host migrated from " .. string.format("%s", sh_name) .. " to " .. string.format("%s", player.get_player_name(new_sh)) .. ".", Zeus, 3, 0x64FA7800)
+                           menu.notify("[!] Script Host migrated from " .. string.format("%s", sh_name) .. " to " .. string.format("%s", player.get_player_name(new_sh)) .. ".", Dracula, 3, 0x64FA7800)
                            sh_name = player.get_player_name(current_sh)
                        end
                    end
@@ -26212,24 +26212,24 @@ enableLog =
 --Character Animation Start
   animate =
  menu.add_feature(
- "lua name animation",
+ "lua name animation", 
  "toggle",
  misc.id,
  function(toggle)
      if toggle.on then
-         main_menu.name = "Z"
+         main_menu.name = "D"
          system.wait(2)
-         main_menu.name = "Ze"
+         main_menu.name = "Dr"
          system.wait(200)
-         main_menu.name = "Zeu"
+         main_menu.name = "Dra"
          system.wait(300)
-         main_menu.name = "Zeus"
+         main_menu.name = "Drac"
          system.wait(400)
-         main_menu.name = "Zeus"
+         main_menu.name = "Dracu"
          system.wait(500)
-         main_menu.name = "Zeus"
+         main_menu.name = "Dracul"
          system.wait(600)
-         main_menu.name = "Zeus"
+         main_menu.name = "Dracula"
          return HANDLER_CONTINUE
      else
      end
@@ -40350,7 +40350,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(5.0000, -0.000, 70.000))
         entity.freeze_entity(obj, true)
-        menu.notify("Zeus\nBlocked main LSC entrance!")
+        menu.notify("Dracula\nBlocked main LSC entrance!")
     end
 )
 
@@ -40370,7 +40370,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(0.0000, -0.000, 90.000))
         entity.freeze_entity(obj, true)
-        menu.notify("Zeus\nBlocked Mesa LSC entrance!")
+        menu.notify("Dracula\nBlocked Mesa LSC entrance!")
     end)
 
  all3 =
@@ -40389,7 +40389,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(-5.0000, -0.000, 135.000))
         entity.freeze_entity(obj, true)
-        menu.notify("   Zeus\nBlocked L.S.I.A LSC entrance!")
+        menu.notify("   Dracula\nBlocked L.S.I.A LSC entrance!")
     end)
 
  all4 =
@@ -40418,7 +40418,7 @@ end)
         entity.set_entity_visible(obj2, false)
         entity.set_entity_rotation(obj2, v3(-5.0000, -0.000, -180.000))
         entity.freeze_entity(obj2, true)
-        menu.notify("   Zeus\nBlocked GSD LSC entrance's!")
+        menu.notify("   Dracula\nBlocked GSD LSC entrance's!")
     end)
 
 
@@ -40448,7 +40448,7 @@ end)
         entity.set_entity_visible(obj2, false)
         entity.set_entity_rotation(obj2, v3(5.0000, -0.000, 40.000))
         entity.freeze_entity(obj2, true)
-        menu.notify("   Zeus\nBlocked Paleto Bay LSC entrance's!")
+        menu.notify("   Dracula\nBlocked Paleto Bay LSC entrance's!")
     end
 )
 
@@ -40468,7 +40468,7 @@ end)
         entity.set_entity_visible(obj, false)
         entity.set_entity_rotation(obj, v3(0.0000, -0.000, 175.000))
         entity.freeze_entity(obj, true)
-        menu.notify("   Zeus\nBlocked Bennys entrance's!")
+        menu.notify("   Dracula\nBlocked Bennys entrance's!")
     end)
 
 all7 =
@@ -40507,7 +40507,7 @@ obj3 = object.create_object(Hash2, v3(926.890, 51.065, 79.856), true, false)
 entity.set_entity_visible(obj3, false)
 entity.set_entity_rotation(obj3, v3(0.000, -0.000, -131.885))
 entity.freeze_entity(obj3, true)
-menu.notify("Zeus\nBlocked Casino Front Door!")
+menu.notify("Dracula\nBlocked Casino Front Door!")
 end
 )
 
@@ -40528,7 +40528,7 @@ obj = object.create_object(Hash, v3(936.262, 0.528, 77.517), true, false)
 entity.set_entity_visible(obj, false)
 entity.set_entity_rotation(obj, v3(0.000, 0.000, -31.152))
 entity.freeze_entity(obj, false)
-menu.notify("Zeus\nBlocked Casino Garage!")
+menu.notify("Dracula\nBlocked Casino Garage!")
 end
 )
 
@@ -40569,7 +40569,7 @@ obj3 = object.create_object(Hash2, v3(990.523, 79.579, 79.741), true, false)
 entity.set_entity_visible(obj3, false)
 entity.set_entity_rotation(obj3, v3(0.000, -0.000, 90.950))
 entity.freeze_entity(obj3, true)
-menu.notify("Zeus\nBlocked Casino Front Door!")
+menu.notify("Dracula\nBlocked Casino Front Door!")
 end
 )
 
@@ -40611,7 +40611,7 @@ obj3 = object.create_object(Hash2, v3(-599.735, 278.165, 81.073), true, false)
 entity.set_entity_visible(obj3, false)
 entity.set_entity_rotation(obj3, v3(-10.000, -0.000, -5.033))
 entity.freeze_entity(obj3, true)
-menu.notify("Zeus\nBlocked Arcade 1!")
+menu.notify("Dracula\nBlocked Arcade 1!")
 end
 )
 
@@ -40663,7 +40663,7 @@ obj4 = object.create_object(Hash4, v3(724.412, -825.776, 23.827), true, false)
 entity.set_entity_visible(obj4, false)
 entity.set_entity_rotation(obj4, v3(0.000, 0.000, -38.753))
 entity.freeze_entity(obj4, true)
-menu.notify("Zeus\nBlocked Arcade 2!")
+menu.notify("Dracula\nBlocked Arcade 2!")
 end
 )
 
@@ -40735,7 +40735,7 @@ obj10 = object.create_object(Hash10, v3(724.412, -825.776, 23.827), true, false)
 entity.set_entity_visible(obj10, false)
 entity.set_entity_rotation(obj10, v3(0.000, 0.000, -38.753))
 entity.freeze_entity(obj10, true)
-menu.notify("Zeus\nBlocked Arcade 3!")
+menu.notify("Dracula\nBlocked Arcade 3!")
 end
 )
 
@@ -40756,7 +40756,7 @@ obj11 = object.create_object(Hash11, v3(243.719, -45.002, 69.899), true, false)
 entity.set_entity_visible(obj11, false)
 entity.set_entity_rotation(obj11, v3(0.000, -0.000, -109.036))
 entity.freeze_entity(obj11, true)
-menu.notify("Zeus\nBlocked Gun Shop 1!")
+menu.notify("Dracula\nBlocked Gun Shop 1!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40776,7 +40776,7 @@ obj12 = object.create_object(Hash12, v3(17.573, -1115.532, 28.800), true, false)
 entity.set_entity_visible(obj12, false)
 entity.set_entity_rotation(obj12, v3(0.000, 0.000, -19.872))
 entity.freeze_entity(obj12, true)
-menu.notify("Zeus\nBlocked Gun Shop 2!")
+menu.notify("Dracula\nBlocked Gun Shop 2!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40796,7 +40796,7 @@ obj13 = object.create_object(Hash13, v3(-663.421, -944.607, 20.793), true, false
 entity.set_entity_visible(obj13, false)
 entity.set_entity_rotation(obj13, v3(0.000, 0.000, 0.171))
 entity.freeze_entity(obj13, true)
-menu.notify("Zeus\nBlocked Gun Shop 3!")
+menu.notify("Dracula\nBlocked Gun Shop 3!")
 end
 )
 
@@ -40817,7 +40817,7 @@ obj14 = object.create_object(Hash14, v3(-1314.705, -389.920, 35.590), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -103.678))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 4!")
+menu.notify("Dracula\nBlocked Gun Shop 4!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40837,7 +40837,7 @@ obj14 = object.create_object(Hash14, v3(843.639, -1023.958, 27.200), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, 175.430))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 5!")
+menu.notify("Dracula\nBlocked Gun Shop 5!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40857,7 +40857,7 @@ obj14 = object.create_object(Hash14, v3(-3163.469, 1082.881, 19.850), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 67.499))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 6!")
+menu.notify("Dracula\nBlocked Gun Shop 6!")
 end
 )
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40877,7 +40877,7 @@ obj14 = object.create_object(Hash14, v3(-1112.615, 2690.447, 17.590), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 42.009))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 7!")
+menu.notify("Dracula\nBlocked Gun Shop 7!")
 end
 )
 
@@ -40899,7 +40899,7 @@ obj14 = object.create_object(Hash14, v3(1699.381, 3752.361, 33.716), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 46.553))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 8!")
+menu.notify("Dracula\nBlocked Gun Shop 8!")
 end
 )
 
@@ -40920,7 +40920,7 @@ obj14 = object.create_object(Hash14, v3(2568, 303.641, 107.664), true, false)
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -176.745))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 9!")
+menu.notify("Dracula\nBlocked Gun Shop 9!")
 end
 )
 ------------------------------------------------------------------------------------Gun Shop start------------------------------------------------------------------------------------------------
@@ -40940,7 +40940,7 @@ obj14 = object.create_object(Hash14, v3(-324.565, 6076.411, 30.256), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 43.604))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Gun Shop 10!")
+menu.notify("Dracula\nBlocked Gun Shop 10!")
 end
 )
 ------------------------------------------------------------------------------------Gun Shop 10 end------------------------------------------------------------------------------------------------
@@ -40983,7 +40983,7 @@ obj14 = object.create_object(Hash14, v3(-1371.139, -506.541, 32.157), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -5.000))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Del Pero office")
+menu.notify("Dracula\nBlocked Del Pero office")
 end
 )
 
@@ -41037,7 +41037,7 @@ obj14 = object.create_object(Hash14, v3(-81.979, -781.522, 37.520), true, false)
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -170.000))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Pillbox Hill office")
+menu.notify("Dracula\nBlocked Pillbox Hill office")
 end
 )
 ------------------------------------------------------------------------------------office End-------------------------------------------------------------------------------------------------
@@ -41139,7 +41139,7 @@ obj11 = object.create_object(Hash11, v3(1875.559, 286.673, 163.311), true, false
 entity.set_entity_visible(obj11, false)
 entity.set_entity_rotation(obj11, v3(0.000, -0.000, 151.630))
 entity.freeze_entity(obj11, true)
-menu.notify("Zeus\nBlocked Facility 1!")
+menu.notify("Dracula\nBlocked Facility 1!")
 end
 )
 
@@ -41219,7 +41219,7 @@ obj11 = object.create_object(Hash11, v3(1875.559, 286.673, 163.311), true, false
 entity.set_entity_visible(obj11, false)
 entity.set_entity_rotation(obj11, v3(0.000, -0.000, 151.630))
 entity.freeze_entity(obj11, true)
-menu.notify("Zeus\nBlocked Bunker 1!")
+menu.notify("Dracula\nBlocked Bunker 1!")
 end
 )
 ------------------------------------------------------------------------------------Bunker end-----------------------------------------------------------------------------------------------
@@ -41272,7 +41272,7 @@ entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -87.337))
 entity.freeze_entity(obj14, true)
 
-menu.notify("Zeus\nBlocked 400k Apartment!")
+menu.notify("Dracula\nBlocked 400k Apartment!")
 end
 )
 -----------------------------------------------------------------------------------------400k end---------------------------------------------------------------------------------------------------
@@ -41294,7 +41294,7 @@ obj14 = object.create_object(Hash14, v3(-554.349, 666.209, 143.748), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, 141.531))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 1!")
+menu.notify("Dracula\nBlocked Apartment 1!")
 end
 )
 
@@ -41316,7 +41316,7 @@ obj14 = object.create_object(Hash14, v3(-554.349, 666.209, 143.748), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, 141.531))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 2!")
+menu.notify("Dracula\nBlocked Apartment 2!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 2 end--------------------------------------------------------------------------------------------
@@ -41357,7 +41357,7 @@ obj14 = object.create_object(Hash14, v3(-177.996, 504.066, 135.861), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -157.322))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 3!")
+menu.notify("Dracula\nBlocked Apartment 3!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 3 end--------------------------------------------------------------------------------------------
@@ -41399,7 +41399,7 @@ obj14 = object.create_object(Hash14, v3(-177.996, 504.066, 135.861), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -157.322))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 4!")
+menu.notify("Dracula\nBlocked Apartment 4!")
 end
 )
 
@@ -41441,7 +41441,7 @@ obj14 = object.create_object(Hash14, v3(-23.024, -625.205, 34.709), true, false)
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 70.985))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 5!")
+menu.notify("Dracula\nBlocked Apartment 5!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 5 end--------------------------------------------------------------------------------------------
@@ -41483,7 +41483,7 @@ obj14 = object.create_object(Hash14, v3(-822.698, -437.788, 35.641), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -60.301))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 6!")
+menu.notify("Dracula\nBlocked Apartment 6!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 6 end--------------------------------------------------------------------------------------------
@@ -41565,7 +41565,7 @@ obj14 = object.create_object(Hash14, v3(-938.323, -378.731, 37.964), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -99.377))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 7!")
+menu.notify("Dracula\nBlocked Apartment 7!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 7 end------------------------------------------------------------------------------------------
@@ -41617,7 +41617,7 @@ obj14 = object.create_object(Hash14, v3(-1441.271, -547.295, 33.745), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, 35.419))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked Apartment 8!")
+menu.notify("Dracula\nBlocked Apartment 8!")
 end
 )
 ------------------------------------------------------------------------------------Apartment 8 end------------------------------------------------------------------------------------------
@@ -41739,7 +41739,7 @@ obj14 = object.create_object(Hash14, v3(764.412, -1762.192, 28.401), true, false
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, -0.000, -151.130))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked LS CAR MEET!")
+menu.notify("Dracula\nBlocked LS CAR MEET!")
 end
 )
 
@@ -41801,7 +41801,7 @@ entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -26.878))
 entity.freeze_entity(obj14, true)
 
-menu.notify("Zeus\nBlocked NightClub 1!")
+menu.notify("Dracula\nBlocked NightClub 1!")
 end
 )
 ------------------------------------------------------------------------------------Nightclub 1 End--------------------------------------------------------------------------------------
@@ -41863,7 +41863,7 @@ obj14 = object.create_object(Hash14, v3(-165.331, -1295.802, 30.097), true, fals
 entity.set_entity_visible(obj14, false)
 entity.set_entity_rotation(obj14, v3(0.000, 0.000, -39.186))
 entity.freeze_entity(obj14, true)
-menu.notify("Zeus\nBlocked NightClub 2!")
+menu.notify("Dracula\nBlocked NightClub 2!")
 end
 )
 -----------------------------------------------
@@ -41871,7 +41871,7 @@ end
 
 
 -------------------------------------------------------------------Online Player Troll Options-----------------------------------------------------------------------------------------------------
-online = menu.add_player_feature("Zeus", "parent", main_menu.id)
+online = menu.add_player_feature("Dracula", "parent", main_menu.id)
 Immunevirus = menu.add_player_feature("Immune virus Options", "parent", online.id)
 trolls = menu.add_player_feature("Troll Options", "parent", online.id)
 peds1 = menu.add_player_feature("Pedestrian Options", "parent", online.id)
@@ -42459,7 +42459,7 @@ menu.add_player_feature("Send Karen", "action", veh1.id, function(f, pid)
 		ped.set_ped_into_vehicle(ped_, player_veh, -1)
 		gameplay.shoot_single_bullet_between_coords(entity.get_entity_coords(ped_), entity.get_entity_coords(ped_), 0, gameplay.get_hash_key("weapon_pistol"), player.get_player_ped(pid), false, true, 100)
 	else
-		menu.notify("[!] The Player has to be in a vehicle!", Zeus, 3, 211)
+		menu.notify("[!] The Player has to be in a vehicle!", Dracula, 3, 211)
 	end
 end)
 
@@ -42625,7 +42625,7 @@ end)
 do
 	local memoized <const> = {}
 	local is_valid <const> = player.is_player_valid
-	function zeusplayers(me)
+	function Draculaplayers(me)
 		local pid = -1
 		if not me then
 			me = player.player_id()
@@ -42719,7 +42719,7 @@ function set_bounty(...)
 	and player.is_player_playing(script_target) 
 	and (not friend_relevant or is_not_friend(script_target)) then
 		local amount = math.tointeger(settings.in_use["Bounty amount"]) or 10000
-		for pid in zeusplayers(true) do
+		for pid in Draculaplayers(true) do
 			send_script_event(
 				"Bounty", 
 				pid, 
@@ -42750,7 +42750,7 @@ end
 
 menu.add_feature("Reapply bounty", "value_str", Troll2.id, function(f)
 	while f.on do
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			if is_not_friend(pid) then
 				set_bounty(pid, true, f.value == 0)
 			end
@@ -42902,7 +42902,7 @@ menu.add_feature("Set session bounty", "action_value_str", Troll2.id, function(f
 		end
 		settings.in_use["Bounty amount"] = input
 	else
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			if is_not_friend(pid) then
 				set_bounty(pid, true, f.value == 0)
 			end
@@ -43274,7 +43274,7 @@ end)
 
 ---------------------------------------------------------------Kicks--------------------------------------------------------------------------------------------------------
 --Kicks & Crashes Start
-menu.add_player_feature("Zeus's - Evil Kick", "action_value_str", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Evil Kick", "action_value_str", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(1228916411, pid, {pid, script.get_global_i(1893551 + (1 + (pid * 599) + 510))})
@@ -43285,9 +43285,9 @@ menu.add_player_feature("Zeus's - Evil Kick", "action_value_str", kick1.id, func
 		elseif f.value == 3 then
 			script.trigger_script_event(0x09c050ec, pid, {pid, pid, math.random(-2147483647, 2147483647), pid})
 		end
-		menu.notify("[!] Zeus's - Evil Kick executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - Evil Kick executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43296,16 +43296,16 @@ end):set_str_data({
 	"v4"
 })
 
-menu.add_player_feature("Zeus's - Rockstar Admin Kick", "action_value_str", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Rockstar Admin Kick", "action_value_str", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(0x23F74138, pid, {pid, math.random(32, 2147483647), math.random(-2147483647, 2147483647), 1, 115, math.random(-2147483647, 2147483647), math.random(-2147483647, 2147483647), math.random(-2147483647, 2147483647)})
 		elseif f.value == 1 then
 			script.trigger_script_event(0x23F74138, pid, {pid, math.random(-2147483647, -1), math.random(-2147483647, 2147483647), 1, 115, math.random(-2147483647, 2147483647), math.random(-2147483647, 2147483647), math.random(-2147483647, 2147483647)})
 		end
-		menu.notify("[!] Zeus's - Rockstar Admin Kick executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - Rockstar Admin Kick executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43315,7 +43315,7 @@ end):set_str_data({
 
 
 
-menu.add_player_feature("Zeus's - Thanos Kick", "action_value_str", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Thanos Kick", "action_value_str", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(0x493FC6BB, pid, {pid, script.get_global_i(1893551 + (1 + (pid * 599) + 510)), pid})
@@ -43352,9 +43352,9 @@ menu.add_player_feature("Zeus's - Thanos Kick", "action_value_str", kick1.id, fu
 		elseif f.value == 13 then
 			script.trigger_script_event(-227800145, pid, {pid, pid, math.random(-2147483647, 2147483647), 2361235669, math.random(-2147483647, 2147483647), 263261, math.random(-2147483647, 2147483647), math.random(-2147483647, 2147483647), 215132521, 5262462321, math.random(-2147483647, 2147483647), pid})
 		end
-		menu.notify("[!] Zeus's - Thanos Kick executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - Thanos Kick executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43371,23 +43371,23 @@ end):set_str_data({
 	"v12"
 })
 
-menu.add_player_feature("Zeus's - Dick Head Mike Kick", "action_value_str", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Dick Head Mike Kick", "action_value_str", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(-227800145, pid, {pid, math.random(32, 23647483647), math.random(-23647, 212347), 1, 115, math.random(-2321647, 21182412647), math.random(-2147483647, 2147483647), 26249, math.random(-1257483647, 23683647), 2623, 25136})
 		elseif f.value == 1 then
 			script.trigger_script_event(69874647, pid, {pid, math.random(32, 23647483647), math.random(-23647, 212347), 1, 115, math.random(-2321647, 21182412647), math.random(-2147483647, 2147483647), 26249, math.random(-1257483647, 23683647), 2623, 25136})
 		end
-		menu.notify("[!] Zeus's - Dick Head Mike Kick executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - Dick Head Mike Kick executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
 	"v2"
 })
 
-menu.add_player_feature("Zeus's - Ghost Rider Death Kick", "action_value_str", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Ghost Rider Death Kick", "action_value_str", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(911179316, pid, {pid, pid, pid, pid, math.random(-2147483647, 2147483647), pid})
@@ -43400,9 +43400,9 @@ menu.add_player_feature("Zeus's - Ghost Rider Death Kick", "action_value_str", k
 		elseif f.value == 4 then
 			script.trigger_script_event(-1846290480, pid, {pid, pid, 25, 0, 1242, pid})
 		end
-		menu.notify("[!] Zeus's - Ghost Rider Death Kick executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - Ghost Rider Death Kick executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43412,34 +43412,34 @@ end):set_str_data({
 	"v5"
 })
 
-menu.add_player_feature("Zeus's - Amber Heard Slut Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Amber Heard Slut Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, -788905164})
-			menu.notify("[!] Zeus's - Amber Heard Slut Crash v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - Amber Heard Slut Crash v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			script.trigger_script_event(962740265, pid, {pid, 4294894682, -4294904289, -788905164})
-			menu.notify("[!] Zeus - Amber Heard Slut Crash v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula - Amber Heard Slut Crash v2 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
 	"v2"
 })
 
-menu.add_player_feature("Zeus's - Stand Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Stand Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(962740265, pid, {-72614, 63007, 59027, -12012, -26996, 33398, pid})
-			menu.notify("[!] Zeus's - Stand Crash Crash v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - Stand Crash Crash v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, -72614, 63007, 59027, -12012, -26996, 33398, pid})
-			menu.notify("[!] Zeus's - Stand Crash Crash v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - Stand Crash Crash v2 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43447,17 +43447,17 @@ end):set_str_data({
 })
 
 
-menu.add_player_feature("Zeus's - Cherax Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Cherax Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, 23243, 5332, 3324, pid})
-			menu.notify("[!] Zeus's - Cherax Crash v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - Cherax Crash v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			script.trigger_script_event(962740265, pid, {pid, 23243, 5332, 3324, pid})
-			menu.notify("[!] Zeus's - Cherax Crash v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - Cherax Crash v2 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43465,40 +43465,40 @@ end):set_str_data({
 })
 
 
-menu.add_player_feature("Zeus's - 0xCheats Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - 0xCheats Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(962740265, pid, {pid, pid, 30583, pid, pid, pid, pid, -328966, 10128444})
-			menu.notify("[!] Zeus's - 0xCheats Crash v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - 0xCheats Crash v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, pid, 30583, pid, pid, pid, pid, -328966, 10128444})
-			menu.notify("[!] Zeus's - 0xCheats Crash v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - 0xCheats Crash v2 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
 	"v2"
 })
 
-menu.add_player_feature("Zeus's - xForce Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - xForce Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(962740265, pid, {pid, 95398, 98426, -24591, 47901, -64814})
-			menu.notify("[!] Zeus's - xForce Crash Crash v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - xForce Crash Crash v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			script.trigger_script_event(962740265, pid, {pid, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-			menu.notify("[!] Zeus's - xForce Crash Crash v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - xForce Crash Crash v2 executed successfully.", Dracula)
 		elseif f.value == 2 then
 			script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-			menu.notify("[!] Zeus's - xForce Crash Crash v3 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - xForce Crash Crash v3 executed successfully.", Dracula)
 		elseif f.value == 3 then
 			script.trigger_script_event(677240627, pid, {pid, -1774405356})
-			menu.notify("[!] Zeus's - xForce Crash Crash v4 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - xForce Crash Crash v4 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43507,17 +43507,17 @@ end):set_str_data({
 	"v4"
 })
 
-menu.add_player_feature("Zeus's - Rent Free Mike Kick", "action_value_str", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Rent Free Mike Kick", "action_value_str", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(1228916411, pid, {pid, script.get_global_i(1893551 + (1 + (pid * 599) + 510))})
-			menu.notify("[!] Zeus's Rent Free Mike Kick v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's Rent Free Mike Kick v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			script.trigger_script_event(0x493fc6bb, pid, {pid, script.get_global_i(1893551 + (1 + (pid * 599) + 510))})
-			menu.notify("[!] Zeus's Rent Free Mike Kick v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's Rent Free Mike Kick v2 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43525,26 +43525,26 @@ end):set_str_data({
 })
 
 
-menu.add_player_feature("Zeus's - 420 World Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - 420 World Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
    		 	local ped_ = ped.create_ped(0, 1057201338, player.get_player_coords(pid), 0, true, false)
 			system.wait(2)
    		 	entity.delete_entity(ped_)
-			menu.notify("[!] Zeus's - 420 World Crash v1 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - 420 World Crash v1 executed successfully.", Dracula)
 		elseif f.value == 1 then
 			local ped_ = ped.create_ped(0, -2056455422, player.get_player_coords(pid), 0, true, false)
 			system.wait(2)
     		entity.delete_entity(ped_)
-			menu.notify("[!] Zeus's - 420 World Crash v2 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - 420 World Crash v2 executed successfully.", Dracula)
 		elseif f.value == 2 then
 			local ped_ = ped.create_ped(0, 762327283, player.get_player_coords(pid), 0, true, false)
 			system.wait(2)
    		 	entity.delete_entity(ped_)
-			menu.notify("[!] Zeus's - 420 World Crash v3 executed successfully.", Zeus)
+			menu.notify("[!] Dracula's - 420 World Crash v3 executed successfully.", Dracula)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43553,7 +43553,7 @@ end):set_str_data({
 })
 
 
-menu.add_player_feature("Zeus's - LGBTQ World Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - LGBTQ World Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if f.value == 0 then
 			script.trigger_script_event(962740265, pid, {pid, pid, math.random(-2147483647, 2147483647), pid})
@@ -43628,9 +43628,9 @@ menu.add_player_feature("Zeus's - LGBTQ World Crash", "action_value_str", crashe
 		elseif f.value == 35 then
 			script.trigger_script_event(1445703181, pid, {pid, pid, math.random(-2147483647, 2147483647), 136236, math.random(-5262, 216247), math.random(-2147483647, 2147483647), math.random(-2623647, 2143247), 1587193, math.random(-214626647, 21475247), math.random(-2123647, 2363647), 651264, math.random(-13683647, 2323647), 1951923, math.random(-2147483647, 2147483647), math.random(-2136247, 21627), 2359273, math.random(-214732, 21623647), pid})
 		end
-		menu.notify("[!] Zeus's - LGBTQ World Crash executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - LGBTQ World Crash executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43672,7 +43672,7 @@ end):set_str_data({
 })
 
 
-menu.add_player_feature("Zeus's - Clown Fucker Crash", "action_value_str", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - Clown Fucker Crash", "action_value_str", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		local time = utils.time_ms() + 100
 		while time > utils.time_ms() do
@@ -43697,9 +43697,9 @@ menu.add_player_feature("Zeus's - Clown Fucker Crash", "action_value_str", crash
 			end
 			system.wait(0)
 		end
-		menu.notify("[!] Zeus's - Clown Fucker Crash executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - Clown Fucker Crash executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end):set_str_data({
 	"v1",
@@ -43713,7 +43713,7 @@ end):set_str_data({
 })
 
 
-menu.add_player_feature("Zeus's - George Floyd Crash", "action", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's - George Floyd Crash", "action", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		streaming.request_model(0xB5CF80E4)
 		while not streaming.has_model_loaded(0xB5CF80E4) do
@@ -43743,21 +43743,21 @@ menu.add_player_feature("Zeus's - George Floyd Crash", "action", crashes1.id, fu
 		if player.is_player_valid(pid) then
 			script.trigger_script_event(962740265, pid, {pid, 23243, 5332, 3324, pid})
 		end
-		menu.notify("[!] Zeus's - George Floyd Crash executed successfully.", Zeus)
+		menu.notify("[!] Dracula's - George Floyd Crash executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end)
 
 
-menu.add_player_feature("Zeus's BigDick Crash", "action", crashes1.id, function(f, pid)
+menu.add_player_feature("Dracula's BigDick Crash", "action", crashes1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		local object_ = object.create_world_object(3613262246, player.get_player_coords(pid), true, false)
 		system.wait(500)
     	entity.delete_entity(object_)
-		menu.notify("[!] Zeus's BigDick Crash executed successfully.", Zeus)
+		menu.notify("[!] Dracula's BigDick Crash executed successfully.", Dracula)
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end
 end)
 
@@ -43791,20 +43791,20 @@ menu.add_player_feature("PTFX Crash", "action", crashes1.id, function(f, pid)
     end
 end)
 
-menu.add_player_feature("Zeus's Host of Death Kick", "action", kick1.id, function(f, pid)
+menu.add_player_feature("Dracula's Host of Death Kick", "action", kick1.id, function(f, pid)
 	if player.is_player_valid(pid) then
 		if network.network_is_host() then
 			network.network_session_kick_player(pid)
-			menu.notify("[!] Zeus's Host of Death Kick executed successfully.", Zeus)
+			menu.notify("[!] Dracula's Host of Death Kick executed successfully.", Dracula)
 		else
-			menu.notify("[!] You have to be Host in order to use this feature.", Zeus, 3, 211)
+			menu.notify("[!] You have to be Host in order to use this feature.", Dracula, 3, 211)
 		end
 	else
-		menu.notify("[!] Invalid Player.", Zeus, 3, 211)
+		menu.notify("[!] Invalid Player.", Dracula, 3, 211)
 	end	
 end)
 --Kicks & Crashes End
--------------------------------------------------------------------Zeus Crash End-----------------------------------------------------------------------------
+-------------------------------------------------------------------Dracula Crash End-----------------------------------------------------------------------------
 --Settings Start
 
 
@@ -43952,7 +43952,7 @@ function how_many_people_named(pid)
 	local scid <const> = player.get_player_scid(pid)
 	local ip <const> = player.get_player_ip(pid)
 	local count = 0
-	for pid in zeusplayers(true) do
+	for pid in Draculaplayers(true) do
 		if name == player.get_player_name(pid) 
 		or scid == player.get_player_scid(pid) 
 		or ip == player.get_player_ip(pid) then
@@ -44112,7 +44112,7 @@ settings.toggle["Log modders"] = menu.add_feature("Log flags to blacklist", "tog
     local blacklist_flag <const> = custom_flags["Blacklist"]
     while f.on do
         system.yield(0)
-        for pid in zeusplayers() do
+        for pid in Draculaplayers() do
             local scid <const> = player.get_player_scid(pid)
             if player.is_player_modder(pid, -1)
             and is_not_friend(pid)
@@ -44193,8 +44193,8 @@ function essentials.msg(...)
 	settings.assert(type(text) == "string", "Failed to send a notification.", text)
 	if notifyOn then
 		header = header or ""
-		if header == "" and zeus_version then
-			header = "Zeus Menu".." "..zeus_version
+		if header == "" and Dracula_version then
+			header = "Dracula Menu".." "..Dracula_version
 		end
 		menu.notify(text, header, duration or 3, essentials.notif_colors[color])
 	end
@@ -44248,7 +44248,7 @@ local player_history <const> = {
 settings.toggle["Auto kicker"] = menu.add_feature("Auto kicker", "value_str", modderkick.id, function(f)
 	while f.on do
 		system.yield(0)
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			local scid <const> = player.get_player_scid(pid)
 			if utils.time_ms() > (f.data[scid] or 0)
 			and player.is_player_modder(pid, -1) 
@@ -44410,7 +44410,7 @@ do
 	settings.toggle["Godmode detection"] = menu.add_feature("Godmode detection", "toggle", modder.id, function(f)
 		while f.on do
 			system.yield(0)
-			for pid in zeusplayers() do
+			for pid in Draculaplayers() do
 				if f.data.is_god(f, pid)
 					and (not f.data.tracker[player.get_player_scid(pid)] or utils.time_ms() > f.data.tracker[player.get_player_scid(pid)])
 					and #is_any_tasks_active(player.get_player_ped(pid), f.data.tasks) > 1 
@@ -44701,7 +44701,7 @@ do
 
 	settings.toggle["Automatically check player stats"] = menu.add_feature("Modded stats detection", "toggle", modder.id, function(f)
 		while f.on do
-			for pid in zeusplayers() do
+			for pid in Draculaplayers() do
 				suspicious_stats(pid)
 			end
 			system.yield(0)
@@ -44837,7 +44837,7 @@ menu.add_feature("Blacklist", "action_value_str", modder.id, function(f)
 			system.yield(0)
 		end
 		add_to_blacklist(name, ip, scid, reason, true)
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			if player.get_player_scid(pid) == scid then
 				player.mark_as_modder(pid, custom_flags["Blacklist"])
 			end
@@ -44859,7 +44859,7 @@ menu.add_feature("Blacklist", "action_value_str", modder.id, function(f)
 		end
 		local number_of_players_added = 0
 		local number_of_players_modified = 0
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			if is_not_friend(pid) and add_to_blacklist(player.get_player_name(pid), player.get_player_ip(pid), player.get_player_scid(pid), reason) then
 				number_of_players_added = number_of_players_added + 1
 			else
@@ -44867,7 +44867,7 @@ menu.add_feature("Blacklist", "action_value_str", modder.id, function(f)
 			end
 		end
 	elseif is_str(f, "Remove session") then
-		for pid in zeusplayers() do
+		for pid in Draculaplayers() do
 			remove_from_blacklist(player.get_player_name(pid), player.get_player_ip(pid), player.get_player_scid(pid))
 		end
 	end
@@ -44889,7 +44889,7 @@ menu.add_feature("Anti Barcode", "toggle", Antiprotex.id, function(f, pid)
 			for pid = 0, 31 do
 				if player.is_player_valid(pid) then
 					if string.find(player.get_player_name(pid), "llll") or string.find(player.get_player_name(pid), "IIII") or string.find(player.get_player_name(pid), "lI") or string.find(player.get_player_name(pid), "Il") or string.find(player.get_player_name(pid), "llI") or string.find(player.get_player_name(pid), "IIl") or string.find(player.get_player_name(pid), "lII") or string.find(player.get_player_name(pid), "Ill") then
-						menu.notify("[!] Kicked Barcode\n" .. string.format("%s", player.get_player_name(pid)) .. "/" .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+						menu.notify("[!] Kicked Barcode\n" .. string.format("%s", player.get_player_name(pid)) .. "/" .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 						if network.network_is_host() then
 							network.network_session_kick_player(pid)
 						elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44920,7 +44920,7 @@ menu.add_feature("Anti Barcode Shit Head", "toggle", Antiprotex.id, function(f, 
 							weapon.remove_all_ped_weapons(player.get_player_ped(pid))
 							system.wait(2000)
 						elseif f.value == 1 then
-							menu.notify("Kicked Barcode Shit Head\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Barcode Shit Head\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -44931,7 +44931,7 @@ menu.add_feature("Anti Barcode Shit Head", "toggle", Antiprotex.id, function(f, 
 							system.wait(4000)
 						elseif f.value == 2 then
 							script_event_crash.script_event_crash(pid)
-							menu.notify("Crashed Barcode Shit Head\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Crashed Barcode Shit Head\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -44968,12 +44968,12 @@ menu.add_feature("Anti Explosive Sniper 2", "value_str", Antiprotex.id, function
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
                     elseif f.value == 4 then
                         script.trigger_script_event(-1386010354, pid, {pid, 2147483647, 2147483647, -72614, 63007, 59027, -12012, -26996, 33398, pid})
-                        menu.notify("Freeze Kicked Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+                        menu.notify("Freeze Kicked Explosive Sniper User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
                         system.wait(8000)
 					end
 				end
@@ -44992,7 +44992,7 @@ menu.add_feature("Anti Oppressor Mk2", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 2069146067 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45003,7 +45003,7 @@ menu.add_feature("Anti Oppressor Mk2", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Oppressor Mk2 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45023,7 +45023,7 @@ menu.add_feature("Anti Oppressor Mk1", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 884483972 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Black Lives Kicked Oppressor Mk1 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Black Lives Kicked Oppressor Mk1 User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45054,7 +45054,7 @@ menu.add_feature("Anti Tank", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 782665360 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45065,7 +45065,7 @@ menu.add_feature("Anti Tank", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45085,7 +45085,7 @@ menu.add_feature("Anti khanjali Tank", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -1435527158 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("khanjali Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("khanjali Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45096,7 +45096,7 @@ menu.add_feature("Anti khanjali Tank", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("khanjali Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("khanjali Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45116,7 +45116,7 @@ menu.add_feature("Anti Terrobyte", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 2306538597 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45127,7 +45127,7 @@ menu.add_feature("Anti Terrobyte", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Terrobyte Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45148,7 +45148,7 @@ menu.add_feature("Anti minitank", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -1254331310 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45159,7 +45159,7 @@ menu.add_feature("Anti minitank", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked minitank Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45180,7 +45180,7 @@ menu.add_feature("Anti APC", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 562680400 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked APC Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked APC Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45191,7 +45191,7 @@ menu.add_feature("Anti APC", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked APC Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked APC Tank User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45210,7 +45210,7 @@ menu.add_feature("Anti Hydra", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 562680400 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Hydra User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Hydra User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45221,7 +45221,7 @@ menu.add_feature("Anti Hydra", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Hydra User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Hydra User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45241,7 +45241,7 @@ menu.add_feature("Anti Lazer", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -1281684762 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Lazer User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Lazer User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45252,7 +45252,7 @@ menu.add_feature("Anti Lazer", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Lazer User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Lazer User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45272,7 +45272,7 @@ menu.add_feature("Anti Savage", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == -82626025 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Savage User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Savage User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45283,7 +45283,7 @@ menu.add_feature("Anti Savage", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Savage User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Savage User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45303,7 +45303,7 @@ menu.add_feature("Anti Buzzard", "value_str", Antiprotex.id, function(f)
 					if player.is_player_in_any_vehicle(pid) and entity.get_entity_model_hash(player.get_player_vehicle(pid)) == 788747387 and pid ~= player.player_id() then
 						if f.value == 0 then
 							fire.add_explosion(entity.get_entity_coords(player.get_player_vehicle(pid)), 0, true, false, 0, player.get_player_ped(pid))
-							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							if network.network_is_host() then
 								network.network_session_kick_player(pid)
 							elseif player.is_player_host(pid) and player.is_player_modder(pid, -1) then
@@ -45314,7 +45314,7 @@ menu.add_feature("Anti Buzzard", "value_str", Antiprotex.id, function(f)
 							system.wait(4000)
 						elseif f.value == 3 then
 							script.trigger_script_event(-1386010354, pid, {player.player_id(), pid, math.random(-2147483647, 2147483647), pid})
-							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Zeus, 8, 0x64FA7800)
+							menu.notify("Kicked Buzzard User\n" .. string.format("%s", player.get_player_name(pid)) .. " / " .. player.get_player_scid(pid) .. "", Dracula, 8, 0x64FA7800)
 							system.wait(8000)
 						end
 					end
@@ -45382,11 +45382,11 @@ event.add_event_listener("player_join", function(e)
         moddertext = "[Not Modder]"
     end  
 
-    logText = "[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Zeus Modder Detection: '..moddertext
+    logText = "[" .. os.date("%Y-%m-%d").."] ".."Name: "..name.." | Max Health: "..maxhealth.." | Armour: "..armour.." | Was In Godmode: "..playergod.." | Was Players Gender Female: "..isplayerfemale.." | Was Player Spectating: "..isplayerspectating.." | Was Free Aiming: "..isplayerfreeaiming.." | Last Known Wanted Level Stars: "..getplayerwantedlevel.." | Was In Vehicle God Mode: "..vehiclegod.." | Was Pressing Horn: "..isplayerpressinghorn.." | Was In Vehicle "..isplayerinanyvehicle.." | Was At Keyboard: "..isplayerplaying.." | SCID: "..scid.." | IP: "..n1.."."..n2.."."..n3.."."..n4..' | HostToken: '..token..' | Was Player Host: '..isplayerhost..' | Marked Modder Flags: '..getmodderflagtext..' | Dracula Modder Detection: '..moddertext
 
 
     if(enableLog) then
-        local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\2Take1Menu\\scripts\\Zeus\\sessiondumbs.txt", "a")
+        local file = io.open("C:\\Users\\"..username.."\\AppData\\Roaming\\PopstarDevs\\2Take1Menu\\scripts\\Dracula\\sessiondumbs.txt", "a")
         file:write(logText..'\n')
         print(logText)
 
@@ -45398,10 +45398,10 @@ event.add_event_listener("player_join", function(e)
     end 
 end)
 
-menu.notify("Welcome to Zeus\n\nDeveloper: odín, Xphos\nVersion: "..zeus_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
-menu.notify("Zeus's Anti-Modder Detection Activated", "",  10, 0x6414F000)
+menu.notify("Welcome to Dracula\n\nDeveloper: odín, Xphos\nVersion: "..Dracula_version.."\nCopyright (C) 1994-2022 Lua.org, PUC-Rio", "",  20, 0xffb700)
+menu.notify("Dracula's Anti-Modder Detection Activated", "",  10, 0x6414F000)
 audio.play_sound_from_coord(-1, "LOSER", player.get_player_coords(player.player_id()), "HUD_AWARDS", false, 0, true)
-require("Zeus/Lib/Animation")
+require("Dracula/Lib/Animation")
 
 function settings:initialize(...)
 	local file_path <const> = ...
@@ -45446,6 +45446,6 @@ function settings:initialize(...)
 		feat.on = self.in_use["Drive style"] & feat.data == feat.data
 	end
 end
-settings:initialize(paths.home.."scripts\\Zeus\\zeussettings.ini")
+settings:initialize(paths.home.."scripts\\Dracula\\Draculasettings.ini")
 
 end, nil)
