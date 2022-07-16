@@ -4,7 +4,7 @@ if Dracula_version then
 end 
 
 --Set Version Here requeriment for the script to work
-Dracula_version = "20.956"
+Dracula_version = "20.957"
 
 menu.create_thread(function()
 
