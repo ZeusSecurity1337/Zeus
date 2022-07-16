@@ -4,7 +4,7 @@ if zeus_version then
 end 
 
 --Set Version Here requeriment for the script to work
-zeus_version = "20.950"
+zeus_version = "20.951"
 
 menu.create_thread(function()
 
@@ -11538,7 +11538,7 @@ menu.add_feature("Set Blood Strength", "action", HealthOp.id, function(f)
 	ped.set_ped_health(player.get_player_ped(player.player_id()), input_val)
 end)
 
-
+--Health
 normalgod_mode3 =
     menu.add_feature(
     "Vampiric Stealth Immortality",
